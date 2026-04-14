@@ -9,47 +9,39 @@ import React, {
   
   const Curriculum = () => {
     const fetchContext = useContext(FetchContext);
-    const [dashboardData, setDashboardData] = useState();
-  
-    useEffect(() => {
-      const getDashboardData = async () => {
-        try {
-          const { data } = await fetchContext.authAxios.get(
-            'dashboard-data'
-          );
-          setDashboardData(data);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-  
-      getDashboardData();
-    }, [fetchContext]);
-  
-    return (
-      <>
-        <PageTitle title="Hoja de Vida" />
-        {dashboardData ? (
+  const [curriculumData, setCurriculumData] = useState();
+
+  useEffect(() => {
+    const getCurriculumData = async () => {
+      try {
+        const { data } = await fetchContext.authAxios.get(
+          'curriculum'
+        );
+        setCurriculumData(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getCurriculumData();
+  }, [fetchContext]);
+
+  return (
+    <>
+      <PageTitle title="Hoja de Vida" />
+        {curriculumData ? (
           <>
             <div className="mb-4 flex flex-col sm:flex-row">
               <div className="w-full sm:w-1/3 sm:mr-2 mb-4 sm:mb-0">
                 <DashboardMetric
                   title="Tipo Documento"
+                  value={curriculumData.hdv_doc}
                 />
               </div>
               <div className="w-full sm:w-1/3 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
                 <DashboardMetric
                   title="Número Documento"
-                />
-              </div>
-              <div className="w-full sm:w-1/3 sm:ml-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Lugar de Expedición"
-                />
-              </div>
-              <div className="w-full sm:w-1/3 sm:ml-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="No. Libreta Militar"
+                  value={curriculumData.hdv_documento}
                 />
               </div>
             </div>
@@ -57,98 +49,23 @@ import React, {
               <div className="w-full sm:w-1/3 sm:mr-2 mb-4 sm:mb-0">
                 <DashboardMetric
                   title="Nombres"
+                  value={curriculumData.hdv_nombre}
                 />
               </div>
               <div className="w-full sm:w-1/3 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
                 <DashboardMetric
                   title="Apellidos"
+                  value={curriculumData.hdv_apellido}
                 />
               </div>
               <div className="w-full sm:w-1/3 sm:ml-2 mb-4 sm:mb-0">
                 <DashboardMetric
                   title="Correo Electronico"
+                  value={curriculumData.hdv_correo}
                 />
               </div>
             </div>
-            <div className="mb-4 flex flex-col sm:flex-row">
-              <div className="w-full sm:w-1/3 sm:mr-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Estado Civil"
-                />
-              </div>
-              <div className="w-full sm:w-1/3 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Género"
-                />
-              </div>
-              <div className="w-full sm:w-1/3 sm:ml-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Nacionalidad"
-                />
-              </div>
-              <div className="w-full sm:w-1/3 sm:ml-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="No. hijos"
-                />
-              </div>
-            </div>
-            <div className="mb-4 flex flex-col sm:flex-row">
-              <div className="w-full sm:w-1/3 sm:mr-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Lugar de Residencia"
-                />
-              </div>
-              <div className="w-full sm:w-1/3 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Barrio"
-                />
-              </div>
-              <div className="w-full sm:w-1/3 sm:ml-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Lugar de Nacimiento"
-                />
-              </div>
-            </div>
-            <div className="mb-4 flex flex-col sm:flex-row">
-            <div className="w-full sm:w-1/3 sm:mr-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Dirección"
-                />
-              </div>
-              <div className="w-full sm:w-1/3 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Teléfono"
-                />
-              </div>
-              <div className="w-full sm:w-1/3 sm:ml-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Celular"
-                />
-              </div>
-              <div className="w-full sm:w-1/3 sm:ml-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Fecha de Nacimiento"
-                />
-              </div> 
-              <div className="w-full sm:w-1/3 sm:ml-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Edad"
-                />
-              </div>  
-              <div className="w-full sm:w-1/3 sm:ml-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Profesión"
-                />
-              </div>  
-            </div>
-            <div className="mb-4 flex flex-col sm:flex-row">
-              <div className="w-full sm:w-1/3 sm:mr-2 mb-4 sm:mb-0">
-                <DashboardMetric
-                  title="Referencias Personales"
-                />
-              </div>
-            </div>  
-            
+         
             
             
             

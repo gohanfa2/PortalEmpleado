@@ -17,6 +17,7 @@ const {
   hashPassword,
   verifyPassword
 } = require('./util');
+const { executeQuery, sql } = require('./db/connection');
 
 const app = express();
 
@@ -325,7 +326,59 @@ app.patch('/api/bio', requireAuth, async (req, res) => {
   }
 });
 
+app.get('/api/curriculum', requireAuth, async (req, res) => {
+  try {
+    const { email } = req.user;
+    console.log('Curriculum request for email:', email);
+    const query = `
+      SELECT TOP 1
+        HDV_DOC AS hdv_doc,
+        HDV_DOCUMENTO AS hdv_documento,
+        HDV_NOMBRE AS hdv_nombre,
+        HDV_APELLIDO AS hdv_apellido,
+        HDV_CORREO AS hdv_correo
+      FROM HDV_HOJAVIDA
+      WHERE HDV_CORREO = @email;
+    `;
+
+    const result = await executeQuery(query, [
+      { name: 'email', type: sql.VarChar, value: email }
+    ]);
+
+    const record = result.recordset && result.recordset[0];
+
+    if (!record) {
+      return res.status(404).json({
+        message: 'No se encontró información de currículum.'
+      });
+    }
+
+    res.json(record);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({
+      message: 'Error al obtener el currículum.'
+    });
+  }
+});
+
+const PORT = process.env.PORT || 3002;
+
 async function connect() {
+  try {
+    mongoose.Promise = global.Promise;
+    await mongoose.connect(API_CONEXION).then(() => {
+      console.log('conexion exitosa');
+    });
+  } catch (err) {
+    console.log('Mongoose error', err);
+  }
+  app.listen(PORT);
+  console.log(`API listening on localhost:${PORT}`);
+}
+
+//Modificado Johan 26-03-2027
+/*async function connect() {
   try {
     mongoose.Promise = global.Promise;
     await mongoose.connect(API_CONEXION, {
@@ -338,6 +391,6 @@ async function connect() {
   }
   app.listen(3001);
   console.log('API listening on localhost:3001');
-}
+}*/
 
 connect();
