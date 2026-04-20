@@ -44,7 +44,7 @@ const AvatarDropdown = () => {
 
   const dropdownItems = [
     {
-      title: 'Log Out',
+      title: 'Salir',
       icon: faSignOutAlt,
       onClick: auth.logout
     }

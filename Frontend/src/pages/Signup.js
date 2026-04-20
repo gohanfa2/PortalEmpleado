@@ -16,9 +16,9 @@ import { Redirect } from 'react-router-dom';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string().required(
-    'Primer nombre es requerido'
+    'Nombres son requeridos'
   ),
-  lastName: Yup.string().required('Segundo nombre es requerido'),
+  lastName: Yup.string().required('Apellidos son requeridos'),
   email: Yup.string()
     .email('Invalid email')
     .required('Correo es requerido'),
@@ -106,24 +106,24 @@ const Signup = () => {
                       <div className="flex">
                         <div className="mb-2 mr-2 w-1/2">
                           <div className="mb-1">
-                            <Label text="Primer Nombre" />
+                            <Label text="Nombres" />
                           </div>
                           <FormInput
-                            ariaLabel="Primer Nombre"
+                            ariaLabel="Nombres"
                             name="firstName"
                             type="text"
-                            placeholder="Primer Nombre"
+                            placeholder="Nombres"
                           />
                         </div>
                         <div className="mb-2 ml-2 w-1/2">
                           <div className="mb-1">
-                            <Label text="Last Name" />
+                            <Label text="Apellidos" />
                           </div>
                           <FormInput
-                            ariaLabel="Segundo Nombre"
-                            name="Segundo Nombre"
+                            ariaLabel="Apellidos"
+                            name="lastName"
                             type="text"
-                            placeholder="Segundo Nombre"
+                            placeholder="Apellidos"
                           />
                         </div>
                       </div>
@@ -154,7 +154,7 @@ const Signup = () => {
                     <div className="mt-6">
                       <GradientButton
                         type="submit"
-                        text="Ingresar"
+                        text="Inscribirse"
                         loading={loginLoading}
                       />
                     </div>

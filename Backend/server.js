@@ -336,7 +336,19 @@ app.get('/api/curriculum', requireAuth, async (req, res) => {
         HDV_DOCUMENTO AS hdv_documento,
         HDV_NOMBRE AS hdv_nombre,
         HDV_APELLIDO AS hdv_apellido,
-        HDV_CORREO AS hdv_correo
+        HDV_CORREO AS hdv_correo,
+        hdv_ciudadexp as hdv_ciudadexp,
+        hdv_nacionalidad as hdv_nacionalidad,
+        hdv_estado as hdv_estado,
+        hdv_feccrea as hdv_feccrea,  
+        hdv_dir as hdv_dir,
+        hdv_telefono as hdv_telefono,
+        hdv_telefono2 as hdv_telefono2,
+        hdv_telefono3 as hdv_telefono3,
+        hdv_sexo as hdv_sexo,
+        hdv_fnac as hdv_fnac,
+        hdv_estciv as hdv_estciv,
+        hdv_coment as hdv_coment
       FROM HDV_HOJAVIDA
       WHERE HDV_CORREO = @email;
     `;

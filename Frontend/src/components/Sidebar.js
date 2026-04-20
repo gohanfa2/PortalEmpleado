@@ -21,7 +21,7 @@ const navItems = [
     allowedRoles: ['user', 'admin']
   },
   {
-    label: 'Hoja Vida',
+    label: 'Hoja de Vida',
     path: 'curriculum',
     icon: faAddressCard,
     allowedRoles: ['user', 'admin']
