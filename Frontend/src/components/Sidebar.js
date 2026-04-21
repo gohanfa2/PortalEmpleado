@@ -42,13 +42,13 @@ const navItems = [
     label: 'Account',
     path: 'account',
     icon: faAddressCard,
-    allowedRoles: ['user', 'admin']
+    allowedRoles: ['admin']
   },
   {
     label: 'Settings',
     path: 'settings',
     icon: faCogs,
-    allowedRoles: ['user', 'admin']
+    allowedRoles: ['admin']
   },
   {
     label: 'Users',
