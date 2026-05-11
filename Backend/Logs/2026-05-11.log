@@ -1,0 +1,94 @@
+[2026-05-11T16:14:09.315Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-05-11T16:14:35.194Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-05-11T16:14:37.155Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-05-11T16:14:37.159Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-05-11T16:14:50.878Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-05-11T16:14:55.779Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-05-11T16:14:55.782Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-05-11T16:15:06.862Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-05-11T16:15:08.829Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-05-11T16:15:08.833Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-05-11T16:15:25.885Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-05-11T16:15:28.113Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-05-11T16:15:28.117Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-05-11T16:15:37.793Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-05-11T16:15:41.000Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-05-11T16:15:41.007Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-05-11T16:16:08.683Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-05-11T16:16:12.593Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-05-11T16:16:12.596Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-05-11T16:18:53.242Z] [REQUEST] GET /api/reports - Status: 304 - 13ms
+--------------------------------------------------------------------------------
+[2026-05-11T16:18:57.813Z] [REQUEST] GET /api/curriculum - Status: 304 - 1387ms
+--------------------------------------------------------------------------------
+[2026-05-11T16:19:07.622Z] [REQUEST] GET /api/users - Status: 304 - 182ms
+--------------------------------------------------------------------------------
+[2026-05-11T16:19:43.584Z] [REQUEST] POST /api/authenticate - Status: 200 - 616ms
+--------------------------------------------------------------------------------
+[2026-05-11T16:19:44.415Z] [REQUEST] GET /api/dashboard-data - Status: 304 - 1ms
+--------------------------------------------------------------------------------
+[2026-05-11T16:19:56.374Z] [REQUEST] GET /api/curriculum - Status: 304 - 1328ms
+--------------------------------------------------------------------------------
+[2026-05-11T16:20:08.320Z] [REQUEST] GET /api/reports - Status: 304 - 1ms
+--------------------------------------------------------------------------------
+[2026-05-11T16:20:26.157Z] [ERROR] Error al ejecutar reporte
+{
+  "stderr": "",
+  "stdout": "",
+  "error": {
+    "errno": -4058,
+    "code": "ENOENT",
+    "syscall": "spawn jasperstarter",
+    "path": "jasperstarter",
+    "spawnargs": [
+      "pr",
+      "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ireport_prueba.jasper",
+      "-o",
+      "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output",
+      "-f",
+      "pdf"
+    ],
+    "cmd": "jasperstarter pr C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ireport_prueba.jasper -o C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output -f pdf"
+  }
+}
+--------------------------------------------------------------------------------
+[2026-05-11T16:20:26.159Z] [ERROR] Error al generar reporte con JasperStarter
+{
+  "message": "spawn jasperstarter ENOENT",
+  "stack": "Error: spawn jasperstarter ENOENT\n    at ChildProcess._handle.onexit (node:internal/child_process:286:19)\n    at onErrorNT (node:internal/child_process:484:16)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)",
+  "errno": -4058,
+  "code": "ENOENT",
+  "syscall": "spawn jasperstarter",
+  "path": "jasperstarter",
+  "spawnargs": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ireport_prueba.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output",
+    "-f",
+    "pdf"
+  ],
+  "cmd": "jasperstarter pr C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ireport_prueba.jasper -o C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output -f pdf"
+}
+--------------------------------------------------------------------------------
+[2026-05-11T16:20:26.160Z] [REQUEST] GET /api/reports/ireport_prueba - Status: 500 - 25ms
+--------------------------------------------------------------------------------

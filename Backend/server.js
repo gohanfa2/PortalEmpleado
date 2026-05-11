@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const fs = require('fs');
 const { execFile } = require('child_process');
+const logger = require('./logger');
 const { API_CONEXION } = require ('../frontend/configure');
 const { JWT_JSON } = require('../frontend/configure');
 const dashboardData = require('./data/dashboard');
@@ -27,6 +28,20 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Middleware de logging para todas las requests
+app.use((req, res, next) => {
+  const startTime = Date.now();
+
+  res.on('finish', () => {
+    const duration = Date.now() - startTime;
+    logger.request(req.method, req.path, res.statusCode, `${duration}ms`);
+  });
+
+  next();
+});
+
+logger.info('Servidor iniciado');
 
 app.post('/api/authenticate', async (req, res) => {
   try {
@@ -68,7 +83,7 @@ app.post('/api/authenticate', async (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    logger.error('Error en endpoint de autenticación', err);
     return res
       .status(400)
       .json({ message: 'Something went wrong.' });
@@ -348,7 +363,7 @@ app.get('/api/reports', requireAuth, async (req, res) => {
       reports
     });
   } catch (err) {
-    console.error(err);
+    logger.error('Error al listar los reportes disponibles', err);
     res.status(500).json({
       message: 'Error al listar los reportes disponibles.'
     });
@@ -375,7 +390,7 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
         ['pr', jasperPath, '-o', reportsOutputFolder, '-f', 'pdf'],
         (error, stdout, stderr) => {
           if (error) {
-            console.error('Error al ejecutar reporte:', stderr || stdout || error);
+            logger.error('Error al ejecutar reporte', { stderr, stdout, error });
             return reject(error);
           }
           resolve();
@@ -396,7 +411,7 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
       }
     });
   } catch (err) {
-    console.error(err);
+    logger.error('Error al generar reporte con JasperStarter', err);
     res.status(500).json({
       message:
         'Error al generar el reporte. Verifica que JasperStarter esté instalado y accesible.'
@@ -407,7 +422,7 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
 app.get('/api/curriculum', requireAuth, async (req, res) => {
   try {
     const { email } = req.user;
-    console.log('Curriculum request for email:', email);
+    logger.debug('Curriculum request for email:', email);
     const query = `
       SELECT TOP 1
         HDV_DOC AS hdv_doc,
@@ -445,7 +460,7 @@ app.get('/api/curriculum', requireAuth, async (req, res) => {
 
     res.json(record);
   } catch (err) {
-    console.error(err);
+    logger.error('Error al obtener el currículum', err);
     return res.status(400).json({
       message: 'Error al obtener el currículum.'
     });
@@ -458,13 +473,13 @@ async function connect() {
   try {
     mongoose.Promise = global.Promise;
     await mongoose.connect(API_CONEXION).then(() => {
-      console.log('conexion exitosa');
+      logger.info('Conexión a MongoDB exitosa');
     });
   } catch (err) {
-    console.log('Mongoose error', err);
+    logger.error('Error de conexión a MongoDB', err);
   }
   app.listen(PORT);
-  console.log(`API listening on localhost:${PORT}`);
+  logger.info(`API escuchando en localhost:${PORT}`);
 }
 
 //Modificado Johan 26-03-2027
@@ -475,12 +490,26 @@ async function connect() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
-    }) .then(()=>{console.log('conexion exitosa')});
+    }) .then(()=>{logger.info('Conexión a MongoDB exitosa')});
   } catch (err) {
-    console.log('Mongoose error', err);
+    logger.error('Error de conexión a MongoDB', err);
   }
   app.listen(3001);
-  console.log('API listening on localhost:3001');
+  logger.info('API escuchando en localhost:3001');
 }*/
+
+// Middleware global de manejo de errores
+app.use((err, req, res, next) => {
+  logger.error(`Error en ${req.method} ${req.path}`, {
+    message: err.message,
+    stack: err.stack,
+    url: req.url,
+    method: req.method
+  });
+
+  res.status(err.status || 500).json({
+    message: err.message || 'Error interno del servidor'
+  });
+});
 
 connect();
