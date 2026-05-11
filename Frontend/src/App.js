@@ -28,6 +28,7 @@ const Settings = lazy(() => import('./pages/Settings'));
 const Users = lazy(() => import('./pages/Users'));
 const Articulo = lazy(() => import('./pages/Article'));
 const Curriculum = lazy(() => import('./pages/Curriculum'));
+const Report = lazy(() => import('./pages/Report'));
 
 const LoadingFallback = () => (
   <AppShell>
@@ -94,6 +95,9 @@ const AppRoutes = () => {
             </AuthenticatedRoute>
             <AuthenticatedRoute path="/curriculum">
             <Curriculum />
+            </AuthenticatedRoute>
+            <AuthenticatedRoute path="/report">
+            <Report/>
             </AuthenticatedRoute>
           <AuthenticatedRoute path="/dashboard">
             <Dashboard />

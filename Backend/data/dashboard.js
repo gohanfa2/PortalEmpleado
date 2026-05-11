@@ -5,7 +5,7 @@ module.exports = {
   graphData: [
     { date: 'Jan 2019', amount: 1902 },
     { date: 'Feb 2019', amount: 893 },
-    { date: 'Mar 2019', amount: 1293 },
+    { date: 'Mar 2019', amount: 3293 },
     { date: 'Apr 2019', amount: 723 },
     { date: 'May 2019', amount: 2341 },
     { date: 'Jun 2019', amount: 2113 },

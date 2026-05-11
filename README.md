@@ -1,10 +1,5 @@
 # ReactSecurity - Orbit
 
-<p>
-  <a href="https://twitter.com/ryanchenkie" target="_blank">
-    <img alt="Twitter: ryanchenkie" src="https://img.shields.io/twitter/follow/ryanchenkie.svg?style=social" />
-  </a>
-</p>
 
 👋 Welcome to Orbit! This is a demo app for learning security for React applications. You can find out more at [ReactSecurity.io](https://reactsecurity.io).
 
@@ -84,3 +79,6 @@ npm run dev
 ## inicio frontend
 cd .\Frontend\
 npm start
+
+## Definicion de roles por pagina
+Se debe modificar Sidebar.js

@@ -5,6 +5,9 @@ const cors = require('cors');
 const jwt = require('express-jwt');
 const jwtDecode = require('jwt-decode');
 const mongoose = require('mongoose');
+const path = require('path');
+const fs = require('fs');
+const { execFile } = require('child_process');
 const { API_CONEXION } = require ('../frontend/configure');
 const { JWT_JSON } = require('../frontend/configure');
 const dashboardData = require('./data/dashboard');
@@ -322,6 +325,81 @@ app.patch('/api/bio', requireAuth, async (req, res) => {
   } catch (err) {
     return res.status(400).json({
       message: 'There was a problem updating your bio'
+    });
+  }
+});
+
+const reportsFolder = path.join(__dirname, 'Reports');
+const reportsOutputFolder = path.join(reportsFolder, 'output');
+if (!fs.existsSync(reportsOutputFolder)) {
+  fs.mkdirSync(reportsOutputFolder, { recursive: true });
+}
+
+app.get('/api/reports', requireAuth, async (req, res) => {
+  try {
+    const reportFiles = fs.readdirSync(reportsFolder).filter(file => file.endsWith('.jasper'));
+    const reports = reportFiles.map(file => ({
+      id: path.basename(file, '.jasper'),
+      file,
+      label: path.basename(file, '.jasper')
+    }));
+
+    res.json({
+      reports
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: 'Error al listar los reportes disponibles.'
+    });
+  }
+});
+
+app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
+  try {
+    const { reportId } = req.params;
+    const jasperPath = path.join(reportsFolder, `${reportId}.jasper`);
+
+    if (!fs.existsSync(jasperPath)) {
+      return res.status(404).json({
+        message: 'Reporte no encontrado.'
+      });
+    }
+
+    const outputPdf = path.join(reportsOutputFolder, `${reportId}.pdf`);
+    const jasperStarterBinary = process.env.JASPER_STARTER_PATH || 'jasperstarter';
+
+    await new Promise((resolve, reject) => {
+      execFile(
+        jasperStarterBinary,
+        ['pr', jasperPath, '-o', reportsOutputFolder, '-f', 'pdf'],
+        (error, stdout, stderr) => {
+          if (error) {
+            console.error('Error al ejecutar reporte:', stderr || stdout || error);
+            return reject(error);
+          }
+          resolve();
+        }
+      );
+    });
+
+    if (!fs.existsSync(outputPdf)) {
+      return res.status(500).json({
+        message: 'No se pudo generar el PDF del reporte.'
+      });
+    }
+
+    res.sendFile(outputPdf, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `inline; filename="${reportId}.pdf"`
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message:
+        'Error al generar el reporte. Verifica que JasperStarter esté instalado y accesible.'
     });
   }
 });

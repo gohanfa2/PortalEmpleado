@@ -27,6 +27,12 @@ const navItems = [
     allowedRoles: ['user', 'admin']
   },
   {
+    label: 'Reportes',
+    path: 'report',
+    icon: faChartLine,
+    allowedRoles: ['user', 'admin']
+  },
+  {
     label: 'Dashboard',
     path: 'dashboard',
     icon: faChartLine,
@@ -42,13 +48,13 @@ const navItems = [
     label: 'Account',
     path: 'account',
     icon: faAddressCard,
-    allowedRoles: ['user', 'admin']
+    allowedRoles: ['admin']
   },
   {
     label: 'Settings',
     path: 'settings',
     icon: faCogs,
-    allowedRoles: ['user', 'admin']
+    allowedRoles: ['admin']
   },
   {
     label: 'Users',
