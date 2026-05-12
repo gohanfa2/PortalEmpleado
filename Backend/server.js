@@ -383,11 +383,27 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
 
     const outputPdf = path.join(reportsOutputFolder, `${reportId}.pdf`);
     const jasperStarterBinary = process.env.JASPER_STARTER_PATH || 'jasperstarter';
+    const jasperResourceConfig = process.env.JASPER_REPORT_RESOURCE;
+    const jasperResourcePath = jasperResourceConfig
+      ? path.resolve(__dirname, jasperResourceConfig)
+      : reportsFolder;
+    const jasperArgs = ['pr', jasperPath, '-o', reportsOutputFolder, '-f', 'pdf'];
+
+    if (fs.existsSync(jasperResourcePath)) {
+      jasperArgs.push('-r', jasperResourcePath);
+    } else {
+      const defaultJarPath = path.join(reportsFolder, 'GnosisObject-1.0-SNAPSHOT.jar');
+      if (fs.existsSync(defaultJarPath)) {
+        jasperArgs.push('-r', defaultJarPath);
+      } else if (jasperResourceConfig) {
+        logger.warn('Ruta de recurso Jasper no encontrada:', jasperResourcePath);
+      }
+    }
 
     await new Promise((resolve, reject) => {
       execFile(
         jasperStarterBinary,
-        ['pr', jasperPath, '-o', reportsOutputFolder, '-f', 'pdf'],
+        jasperArgs,
         (error, stdout, stderr) => {
           if (error) {
             logger.error('Error al ejecutar reporte', { stderr, stdout, error });
