@@ -27,6 +27,12 @@ const navItems = [
     allowedRoles: ['user', 'admin']
   },
   {
+    label: 'Empleado',
+    path: 'employee',
+    icon: faAddressCard,
+    allowedRoles: ['user', 'admin']
+  },
+  {
     label: 'Reportes',
     path: 'report',
     icon: faChartLine,

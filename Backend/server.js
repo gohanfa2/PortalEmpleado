@@ -384,21 +384,26 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
     const outputPdf = path.join(reportsOutputFolder, `${reportId}.pdf`);
     const jasperStarterBinary = process.env.JASPER_STARTER_PATH || 'jasperstarter';
     const jasperResourceConfig = process.env.JASPER_REPORT_RESOURCE;
-    const jasperResourcePath = jasperResourceConfig
-      ? path.resolve(__dirname, jasperResourceConfig)
-      : reportsFolder;
-    const jasperArgs = ['pr', jasperPath, '-o', reportsOutputFolder, '-f', 'pdf'];
+    const jasperResourcePaths = [];
+    const defaultJarPath = path.join(reportsFolder, 'GnosisObject-1.0-SNAPSHOT.jar');
 
-    if (fs.existsSync(jasperResourcePath)) {
-      jasperArgs.push('-r', jasperResourcePath);
-    } else {
-      const defaultJarPath = path.join(reportsFolder, 'GnosisObject-1.0-SNAPSHOT.jar');
-      if (fs.existsSync(defaultJarPath)) {
-        jasperArgs.push('-r', defaultJarPath);
-      } else if (jasperResourceConfig) {
+    if (jasperResourceConfig) {
+      const jasperResourcePath = path.resolve(__dirname, jasperResourceConfig);
+      if (fs.existsSync(jasperResourcePath)) {
+        jasperResourcePaths.push(jasperResourcePath);
+      } else {
         logger.warn('Ruta de recurso Jasper no encontrada:', jasperResourcePath);
       }
+    } else {
+      jasperResourcePaths.push(reportsFolder);
     }
+
+    if (fs.existsSync(defaultJarPath)) {
+      jasperResourcePaths.push(defaultJarPath);
+    }
+
+    const jasperArgs = ['pr', jasperPath, '-o', reportsOutputFolder, '-f', 'pdf'];
+    jasperResourcePaths.forEach(resourcePath => jasperArgs.push('-r', resourcePath));
 
     await new Promise((resolve, reject) => {
       execFile(
@@ -431,6 +436,88 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
     res.status(500).json({
       message:
         'Error al generar el reporte. Verifica que JasperStarter esté instalado y accesible.'
+    });
+  }
+});
+
+app.get('/api/employee', requireAuth, async (req, res) => {
+  try {
+    const { email } = req.user;
+    const query = `
+      SELECT TOP 1
+        e.EMP_CODIGO AS EMP_CODIGO,
+        e.EMP_NOMBRE AS EMP_NOMBRE,
+        e.EMP_APELLIDO AS EMP_APELLIDO,
+        C.CAR_DESC AS CAR_DESC,
+        D.DEP_NOMBRE AS DEP_NOMBRE,
+        CC.CDC_NOMBRE AS CDC_NOMBRE,
+        S.SCC_NOMBRE AS SCC_NOMBRE,
+        CT.CDT_NOMBRE AS CDT_NOMBRE,
+        COT.COT_NOMBRE AS COT_NOMBRE,
+        STC.STC_NOMBRE AS STC_NOMBRE,
+        GL.GRP_NOMBRE AS GRP_NOMBRE,
+        e.EMP_FECINICNT AS EMP_FECINICNT,
+        e.EMP_FECFINCNT AS EMP_FECFINCNT,
+        e.CTR_CODIGO AS CTR_CODIGO,
+        e.EMP_SUELDO AS EMP_SUELDO,
+        EPS.EPS_NOMBRE AS EPS_NOMBRE,
+        AFP.AFP_NOMBRE AS AFP_NOMBRE,
+        ARP.ARP_NOMBRE AS ARP_NOMBRE,
+        CCF.CCF_NOMBRE AS CCF_NOMBRE,
+        CES.AFP_NOMBRE AS AFP_CESANTIA,
+        BAN.BAN_NOMBRE AS BAN_NOMBRE
+      FROM BAN_ENTIDAD BAN, 
+      EPS_ENTIDAD EPS, 
+      AFP_ENTIDAD AFP, 
+      AFP_ENTIDAD CES,
+      ARP_ENTIDAD ARP, 
+      CCF_ENTIDAD CCF, 
+      GRP_GRUPOLAB GL,  
+      STC_SUBTIPOCOT STC, 
+      COT_TIPOCOT COT, 
+      CDT_CENTROTRA CT, 
+      SCC_SUBCENTRO S, 
+      CDC_CENTROCOSTO CC, 
+      DEP_DEPENDENCIA D, 
+      CAR_CARGO C, 
+      EMP_EMPLEADO e
+      LEFT JOIN HDV_HOJAVIDA h
+        ON e.hdv_doc = h.hdv_doc
+        AND e.hdv_documento = h.hdv_documento
+      WHERE h.HDV_CORREO = @email
+      AND C.CAR_CODIGO = e.CAR_CODIGO
+      AND D.DEP_CODIGO = e.DEP_CODIGO
+      AND CC.CDC_CODIGO = e.CDC_CODIGO
+      AND S.SCC_CODIGO = e.SCC_CODIGO
+      AND CT.CDT_CODIGO = e.CDT_CODIGO
+      AND COT.COT_CODIGO = e.COT_CODIGO
+      AND STC.STC_CODIGO = e.STC_CODIGO
+      AND GL.GRP_CODIGO = e.GRP_CODIGO
+      AND EPS.EPS_CODIGO = e.EPS_CODIGO
+      AND AFP.AFP_CODIGO = e.AFP_CODIGO
+      AND ARP.ARP_CODIGO = e.ARP_CODIGO
+      AND CCF.CCF_CODIGO = e.CCF_CODIGO
+      AND BAN.BAN_CODIGO = e.BAN_CODIGO
+      AND CES.AFP_CODIGO = e.EMP_CESANTIA
+      `;
+
+    const result = await executeQuery(query, [
+      { name: 'email', type: sql.VarChar, value: email }
+    ]);
+
+    const record = result.recordset && result.recordset[0];
+
+    if (!record) {
+      return res.status(404).json({
+        message: 'No se encontró información del empleado.'
+      });
+    }
+
+    res.json(record);
+  } catch (err) {
+    logger.error('Error al obtener la información del empleado', err);
+    return res.status(400).json({
+      message: 'Error al obtener la información del empleado.'
     });
   }
 });

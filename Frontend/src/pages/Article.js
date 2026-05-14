@@ -5,7 +5,6 @@ import React, {
 } from 'react';
 import PageTitle from '../components/common/PageTitle';
 import Card from './../components/common/Card';
-import GradientButton from '../components/common/GradientButton';
 import { Formik, Form, Field } from 'formik';
 import { FetchContext } from './../context/FetchContext';
 import FormError from './../components/FormError';
