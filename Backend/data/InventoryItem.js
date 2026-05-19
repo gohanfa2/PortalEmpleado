@@ -5,7 +5,6 @@ const inventoryItemModel = new Schema({
   user: { type: mongoose.Types.ObjectId, required: true },
   name: { type: String, required: true },
   itemNumber: { type: String, required: true },
-  unitPrice: { type: Number, required: true },
   image: {
     type: String,
     required: true,

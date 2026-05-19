@@ -130,7 +130,7 @@ const Login = () => {
                     <div className="mt-6">
                       <GradientButton
                         type="submit"
-                        text="Ingresar"
+                        text="Ingresa"
                         loading={loginLoading}
                       />
                     </div>

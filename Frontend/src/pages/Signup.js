@@ -70,10 +70,10 @@ const Signup = () => {
                   <img src={logo} alt="Logo" />
                 </div>
                 <h2 className="mb-2 text-center text-3xl leading-9 font-extrabold text-gray-900">
-                  Regístrese para obtener una cuenta
+                  Regístrate para obtener una cuenta
                 </h2>
                 <p className="text-gray-600 text-center">
-                  ¿Ya tiene una cuenta?{' '}
+                  ¿Ya tienes una cuenta?{' '}
                   <Hyperlink to="login" text="Iniciar sesión ahora" />
                 </p>
               </div>
@@ -129,24 +129,24 @@ const Signup = () => {
                       </div>
                       <div className="mb-2">
                         <div className="mb-1">
-                          <Label text="Email address" />
+                          <Label text="Correo Electrónico" />
                         </div>
                         <FormInput
                           ariaLabel="Email address"
                           name="email"
                           type="email"
-                          placeholder="Email address"
+                          placeholder="Correo Electrónico"
                         />
                       </div>
                       <div>
                         <div className="mb-1">
-                          <Label text="Password" />
+                          <Label text="Contraseña" />
                         </div>
                         <FormInput
                           ariaLabel="Password"
                           name="password"
                           type="password"
-                          placeholder="Password"
+                          placeholder="Contraseña"
                         />
                       </div>
                     </div>
@@ -154,7 +154,7 @@ const Signup = () => {
                     <div className="mt-6">
                       <GradientButton
                         type="submit"
-                        text="Inscribirse"
+                        text="Inscríbete"
                         loading={loginLoading}
                       />
                     </div>

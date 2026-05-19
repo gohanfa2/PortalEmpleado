@@ -7,19 +7,24 @@ import GradientButton from './common/GradientButton';
 
 const InventoryItemSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
-  itemNumber: Yup.string().required(
+  itemNumber: Yup.mixed().required(
     'Seleccione un archivo valido'
-  ),
-  unitPrice: Yup.string().required('Unit price is required')
+  )
 });
 
 const InventoryItemForm = ({ onSubmit }) => {
+  const handleFileChange = (e, setFieldValue) => {
+    const file = e.currentTarget.files[0];
+    if (file) {
+      setFieldValue('itemNumber', file);
+    }
+  };
+
   return (
     <Formik
       initialValues={{
         name: '',
-        itemNumber: '',
-        unitPrice: ''
+        itemNumber: null
       }}
       onSubmit={(values, { resetForm }) =>
         onSubmit(values, resetForm)
@@ -27,10 +32,10 @@ const InventoryItemForm = ({ onSubmit }) => {
       validationSchema={InventoryItemSchema}
       validateOnBlur={false}
     >
-      {() => (
+      {({ setFieldValue, values }) => (
         <Form>
           <div className="flex flex-col md:flex-row">
-            <div className="w-full md:w-1/3 mr-2 mb-2 sm:mb-0">
+            <div className="w-full md:w-1/2 mr-2 mb-2 sm:mb-0">
               <div className="mb-1">
                 <Label text="Nombre Archivo" />
               </div>
@@ -41,27 +46,21 @@ const InventoryItemForm = ({ onSubmit }) => {
                 placeholder="Nombre Archivo"
               />
             </div>
-            <div className="w-full md:w-1/3 mr-2 mb-2 sm:mb-0">
+            <div className="w-full md:w-1/2 mr-2 mb-2 sm:mb-0">
               <div className="mb-1">
                 <Label text="Cargar archivo" />
               </div>
-              <FormInput
-                ariaLabel="Item Number"
-                name="itemNumber"
+              <input
                 type="file"
-                placeholder="Item Number"
+                name="itemNumber"
+                onChange={(e) => handleFileChange(e, setFieldValue)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-blue-500"
               />
-            </div>
-            <div className="w-full md:w-1/3 mr-2 mb-2 sm:mb-0">
-              <div className="mb-1">
-                <Label text="Unit Price" />
-              </div>
-              <FormInput
-                ariaLabel="Unit Price"
-                name="unitPrice"
-                type="number"
-                placeholder="Unit Price"
-              />
+              {values.itemNumber && (
+                <small className="text-gray-600 block mt-1">
+                  Archivo: {values.itemNumber.name}
+                </small>
+              )}
             </div>
           </div>
           <div className="flex">

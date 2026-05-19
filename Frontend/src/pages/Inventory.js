@@ -5,7 +5,6 @@ import React, {
 } from 'react';
 import PageTitle from '../components/common/PageTitle';
 import { FetchContext } from '../context/FetchContext';
-import { formatCurrency } from './../util';
 import InventoryItemForm from './../components/InventoryItemForm';
 import DangerButton from './../components/common/DangerButton';
 import FormError from './../components/FormError';
@@ -18,13 +17,36 @@ const InventoryItemContainer = ({ children }) => (
 );
 
 const InventoryItem = ({ item, onDelete }) => {
+  const handleDownload = () => {
+    try {
+      // Si image es una ruta del servidor, descargar directamente
+      if (item.image && item.image.startsWith('/api/attachments')) {
+        const link = document.createElement('a');
+        // Construir URL sin duplicar /api
+        const baseURL = process.env.REACT_APP_API_URL.replace(/\/api\/?$/, '');
+        link.href = baseURL + item.image;
+        link.download = item.name || item.itemNumber || 'archivo';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else if (item.image && item.image.startsWith('data:')) {
+        // Si es base64, usar el método anterior
+        const link = document.createElement('a');
+        link.href = item.image;
+        link.download = item.name || 'archivo';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    } catch (err) {
+      console.error('Error al descargar archivo:', err);
+      alert('Error al descargar el archivo');
+    }
+  };
+
   return (
     <div className="flex">
-      <img
-        className="rounded w-32 h-full"
-        src={item.image}
-        alt="inventory"
-      />
+      
       <div className="flex justify-between w-full">
         <div className="flex flex-col ml-4 justify-between">
           <div>
@@ -35,13 +57,16 @@ const InventoryItem = ({ item, onDelete }) => {
               {item.itemNumber}
             </p>
           </div>
-          <div>
-            <p className="text-gray-700 text-xl">
-              {formatCurrency(item.unitPrice)}
-            </p>
-          </div>
+
         </div>
-        <div className="self-end">
+        <div className="self-end flex gap-2">
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none shadow-lg"
+            onClick={handleDownload}
+            title="Descargar archivo"
+          >
+            Descargar
+          </button>
           <DangerButton
             text="Eliminar"
             onClick={() => onDelete(item)}
@@ -84,9 +109,13 @@ const Inventory = () => {
 
   const onSubmit = async (values, resetForm) => {
     try {
+      const formData = new FormData();
+      formData.append('name', values.name);
+      formData.append('itemNumber', values.itemNumber);
+
       const { data } = await fetchContext.authAxios.post(
         'inventory',
-        values
+        formData
       );
       setInventory([...inventory, data.inventoryItem]);
       resetForm();
@@ -103,7 +132,7 @@ const Inventory = () => {
     try {
       if (
         window.confirm(
-          '¿Esta seguro de que quiere eliminar este artículo?'
+          '¿Esta seguro de que quiere eliminar este archivo?'
         )
       ) {
         const {
@@ -125,7 +154,7 @@ const Inventory = () => {
 
   return (
     <>
-      <PageTitle title="Inventory" />
+      <PageTitle title="Adjuntos" />
       {successMessage && (
         <FormSuccess text={successMessage} />
       )}

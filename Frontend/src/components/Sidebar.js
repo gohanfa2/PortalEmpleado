@@ -45,10 +45,10 @@ const navItems = [
     allowedRoles: ['user', 'admin']
   },
   {
-    label: 'Inventory',
+    label: 'Adjuntos',
     path: 'inventory',
     icon: faChartPie,
-    allowedRoles: ['admin']
+    allowedRoles: ['user', 'admin']
   },
   {
     label: 'Account',

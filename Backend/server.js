@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const fs = require('fs');
 const { execFile } = require('child_process');
+const multer = require('multer');
 const logger = require('./logger');
 const { API_CONEXION } = require ('../frontend/configure');
 const { JWT_JSON } = require('../frontend/configure');
@@ -26,6 +27,51 @@ const { executeQuery, sql } = require('./db/connection');
 const app = express();
 
 app.use(cors());
+
+// Configurar multer para cargar archivos ANTES de body parsers
+const attachmentsFolder = path.join(__dirname, 'attachments');
+if (!fs.existsSync(attachmentsFolder)) {
+  fs.mkdirSync(attachmentsFolder, { recursive: true });
+}
+
+const memoryStorage = multer.memoryStorage();
+const uploadMemory = multer({ storage: memoryStorage });
+
+// Middleware personalizado para guardar archivos en carpeta de usuario
+const saveFileToUserFolder = (req, res, next) => {
+  if (!req.file) {
+    return next();
+  }
+  
+  try {
+    const userEmail = req.user?.email?.replace(/[^a-zA-Z0-9.-]/g, '_') || 'unknown';
+    const userFolder = path.join(attachmentsFolder, userEmail);
+    
+    if (!fs.existsSync(userFolder)) {
+      fs.mkdirSync(userFolder, { recursive: true });
+    }
+    
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const filename = uniqueSuffix + path.extname(req.file.originalname);
+    const filepath = path.join(userFolder, filename);
+    
+    fs.writeFileSync(filepath, req.file.buffer);
+    
+    req.file.filename = filename;
+    req.file.userFolder = userEmail;
+    req.file.pathname = filepath;
+    
+    next();
+  } catch (err) {
+    logger.error('Error saving file', err);
+    res.status(500).json({ message: 'Error al guardar archivo' });
+  }
+};
+
+// Servir archivos estáticos de attachments
+app.use('/api/attachments', express.static(attachmentsFolder));
+
+// Body parsers DESPUÉS de multer
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -157,21 +203,31 @@ app.post('/api/signup', async (req, res) => {
 });
 
 const attachUser = (req, res, next) => {
+  // Permitir acceso sin decodificar para rutas que manejan archivos sin validación de token aún
+  if (req.path.startsWith('/api/attachments')) {
+    return next();
+  }
+  
   const token = req.headers.authorization;
   if (!token) {
     return res
       .status(401)
       .json({ message: 'Authentication invalid' });
   }
-  const decodedToken = jwtDecode(token.slice(7));
-
-  if (!decodedToken) {
+  
+  try {
+    const decodedToken = jwtDecode(token.slice(7));
+    if (!decodedToken) {
+      return res.status(401).json({
+        message: 'There was a problem authorizing the request'
+      });
+    }
+    req.user = decodedToken;
+    next();
+  } catch (err) {
     return res.status(401).json({
       message: 'There was a problem authorizing the request'
     });
-  } else {
-    req.user = decodedToken;
-    next();
   }
 };
 
@@ -223,7 +279,7 @@ app.patch('/api/user-role', async (req, res) => {
 app.get(
   '/api/inventory',
   requireAuth,
-  requireAdmin,
+  
   async (req, res) => {
     try {
       const user = req.user.sub;
@@ -239,23 +295,49 @@ app.get(
 
 app.post(
   '/api/inventory',
+  uploadMemory.single('itemNumber'),
+  saveFileToUserFolder,
   requireAuth,
-  requireAdmin,
+  
   async (req, res) => {
     try {
+      logger.info('POST /api/inventory - req.file:', req.file);
+      logger.info('POST /api/inventory - req.body:', req.body);
+      
       const userId = req.user.sub;
-      const input = Object.assign({}, req.body, {
-        user: userId
-      });
+      const { name } = req.body;
+      const userEmail = req.user?.email?.replace(/[^a-zA-Z0-9.-]/g, '_') || 'unknown';
+
+      if (!req.file) {
+        logger.error('No file received in inventory upload', {
+          body: req.body,
+          file: req.file,
+          headers: req.headers
+        });
+        return res.status(400).json({
+          message: 'No se seleccionó archivo - req.file es undefined'
+        });
+      }
+
+      const filePath = `/api/attachments/${userEmail}/${req.file.filename}`;
+
+      const input = {
+        user: userId,
+        name,
+        itemNumber: req.file.originalname,
+        image: filePath
+      };
+
       const inventoryItem = new InventoryItem(input);
       await inventoryItem.save();
       res.status(201).json({
-        message: 'Articulo cargado!',
+        message: 'Archivo cargado!',
         inventoryItem
       });
     } catch (err) {
+      logger.error('Error al cargar archivo', err);
       return res.status(400).json({
-        message: 'Hubo un problema al cargar articulo'
+        message: 'Hubo un problema al cargar archivo'
       });
     }
   }
@@ -264,14 +346,14 @@ app.post(
 app.delete(
   '/api/inventory/:id',
   requireAuth,
-  requireAdmin,
+
   async (req, res) => {
     try {
       const deletedItem = await InventoryItem.findOneAndDelete(
         { _id: req.params.id, user: req.user.sub }
       );
       res.status(201).json({
-        message: 'Inventory item deleted!',
+        message: 'Archivo eliminado!',
         deletedItem
       });
     } catch (err) {
