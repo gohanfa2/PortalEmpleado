@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1779470063868,
+    "titulo": "Cómo calcular las horas adicionales",
+    "resumen": "Horas adicionales",
+    "contenido": "¿Cómo calcular las horas extra y recargos nocturnos, dominicales y festivos en 2026? Cambios con la reforma laboral\r\n",
+    "imagen": "1779470063762-anydesk00001.png",
+    "video": "1779470063778-337459_medium.mp4",
+    "enlaces": [
+      "https://siemprealdia.co/colombia/derecho-laboral/horas-extra-y-recargos-nocturnos/"
+    ],
+    "categoria": "Educación",
+    "fecha": "2026-05-22"
+  },
+  {
+    "id": 1779398247951,
+    "titulo": "Prueba 2",
+    "resumen": "Resumen adjunto",
+    "contenido": "contenido adjunto",
+    "imagen": "1779398247942-Hoja de vida.jpg",
+    "video": "1779398247943-Enel23 de Abril de 2026.pdf",
+    "enlaces": [
+      "www.prueba.com"
+    ],
+    "categoria": "Salud",
+    "fecha": "2026-05-21"
+  },
+  {
+    "id": 1779396784727,
+    "titulo": "Prueba 1",
+    "resumen": "Resumen prueba",
+    "contenido": "contenido",
+    "imagen": "1779396784725-Hoja de vida.jpg",
+    "video": null,
+    "enlaces": [
+      "www.colsin.com"
+    ],
+    "categoria": "Tecnología",
+    "fecha": "2026-05-21"
+  }
+]

@@ -75,6 +75,7 @@ MIT
 ## inicio backend
 cd .\Backend
 npm run dev
+node blogServer.js
 
 ## inicio frontend
 cd .\Frontend\

@@ -9,6 +9,10 @@ const Footer = () => {
   return (
     <footer className="p-6">
       <div className="ml-2">
+        copyright Yohan Ariza 2026 - All rights reserved
+        <br />
+        <br />
+
         <GradientButton
           text="Auth Debugger"
           onClick={() =>

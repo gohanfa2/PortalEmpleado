@@ -59,7 +59,7 @@ const Signup = () => {
 
   return (
     <>
-      {redirectOnLogin && <Redirect to="/dashboard" />}
+      {redirectOnLogin && <Redirect to="/article" />}
       <section className="w-1/2 h-screen m-auto p-8 sm:pt-10">
         <GradientBar />
         <Card>

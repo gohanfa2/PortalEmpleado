@@ -20,6 +20,12 @@ const navItems = [
     icon: faTags,
     allowedRoles: ['user', 'admin']
   },
+   {
+    label: 'Articulos (Admin)',
+    path: 'dashboard',
+    icon: faChartLine,
+    allowedRoles: ['admin']
+  },
   {
     label: 'Hoja de Vida',
     path: 'curriculum',
@@ -38,12 +44,7 @@ const navItems = [
     icon: faChartLine,
     allowedRoles: ['user', 'admin']
   },
-  {
-    label: 'Dashboard',
-    path: 'dashboard',
-    icon: faChartLine,
-    allowedRoles: ['user', 'admin']
-  },
+ 
   {
     label: 'Adjuntos',
     path: 'inventory',
