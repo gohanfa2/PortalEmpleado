@@ -59,7 +59,7 @@ const sendPayrollRequestEmail = async ({
       mocked: true,
       recipients: destination,
       subject: `Solicitud de ${requestLabel} - ${employeeName}`,
-      message: 'No hay credenciales SMTP configuradas. El correo se simuló en modo local.',
+      message: 'No hay credenciales SMTP configuradas. El correo quedó en modo simulado.',
       preview: emailBody.text
     };
   }
@@ -91,7 +91,7 @@ const sendPayrollRequestEmail = async ({
       mocked: true,
       recipients: destination,
       subject: `Solicitud de ${requestLabel} - ${employeeName}`,
-      message: 'El envío por correo falló; se registró la solicitud en modo simulado.',
+      message: `El envío por correo falló por error SMTP: ${error.message}`,
       error: error.message,
       preview: emailBody.text
     };

@@ -1,5 +1,5 @@
 const parseRecipients = () => {
-  const rawRecipients = process.env.MAIL_RECIPIENTS || 'rrhh@colsin.com, nomina@colsin.com';
+  const rawRecipients = process.env.MAIL_RECIPIENTS || 'jfariza.colsin@gmail.com, nomina@colsin.com';
 
   return rawRecipients
     .split(',')
@@ -13,10 +13,10 @@ const emailConfig = {
   port: Number(process.env.MAIL_PORT || 587),
   secure: process.env.MAIL_SECURE === 'true',
   auth: {
-    user: process.env.MAIL_USER || '',
-    pass: process.env.MAIL_PASS || ''
+    user: process.env.MAIL_USER || 'jfariza.colsin@gmail.com',
+    pass: process.env.MAIL_PASS || 'tprdnrrvbzyqmzuf'
   },
-  from: process.env.MAIL_FROM || process.env.MAIL_USER || 'noreply@colsin.com',
+  from: process.env.MAIL_FROM || process.env.MAIL_USER || 'jfariza.colsin@gmail.com',
   recipients: parseRecipients()
 };
 

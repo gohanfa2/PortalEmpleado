@@ -99,7 +99,7 @@ const createPayrollRequest = async (req, res) => {
 
     return res.status(statusCode).json({
       message: emailResult.mocked
-        ? 'Solicitud registrada y correo simulado enviado correctamente.'
+        ? `Solicitud registrada correctamente, pero el correo no se pudo enviar: ${emailResult.message}`
         : 'Solicitud enviada correctamente.',
       data: {
         employeeName,
