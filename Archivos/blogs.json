@@ -1,5 +1,18 @@
 [
   {
+    "id": 1780005792163,
+    "titulo": "Reducción de la jornada laboral",
+    "resumen": "Reducción jornada laboral",
+    "contenido": "Con la Ley 2101 de 2021 se redujo la jornada laboral de 48 a 42 horas semanales",
+    "imagen": "1780005791975-HV.jpg",
+    "video": "1780005791978-337459_medium.mp4",
+    "enlaces": [
+      "https://actualicese.com/jornada-laboral-semanal-2026-en-colombia/"
+    ],
+    "categoria": "RR-HH",
+    "fecha": "2026-05-28"
+  },
+  {
     "id": 1779470063868,
     "titulo": "Cómo calcular las horas adicionales",
     "resumen": "Horas adicionales",
@@ -9,21 +22,8 @@
     "enlaces": [
       "https://siemprealdia.co/colombia/derecho-laboral/horas-extra-y-recargos-nocturnos/"
     ],
-    "categoria": "Educación",
+    "categoria": "RR-HH",
     "fecha": "2026-05-22"
-  },
-  {
-    "id": 1779398247951,
-    "titulo": "Prueba 2",
-    "resumen": "Resumen adjunto",
-    "contenido": "contenido adjunto",
-    "imagen": "1779398247942-Hoja de vida.jpg",
-    "video": "1779398247943-Enel23 de Abril de 2026.pdf",
-    "enlaces": [
-      "www.prueba.com"
-    ],
-    "categoria": "Salud",
-    "fecha": "2026-05-21"
   },
   {
     "id": 1779396784727,

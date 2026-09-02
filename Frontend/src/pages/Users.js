@@ -65,7 +65,7 @@ const Users = () => {
 
   return (
     <>
-      <PageTitle title="Users" />
+      <PageTitle title="Usuarios" />
       <div className="flex flex-col">
         {!!users.length &&
           users.map(user => (

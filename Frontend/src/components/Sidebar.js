@@ -7,7 +7,8 @@ import {
   faAddressCard,
   faChartPie,
   faCogs,
-  faDoorOpen
+  faDoorOpen,
+  faCalendarCheck
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import logo from './../images/logo.png';
@@ -44,7 +45,12 @@ const navItems = [
     icon: faChartLine,
     allowedRoles: ['user', 'admin']
   },
- 
+  {
+    label: 'Solicitudes de Nómina',
+    path: 'payroll-requests',
+    icon: faCalendarCheck,
+    allowedRoles: ['user', 'admin']
+  },
   {
     label: 'Adjuntos',
     path: 'inventory',
@@ -52,19 +58,19 @@ const navItems = [
     allowedRoles: ['user', 'admin']
   },
   {
-    label: 'Account',
+    label: 'Cuentas',
     path: 'account',
     icon: faAddressCard,
     allowedRoles: ['admin']
   },
   {
-    label: 'Settings',
+    label: 'Ajustes',
     path: 'settings',
     icon: faCogs,
     allowedRoles: ['admin']
   },
   {
-    label: 'Users',
+    label: 'Usuarios',
     path: 'users',
     icon: faDoorOpen,
     allowedRoles: ['admin']

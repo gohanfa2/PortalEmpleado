@@ -47,7 +47,7 @@ const Settings = () => {
   };
   return (
     <>
-      <PageTitle title="Settings" />
+      <PageTitle title="Ajustes" />
       <Card>
         <h2 className="font-bold mb-2">
           Fill Out Your Bio

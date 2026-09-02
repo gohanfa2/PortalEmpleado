@@ -1,0 +1,902 @@
+[2026-07-23T16:48:03.717Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-23T16:48:03.752Z] [ERROR] Error de conexión a MongoDB
+{
+  "message": "querySrv ECONNREFUSED _mongodb._tcp.cluster0.o3utiub.mongodb.net",
+  "stack": "Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.o3utiub.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:294:17)",
+  "code": "ECONNREFUSED",
+  "syscall": "querySrv",
+  "hostname": "_mongodb._tcp.cluster0.o3utiub.mongodb.net"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T16:48:03.759Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-23T16:49:20.702Z] [ERROR] Error en endpoint de autenticación
+{
+  "message": "Operation `users.findOne()` buffering timed out after 10000ms",
+  "stack": "MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout._onTimeout (C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:131:25)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T16:49:20.718Z] [REQUEST] POST /api/authenticate - Status: 400 - 10073ms
+--------------------------------------------------------------------------------
+[2026-07-23T16:49:51.330Z] [ERROR] Error en endpoint de autenticación
+{
+  "message": "Operation `users.findOne()` buffering timed out after 10000ms",
+  "stack": "MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout._onTimeout (C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:131:25)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T16:49:51.332Z] [REQUEST] POST /api/authenticate - Status: 400 - 10008ms
+--------------------------------------------------------------------------------
+[2026-07-23T16:54:29.790Z] [ERROR] Error en endpoint de autenticación
+{
+  "message": "Operation `users.findOne()` buffering timed out after 10000ms",
+  "stack": "MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout._onTimeout (C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:131:25)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T16:54:29.802Z] [REQUEST] POST /api/authenticate - Status: 400 - 10037ms
+--------------------------------------------------------------------------------
+[2026-07-23T16:54:50.536Z] [ERROR] Error en endpoint de autenticación
+{
+  "message": "Operation `users.findOne()` buffering timed out after 10000ms",
+  "stack": "MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout._onTimeout (C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:131:25)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T16:54:50.538Z] [REQUEST] POST /api/authenticate - Status: 400 - 10018ms
+--------------------------------------------------------------------------------
+[2026-07-23T16:55:16.161Z] [ERROR] Error en endpoint de autenticación
+{
+  "message": "Operation `users.findOne()` buffering timed out after 10000ms",
+  "stack": "MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout._onTimeout (C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:131:25)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T16:55:16.164Z] [REQUEST] POST /api/authenticate - Status: 400 - 10009ms
+--------------------------------------------------------------------------------
+[2026-07-23T16:57:35.231Z] [ERROR] Error en endpoint de autenticación
+{
+  "message": "Operation `users.findOne()` buffering timed out after 10000ms",
+  "stack": "MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout._onTimeout (C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:131:25)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T16:57:35.237Z] [REQUEST] POST /api/authenticate - Status: 400 - 10026ms
+--------------------------------------------------------------------------------
+[2026-07-23T16:57:58.040Z] [ERROR] Error en endpoint de autenticación
+{
+  "message": "Operation `users.findOne()` buffering timed out after 10000ms",
+  "stack": "MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout._onTimeout (C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:131:25)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T16:57:58.044Z] [REQUEST] POST /api/authenticate - Status: 400 - 10015ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:02:27.623Z] [ERROR] Error en endpoint de autenticación
+{
+  "message": "Operation `users.findOne()` buffering timed out after 10000ms",
+  "stack": "MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout._onTimeout (C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:131:25)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:02:27.739Z] [REQUEST] POST /api/authenticate - Status: 400 - 15069ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:03:07.562Z] [ERROR] Error en endpoint de autenticación
+{
+  "message": "Operation `users.findOne()` buffering timed out after 10000ms",
+  "stack": "MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout._onTimeout (C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:131:25)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:03:07.565Z] [REQUEST] POST /api/authenticate - Status: 400 - 10011ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:03:20.425Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-23T17:03:20.462Z] [ERROR] Error de conexión a MongoDB
+{
+  "message": "querySrv ECONNREFUSED _mongodb._tcp.cluster0.o3utiub.mongodb.net",
+  "stack": "Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.o3utiub.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:294:17)",
+  "code": "ECONNREFUSED",
+  "syscall": "querySrv",
+  "hostname": "_mongodb._tcp.cluster0.o3utiub.mongodb.net"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:03:20.468Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-23T17:10:42.408Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-23T17:10:42.446Z] [ERROR] Error de conexión a MongoDB
+{
+  "message": "querySrv ECONNREFUSED _mongodb._tcp.cluster0.o3utiub.mongodb.net",
+  "stack": "Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.o3utiub.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:294:17)",
+  "code": "ECONNREFUSED",
+  "syscall": "querySrv",
+  "hostname": "_mongodb._tcp.cluster0.o3utiub.mongodb.net"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:10:42.451Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-23T17:13:41.017Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-23T17:13:41.052Z] [ERROR] Error de conexión a MongoDB
+{
+  "message": "querySrv ECONNREFUSED _mongodb._tcp.cluster0.o3utiub.mongodb.net",
+  "stack": "Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.o3utiub.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:294:17)",
+  "code": "ECONNREFUSED",
+  "syscall": "querySrv",
+  "hostname": "_mongodb._tcp.cluster0.o3utiub.mongodb.net"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:13:41.056Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-23T17:18:47.232Z] [ERROR] Error en endpoint de autenticación
+{
+  "message": "Operation `users.findOne()` buffering timed out after 10000ms",
+  "stack": "MongooseError: Operation `users.findOne()` buffering timed out after 10000ms\n    at Timeout._onTimeout (C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\node_modules\\mongoose\\lib\\drivers\\node-mongodb-native\\collection.js:131:25)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:18:47.251Z] [REQUEST] POST /api/authenticate - Status: 400 - 10068ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:20:51.761Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-23T17:20:52.731Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-07-23T17:20:52.735Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-23T17:21:03.063Z] [REQUEST] POST /api/authenticate - Status: 200 - 416ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:21:36.697Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-23T17:21:37.649Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-07-23T17:21:37.652Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-23T17:25:09.951Z] [REQUEST] POST /api/authenticate - Status: 200 - 513ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:25:16.774Z] [REQUEST] GET /api/curriculum - Status: 200 - 2622ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:25:20.791Z] [REQUEST] GET /api/employee - Status: 200 - 2375ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:25:32.318Z] [REQUEST] GET /api/reports - Status: 200 - 5ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:25:37.829Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\Certificacion.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\Certificacion_1784827537807",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:25:42.228Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-23T17:25:42.229Z] [WARN] JasperStarter stderr:
+jul 23, 2026 12:25:41 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 23, 2026 12:25:41 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 23, 2026 12:25:41 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 23, 2026 12:25:41 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 23, 2026 12:25:41 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+jul 23, 2026 12:25:41 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+INFORMACI�N: eNTRA A f_retorna_empresa
+jul 23, 2026 12:25:41 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+GRAVE: null
+java.lang.NullPointerException
+	at javax.naming.InitialContext.getURLScheme(Unknown Source)
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(Unknown Source)
+	at javax.naming.InitialContext.lookup(Unknown Source)
+	at com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet.f_retorna_empresa(NumerosALetrasScriptlet.java:491)
+	at Certificacion_1781121404608_423921.evaluate(Certificacion_1781121404608_423921:213)
+	at net.sf.jasperreports.engine.fill.JREvaluator.evaluate(JREvaluator.java:313)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:673)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:641)
+	at net.sf.jasperreports.engine.fill.JRFillElement.evaluateExpression(JRFillElement.java:1173)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluateText(JRFillTextField.java:555)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluate(JRFillTextField.java:540)
+	at net.sf.jasperreports.engine.fill.JRFillElementContainer.evaluate(JRFillElementContainer.java:383)
+	at net.sf.jasperreports.engine.fill.JRFillBand.evaluate(JRFillBand.java:548)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillColumnBand(JRVerticalFiller.java:2613)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillDetail(JRVerticalFiller.java:836)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReportStart(JRVerticalFiller.java:275)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReport(JRVerticalFiller.java:119)
+	at net.sf.jasperreports.engine.fill.JRBaseFiller.fill(JRBaseFiller.java:622)
+	at net.sf.jasperreports.engine.fill.BaseReportFiller.fill(BaseReportFiller.java:414)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:120)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:103)
+	at net.sf.jasperreports.engine.JasperFillManager.fill(JasperFillManager.java:530)
+	at net.sf.jasperreports.engine.JasperFillManager.fillReport(JasperFillManager.java:954)
+	at de.cenote.jasperstarter.Report.fillInternal(Report.java:338)
+	at de.cenote.jasperstarter.Report.fill(Report.java:282)
+	at de.cenote.jasperstarter.App.processReport(App.java:226)
+	at de.cenote.jasperstarter.App.main(App.java:109)
+
+jul 23, 2026 12:25:41 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+INFORMACI�N: eNTRA A f_retorna_empresa
+jul 23, 2026 12:25:41 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+GRAVE: null
+java.lang.NullPointerException
+	at javax.naming.InitialContext.getURLScheme(Unknown Source)
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(Unknown Source)
+	at javax.naming.InitialContext.lookup(Unknown Source)
+	at com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet.f_retorna_empresa(NumerosALetrasScriptlet.java:491)
+	at Certificacion_1781121404608_423921.evaluate(Certificacion_1781121404608_423921:233)
+	at net.sf.jasperreports.engine.fill.JREvaluator.evaluate(JREvaluator.java:313)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:673)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:641)
+	at net.sf.jasperreports.engine.fill.JRFillElement.evaluateExpression(JRFillElement.java:1173)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluateText(JRFillTextField.java:555)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluate(JRFillTextField.java:540)
+	at net.sf.jasperreports.engine.fill.JRFillElementContainer.evaluate(JRFillElementContainer.java:383)
+	at net.sf.jasperreports.engine.fill.JRFillBand.evaluate(JRFillBand.java:548)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillColumnBand(JRVerticalFiller.java:2613)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillDetail(JRVerticalFiller.java:836)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReportStart(JRVerticalFiller.java:275)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReport(JRVerticalFiller.java:119)
+	at net.sf.jasperreports.engine.fill.JRBaseFiller.fill(JRBaseFiller.java:622)
+	at net.sf.jasperreports.engine.fill.BaseReportFiller.fill(BaseReportFiller.java:414)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:120)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:103)
+	at net.sf.jasperreports.engine.JasperFillManager.fill(JasperFillManager.java:530)
+	at net.sf.jasperreports.engine.JasperFillManager.fillReport(JasperFillManager.java:954)
+	at de.cenote.jasperstarter.Report.fillInternal(Report.java:338)
+	at de.cenote.jasperstarter.Report.fill(Report.java:282)
+	at de.cenote.jasperstarter.App.processReport(App.java:226)
+	at de.cenote.jasperstarter.App.main(App.java:109)
+
+
+--------------------------------------------------------------------------------
+[2026-07-23T17:25:42.230Z] [REQUEST] GET /api/reports/Certificacion - Status: 500 - 4426ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:25:46.024Z] [REQUEST] GET /api/reports/latest - Status: 200 - 12ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:26:46.242Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ingresosRetenciones2025E.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1784827606242",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:26:51.944Z] [REQUEST] GET /api/reports/latest - Status: 304 - 5ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:26:53.725Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-23T17:26:53.726Z] [WARN] JasperStarter stderr:
+jul 23, 2026 12:26:51 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 23, 2026 12:26:51 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 23, 2026 12:26:51 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 23, 2026 12:26:51 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 23, 2026 12:26:51 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+
+--------------------------------------------------------------------------------
+[2026-07-23T17:26:53.727Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 500 - 7486ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:26:57.153Z] [REQUEST] GET /api/reports/latest - Status: 200 - 13ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:00.631Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ingresosRetenciones2025E.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1784827620630",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:04.622Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:04.623Z] [WARN] JasperStarter stderr:
+jul 23, 2026 12:27:02 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 23, 2026 12:27:02 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 23, 2026 12:27:02 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 23, 2026 12:27:02 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 23, 2026 12:27:02 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:04.624Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 500 - 3994ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:09.152Z] [REQUEST] GET /api/reports/latest - Status: 200 - 10ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:19.567Z] [REQUEST] GET /api/reports/latest - Status: 304 - 4ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:25.004Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\Certificacion.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\Certificacion_1784827641308",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:27.447Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:27.448Z] [WARN] JasperStarter stderr:
+jul 23, 2026 12:27:26 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 23, 2026 12:27:26 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 23, 2026 12:27:26 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 23, 2026 12:27:26 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 23, 2026 12:27:26 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+jul 23, 2026 12:27:26 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+INFORMACI�N: eNTRA A f_retorna_empresa
+jul 23, 2026 12:27:27 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+GRAVE: null
+java.lang.NullPointerException
+	at javax.naming.InitialContext.getURLScheme(Unknown Source)
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(Unknown Source)
+	at javax.naming.InitialContext.lookup(Unknown Source)
+	at com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet.f_retorna_empresa(NumerosALetrasScriptlet.java:491)
+	at Certificacion_1781121404608_423921.evaluate(Certificacion_1781121404608_423921:213)
+	at net.sf.jasperreports.engine.fill.JREvaluator.evaluate(JREvaluator.java:313)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:673)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:641)
+	at net.sf.jasperreports.engine.fill.JRFillElement.evaluateExpression(JRFillElement.java:1173)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluateText(JRFillTextField.java:555)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluate(JRFillTextField.java:540)
+	at net.sf.jasperreports.engine.fill.JRFillElementContainer.evaluate(JRFillElementContainer.java:383)
+	at net.sf.jasperreports.engine.fill.JRFillBand.evaluate(JRFillBand.java:548)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillColumnBand(JRVerticalFiller.java:2613)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillDetail(JRVerticalFiller.java:836)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReportStart(JRVerticalFiller.java:275)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReport(JRVerticalFiller.java:119)
+	at net.sf.jasperreports.engine.fill.JRBaseFiller.fill(JRBaseFiller.java:622)
+	at net.sf.jasperreports.engine.fill.BaseReportFiller.fill(BaseReportFiller.java:414)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:120)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:103)
+	at net.sf.jasperreports.engine.JasperFillManager.fill(JasperFillManager.java:530)
+	at net.sf.jasperreports.engine.JasperFillManager.fillReport(JasperFillManager.java:954)
+	at de.cenote.jasperstarter.Report.fillInternal(Report.java:338)
+	at de.cenote.jasperstarter.Report.fill(Report.java:282)
+	at de.cenote.jasperstarter.App.processReport(App.java:226)
+	at de.cenote.jasperstarter.App.main(App.java:109)
+
+jul 23, 2026 12:27:27 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+INFORMACI�N: eNTRA A f_retorna_empresa
+jul 23, 2026 12:27:27 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+GRAVE: null
+java.lang.NullPointerException
+	at javax.naming.InitialContext.getURLScheme(Unknown Source)
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(Unknown Source)
+	at javax.naming.InitialContext.lookup(Unknown Source)
+	at com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet.f_retorna_empresa(NumerosALetrasScriptlet.java:491)
+	at Certificacion_1781121404608_423921.evaluate(Certificacion_1781121404608_423921:233)
+	at net.sf.jasperreports.engine.fill.JREvaluator.evaluate(JREvaluator.java:313)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:673)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:641)
+	at net.sf.jasperreports.engine.fill.JRFillElement.evaluateExpression(JRFillElement.java:1173)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluateText(JRFillTextField.java:555)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluate(JRFillTextField.java:540)
+	at net.sf.jasperreports.engine.fill.JRFillElementContainer.evaluate(JRFillElementContainer.java:383)
+	at net.sf.jasperreports.engine.fill.JRFillBand.evaluate(JRFillBand.java:548)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillColumnBand(JRVerticalFiller.java:2613)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillDetail(JRVerticalFiller.java:836)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReportStart(JRVerticalFiller.java:275)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReport(JRVerticalFiller.java:119)
+	at net.sf.jasperreports.engine.fill.JRBaseFiller.fill(JRBaseFiller.java:622)
+	at net.sf.jasperreports.engine.fill.BaseReportFiller.fill(BaseReportFiller.java:414)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:120)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:103)
+	at net.sf.jasperreports.engine.JasperFillManager.fill(JasperFillManager.java:530)
+	at net.sf.jasperreports.engine.JasperFillManager.fillReport(JasperFillManager.java:954)
+	at de.cenote.jasperstarter.Report.fillInternal(Report.java:338)
+	at de.cenote.jasperstarter.Report.fill(Report.java:282)
+	at de.cenote.jasperstarter.App.processReport(App.java:226)
+	at de.cenote.jasperstarter.App.main(App.java:109)
+
+
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:27.449Z] [REQUEST] GET /api/reports/Certificacion - Status: 500 - 6142ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:27.466Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\Certificacion.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\Certificacion_1784827647451",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:29.481Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:29.482Z] [WARN] JasperStarter stderr:
+jul 23, 2026 12:27:28 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 23, 2026 12:27:28 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 23, 2026 12:27:28 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 23, 2026 12:27:28 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 23, 2026 12:27:28 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+jul 23, 2026 12:27:29 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+INFORMACI�N: eNTRA A f_retorna_empresa
+jul 23, 2026 12:27:29 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+GRAVE: null
+java.lang.NullPointerException
+	at javax.naming.InitialContext.getURLScheme(Unknown Source)
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(Unknown Source)
+	at javax.naming.InitialContext.lookup(Unknown Source)
+	at com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet.f_retorna_empresa(NumerosALetrasScriptlet.java:491)
+	at Certificacion_1781121404608_423921.evaluate(Certificacion_1781121404608_423921:213)
+	at net.sf.jasperreports.engine.fill.JREvaluator.evaluate(JREvaluator.java:313)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:673)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:641)
+	at net.sf.jasperreports.engine.fill.JRFillElement.evaluateExpression(JRFillElement.java:1173)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluateText(JRFillTextField.java:555)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluate(JRFillTextField.java:540)
+	at net.sf.jasperreports.engine.fill.JRFillElementContainer.evaluate(JRFillElementContainer.java:383)
+	at net.sf.jasperreports.engine.fill.JRFillBand.evaluate(JRFillBand.java:548)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillColumnBand(JRVerticalFiller.java:2613)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillDetail(JRVerticalFiller.java:836)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReportStart(JRVerticalFiller.java:275)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReport(JRVerticalFiller.java:119)
+	at net.sf.jasperreports.engine.fill.JRBaseFiller.fill(JRBaseFiller.java:622)
+	at net.sf.jasperreports.engine.fill.BaseReportFiller.fill(BaseReportFiller.java:414)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:120)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:103)
+	at net.sf.jasperreports.engine.JasperFillManager.fill(JasperFillManager.java:530)
+	at net.sf.jasperreports.engine.JasperFillManager.fillReport(JasperFillManager.java:954)
+	at de.cenote.jasperstarter.Report.fillInternal(Report.java:338)
+	at de.cenote.jasperstarter.Report.fill(Report.java:282)
+	at de.cenote.jasperstarter.App.processReport(App.java:226)
+	at de.cenote.jasperstarter.App.main(App.java:109)
+
+jul 23, 2026 12:27:29 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+INFORMACI�N: eNTRA A f_retorna_empresa
+jul 23, 2026 12:27:29 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+GRAVE: null
+java.lang.NullPointerException
+	at javax.naming.InitialContext.getURLScheme(Unknown Source)
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(Unknown Source)
+	at javax.naming.InitialContext.lookup(Unknown Source)
+	at com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet.f_retorna_empresa(NumerosALetrasScriptlet.java:491)
+	at Certificacion_1781121404608_423921.evaluate(Certificacion_1781121404608_423921:233)
+	at net.sf.jasperreports.engine.fill.JREvaluator.evaluate(JREvaluator.java:313)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:673)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:641)
+	at net.sf.jasperreports.engine.fill.JRFillElement.evaluateExpression(JRFillElement.java:1173)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluateText(JRFillTextField.java:555)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluate(JRFillTextField.java:540)
+	at net.sf.jasperreports.engine.fill.JRFillElementContainer.evaluate(JRFillElementContainer.java:383)
+	at net.sf.jasperreports.engine.fill.JRFillBand.evaluate(JRFillBand.java:548)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillColumnBand(JRVerticalFiller.java:2613)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillDetail(JRVerticalFiller.java:836)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReportStart(JRVerticalFiller.java:275)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReport(JRVerticalFiller.java:119)
+	at net.sf.jasperreports.engine.fill.JRBaseFiller.fill(JRBaseFiller.java:622)
+	at net.sf.jasperreports.engine.fill.BaseReportFiller.fill(BaseReportFiller.java:414)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:120)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:103)
+	at net.sf.jasperreports.engine.JasperFillManager.fill(JasperFillManager.java:530)
+	at net.sf.jasperreports.engine.JasperFillManager.fillReport(JasperFillManager.java:954)
+	at de.cenote.jasperstarter.Report.fillInternal(Report.java:338)
+	at de.cenote.jasperstarter.Report.fill(Report.java:282)
+	at de.cenote.jasperstarter.App.processReport(App.java:226)
+	at de.cenote.jasperstarter.App.main(App.java:109)
+
+
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:29.483Z] [REQUEST] GET /api/reports/Certificacion - Status: 500 - 2032ms
+--------------------------------------------------------------------------------
+[2026-07-23T17:27:30.081Z] [REQUEST] GET /api/reports/latest - Status: 200 - 13ms
+--------------------------------------------------------------------------------
+[2026-07-23T19:08:51.612Z] [REQUEST] POST /api/authenticate - Status: 200 - 669ms
+--------------------------------------------------------------------------------
+[2026-07-23T19:08:54.436Z] [REQUEST] GET /api/reports - Status: 200 - 9ms
+--------------------------------------------------------------------------------
+[2026-07-23T19:09:00.811Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\Certificacion.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\Certificacion_1784833738279",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-23T19:09:04.042Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-23T19:09:04.043Z] [WARN] JasperStarter stderr:
+jul 23, 2026 2:09:02 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 23, 2026 2:09:02 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 23, 2026 2:09:02 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 23, 2026 2:09:02 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 23, 2026 2:09:02 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+jul 23, 2026 2:09:03 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+INFORMACI�N: eNTRA A f_retorna_empresa
+jul 23, 2026 2:09:03 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+GRAVE: null
+java.lang.NullPointerException
+	at javax.naming.InitialContext.getURLScheme(Unknown Source)
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(Unknown Source)
+	at javax.naming.InitialContext.lookup(Unknown Source)
+	at com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet.f_retorna_empresa(NumerosALetrasScriptlet.java:491)
+	at Certificacion_1784833645861_555637.evaluate(Certificacion_1784833645861_555637:213)
+	at net.sf.jasperreports.engine.fill.JREvaluator.evaluate(JREvaluator.java:313)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:673)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:641)
+	at net.sf.jasperreports.engine.fill.JRFillElement.evaluateExpression(JRFillElement.java:1173)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluateText(JRFillTextField.java:555)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluate(JRFillTextField.java:540)
+	at net.sf.jasperreports.engine.fill.JRFillElementContainer.evaluate(JRFillElementContainer.java:383)
+	at net.sf.jasperreports.engine.fill.JRFillBand.evaluate(JRFillBand.java:548)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillColumnBand(JRVerticalFiller.java:2613)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillDetail(JRVerticalFiller.java:836)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReportStart(JRVerticalFiller.java:275)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReport(JRVerticalFiller.java:119)
+	at net.sf.jasperreports.engine.fill.JRBaseFiller.fill(JRBaseFiller.java:622)
+	at net.sf.jasperreports.engine.fill.BaseReportFiller.fill(BaseReportFiller.java:414)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:120)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:103)
+	at net.sf.jasperreports.engine.JasperFillManager.fill(JasperFillManager.java:530)
+	at net.sf.jasperreports.engine.JasperFillManager.fillReport(JasperFillManager.java:954)
+	at de.cenote.jasperstarter.Report.fillInternal(Report.java:338)
+	at de.cenote.jasperstarter.Report.fill(Report.java:282)
+	at de.cenote.jasperstarter.App.processReport(App.java:226)
+	at de.cenote.jasperstarter.App.main(App.java:109)
+
+jul 23, 2026 2:09:03 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+INFORMACI�N: eNTRA A f_retorna_empresa
+jul 23, 2026 2:09:03 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+GRAVE: null
+java.lang.NullPointerException
+	at javax.naming.InitialContext.getURLScheme(Unknown Source)
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(Unknown Source)
+	at javax.naming.InitialContext.lookup(Unknown Source)
+	at com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet.f_retorna_empresa(NumerosALetrasScriptlet.java:491)
+	at Certificacion_1784833645861_555637.evaluate(Certificacion_1784833645861_555637:238)
+	at net.sf.jasperreports.engine.fill.JREvaluator.evaluate(JREvaluator.java:313)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:673)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:641)
+	at net.sf.jasperreports.engine.fill.JRFillElement.evaluateExpression(JRFillElement.java:1173)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluateText(JRFillTextField.java:555)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluate(JRFillTextField.java:540)
+	at net.sf.jasperreports.engine.fill.JRFillElementContainer.evaluate(JRFillElementContainer.java:383)
+	at net.sf.jasperreports.engine.fill.JRFillBand.evaluate(JRFillBand.java:548)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillColumnBand(JRVerticalFiller.java:2613)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillDetail(JRVerticalFiller.java:836)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReportStart(JRVerticalFiller.java:275)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReport(JRVerticalFiller.java:119)
+	at net.sf.jasperreports.engine.fill.JRBaseFiller.fill(JRBaseFiller.java:622)
+	at net.sf.jasperreports.engine.fill.BaseReportFiller.fill(BaseReportFiller.java:414)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:120)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:103)
+	at net.sf.jasperreports.engine.JasperFillManager.fill(JasperFillManager.java:530)
+	at net.sf.jasperreports.engine.JasperFillManager.fillReport(JasperFillManager.java:954)
+	at de.cenote.jasperstarter.Report.fillInternal(Report.java:338)
+	at de.cenote.jasperstarter.Report.fill(Report.java:282)
+	at de.cenote.jasperstarter.App.processReport(App.java:226)
+	at de.cenote.jasperstarter.App.main(App.java:109)
+
+
+--------------------------------------------------------------------------------
+[2026-07-23T19:09:04.045Z] [REQUEST] GET /api/reports/Certificacion - Status: 500 - 5767ms
+--------------------------------------------------------------------------------
+[2026-07-23T19:09:10.204Z] [REQUEST] GET /api/reports/latest - Status: 200 - 19ms
+--------------------------------------------------------------------------------
+[2026-07-23T19:18:09.712Z] [REQUEST] GET /api/reports - Status: 304 - 18ms
+--------------------------------------------------------------------------------
+[2026-07-23T19:18:18.385Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\Certificacion.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\Certificacion_1784834295979",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-23T19:18:21.971Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-23T19:18:21.972Z] [WARN] JasperStarter stderr:
+jul 23, 2026 2:18:20 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 23, 2026 2:18:20 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 23, 2026 2:18:20 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 23, 2026 2:18:20 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 23, 2026 2:18:20 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+jul 23, 2026 2:18:21 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+INFORMACI�N: eNTRA A f_retorna_empresa
+jul 23, 2026 2:18:21 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+GRAVE: null
+java.lang.NullPointerException
+	at javax.naming.InitialContext.getURLScheme(Unknown Source)
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(Unknown Source)
+	at javax.naming.InitialContext.lookup(Unknown Source)
+	at com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet.f_retorna_empresa(NumerosALetrasScriptlet.java:491)
+	at Certificacion_1784834262502_724820.evaluate(Certificacion_1784834262502_724820:218)
+	at net.sf.jasperreports.engine.fill.JREvaluator.evaluate(JREvaluator.java:313)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:673)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:641)
+	at net.sf.jasperreports.engine.fill.JRFillElement.evaluateExpression(JRFillElement.java:1173)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluateText(JRFillTextField.java:555)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluate(JRFillTextField.java:540)
+	at net.sf.jasperreports.engine.fill.JRFillElementContainer.evaluate(JRFillElementContainer.java:383)
+	at net.sf.jasperreports.engine.fill.JRFillBand.evaluate(JRFillBand.java:548)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillColumnBand(JRVerticalFiller.java:2613)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillDetail(JRVerticalFiller.java:836)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReportStart(JRVerticalFiller.java:275)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReport(JRVerticalFiller.java:119)
+	at net.sf.jasperreports.engine.fill.JRBaseFiller.fill(JRBaseFiller.java:622)
+	at net.sf.jasperreports.engine.fill.BaseReportFiller.fill(BaseReportFiller.java:414)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:120)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:103)
+	at net.sf.jasperreports.engine.JasperFillManager.fill(JasperFillManager.java:530)
+	at net.sf.jasperreports.engine.JasperFillManager.fillReport(JasperFillManager.java:954)
+	at de.cenote.jasperstarter.Report.fillInternal(Report.java:338)
+	at de.cenote.jasperstarter.Report.fill(Report.java:282)
+	at de.cenote.jasperstarter.App.processReport(App.java:226)
+	at de.cenote.jasperstarter.App.main(App.java:109)
+
+jul 23, 2026 2:18:21 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+INFORMACI�N: eNTRA A f_retorna_empresa
+jul 23, 2026 2:18:21 PM com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet f_retorna_empresa
+GRAVE: null
+java.lang.NullPointerException
+	at javax.naming.InitialContext.getURLScheme(Unknown Source)
+	at javax.naming.InitialContext.getURLOrDefaultInitCtx(Unknown Source)
+	at javax.naming.InitialContext.lookup(Unknown Source)
+	at com.colsin.gnosis.report.fill.functions.NumerosALetrasScriptlet.f_retorna_empresa(NumerosALetrasScriptlet.java:491)
+	at Certificacion_1784834262502_724820.evaluate(Certificacion_1784834262502_724820:243)
+	at net.sf.jasperreports.engine.fill.JREvaluator.evaluate(JREvaluator.java:313)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:673)
+	at net.sf.jasperreports.engine.fill.JRCalculator.evaluate(JRCalculator.java:641)
+	at net.sf.jasperreports.engine.fill.JRFillElement.evaluateExpression(JRFillElement.java:1173)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluateText(JRFillTextField.java:555)
+	at net.sf.jasperreports.engine.fill.JRFillTextField.evaluate(JRFillTextField.java:540)
+	at net.sf.jasperreports.engine.fill.JRFillElementContainer.evaluate(JRFillElementContainer.java:383)
+	at net.sf.jasperreports.engine.fill.JRFillBand.evaluate(JRFillBand.java:548)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillColumnBand(JRVerticalFiller.java:2613)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillDetail(JRVerticalFiller.java:836)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReportStart(JRVerticalFiller.java:275)
+	at net.sf.jasperreports.engine.fill.JRVerticalFiller.fillReport(JRVerticalFiller.java:119)
+	at net.sf.jasperreports.engine.fill.JRBaseFiller.fill(JRBaseFiller.java:622)
+	at net.sf.jasperreports.engine.fill.BaseReportFiller.fill(BaseReportFiller.java:414)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:120)
+	at net.sf.jasperreports.engine.fill.JRFiller.fill(JRFiller.java:103)
+	at net.sf.jasperreports.engine.JasperFillManager.fill(JasperFillManager.java:530)
+	at net.sf.jasperreports.engine.JasperFillManager.fillReport(JasperFillManager.java:954)
+	at de.cenote.jasperstarter.Report.fillInternal(Report.java:338)
+	at de.cenote.jasperstarter.Report.fill(Report.java:282)
+	at de.cenote.jasperstarter.App.processReport(App.java:226)
+	at de.cenote.jasperstarter.App.main(App.java:109)
+
+
+--------------------------------------------------------------------------------
+[2026-07-23T19:18:21.973Z] [REQUEST] GET /api/reports/Certificacion - Status: 500 - 5997ms
+--------------------------------------------------------------------------------
+[2026-07-23T19:18:23.799Z] [REQUEST] GET /api/reports/latest - Status: 200 - 16ms
+--------------------------------------------------------------------------------
+[2026-07-23T19:24:20.162Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ingresosRetenciones2025E.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1784834660155",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-23T19:24:24.714Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-23T19:24:24.715Z] [WARN] JasperStarter stderr:
+jul 23, 2026 2:24:22 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 23, 2026 2:24:23 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 23, 2026 2:24:23 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 23, 2026 2:24:23 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 23, 2026 2:24:23 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+
+--------------------------------------------------------------------------------
+[2026-07-23T19:24:24.721Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 500 - 4579ms
+--------------------------------------------------------------------------------
+[2026-07-23T19:24:30.974Z] [REQUEST] GET /api/reports/latest - Status: 200 - 35ms
+--------------------------------------------------------------------------------

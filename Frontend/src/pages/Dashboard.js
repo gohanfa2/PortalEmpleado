@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Card from '../components/common/Card';
-import Navbar from '../components/Navbar';
+
 
 const API = 'http://localhost:3100/api/blogs';
 const UPLOADS = 'http://localhost:3100/uploads/';
 
-const categorias = ['Todas', 'Tecnología', 'Salud', 'Educación', 'Cultura', 'Deportes'];
+const categorias = ['Todas','RR-HH', 'Tecnología', 'Salud', 'Educación', 'Cultura', 'Deportes'];
 
 function BlogCard({ blog, onOpen }) {
   return (

@@ -1,0 +1,196 @@
+[2026-07-24T21:00:47.085Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ingresosRetenciones2025E.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1784926847084",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-24T21:00:51.349Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-24T21:00:51.350Z] [WARN] JasperStarter stderr:
+jul 24, 2026 4:00:49 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 24, 2026 4:00:49 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 24, 2026 4:00:49 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 24, 2026 4:00:49 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 24, 2026 4:00:49 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+
+--------------------------------------------------------------------------------
+[2026-07-24T21:00:51.351Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 500 - 4268ms
+--------------------------------------------------------------------------------
+[2026-07-24T21:21:27.079Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-24T21:21:28.103Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-07-24T21:21:28.109Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:07.101Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:08.106Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:08.109Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:19.538Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:20.465Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:20.468Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:27.995Z] [REQUEST] GET /api/employee - Status: 304 - 259ms
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:28.926Z] [REQUEST] GET /api/reports - Status: 304 - 2ms
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:33.049Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ingresosRetenciones2025E.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1784928273049",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:35.126Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:35.126Z] [WARN] JasperStarter stderr:
+jul 24, 2026 4:24:34 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 24, 2026 4:24:34 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 24, 2026 4:24:34 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 24, 2026 4:24:34 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 24, 2026 4:24:34 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:35.128Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 500 - 2081ms
+--------------------------------------------------------------------------------
+[2026-07-24T21:24:38.939Z] [REQUEST] GET /api/reports/latest - Status: 200 - 11ms
+--------------------------------------------------------------------------------
+[2026-07-24T22:07:49.307Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-24T22:07:50.453Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-07-24T22:07:50.458Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-24T22:08:47.559Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-24T22:08:48.475Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-07-24T22:08:48.478Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-24T22:09:26.673Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-07-24T22:09:27.586Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-07-24T22:09:27.589Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-07-24T22:09:40.392Z] [REQUEST] POST /api/authenticate - Status: 200 - 410ms
+--------------------------------------------------------------------------------
+[2026-07-24T22:09:43.288Z] [REQUEST] GET /api/reports - Status: 304 - 5ms
+--------------------------------------------------------------------------------
+[2026-07-24T22:09:50.148Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ingresosRetenciones2025E.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1784930987507",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453",
+    "-P",
+    "p_hdv_id=2"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-07-24T22:09:52.320Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-07-24T22:09:52.321Z] [WARN] JasperStarter stderr:
+jul 24, 2026 5:09:51 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+jul 24, 2026 5:09:51 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+jul 24, 2026 5:09:51 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+jul 24, 2026 5:09:51 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+jul 24, 2026 5:09:51 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+
+--------------------------------------------------------------------------------
+[2026-07-24T22:09:52.323Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 500 - 4818ms
+--------------------------------------------------------------------------------
+[2026-07-24T22:09:54.241Z] [REQUEST] GET /api/reports/latest - Status: 200 - 9ms
+--------------------------------------------------------------------------------

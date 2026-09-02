@@ -39,7 +39,8 @@ const Home = () => {
       <div className="h-full bg-blue-900">
         <div className="opacity-10">
           <img
-            className="object-fill "
+            /*className="object-fill"*/
+            className="w-screen h-auto object-cover"
             src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9"
             alt="Home"
           />

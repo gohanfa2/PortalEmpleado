@@ -27,3 +27,4 @@ const AppShell = ({ children }) => {
 };
 
 export default AppShell;
+// Se puede quitar el footer pero lo quita para todas las paginas 

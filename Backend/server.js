@@ -15,6 +15,8 @@ const { JWT_JSON } = require('../frontend/configure');
 const dashboardData = require('./data/dashboard');
 const User = require('./data/User');
 const InventoryItem = require('./data/InventoryItem');
+const { executeQuery, sql } = require('./db/connection');
+const { createPayrollRequest } = require('./controllers/payrollRequestController');
 
 
 const {
@@ -22,7 +24,6 @@ const {
   hashPassword,
   verifyPassword
 } = require('./util');
-const { executeQuery, sql } = require('./db/connection');
 
 const app = express();
 
@@ -253,6 +254,8 @@ app.get('/api/dashboard-data', requireAuth, (req, res) =>
   res.json(dashboardData)
 );
 
+app.post('/api/payroll-requests', requireAuth, createPayrollRequest);
+
 app.patch('/api/user-role', async (req, res) => {
   try {
     const { role } = req.body;
@@ -452,6 +455,49 @@ app.get('/api/reports', requireAuth, async (req, res) => {
   }
 });
 
+// Devuelve el PDF más reciente generado en Reports/output
+app.get('/api/reports/latest', requireAuth, async (req, res) => {
+  try {
+    if (!fs.existsSync(reportsOutputFolder)) {
+      return res.status(404).json({ message: 'No hay reportes generados.' });
+    }
+
+    const files = [];
+    const walk = (dir) => {
+      fs.readdirSync(dir).forEach(file => {
+        const p = path.join(dir, file);
+        const stat = fs.statSync(p);
+        if (stat.isDirectory()) {
+          walk(p);
+        } else if (file.toLowerCase().endsWith('.pdf')) {
+          files.push({ path: p, mtime: stat.mtimeMs });
+        }
+      });
+    };
+
+    walk(reportsOutputFolder);
+
+    if (!files.length) {
+      return res.status(404).json({ message: 'No hay reportes PDF disponibles.' });
+    }
+
+    files.sort((a, b) => b.mtime - a.mtime);
+    const latest = files[0].path;
+
+    res.sendFile(latest, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `inline; filename="latest.pdf"`
+      }
+    }, (err) => {
+      if (err) logger.error('Error al enviar último PDF', err);
+    });
+  } catch (err) {
+    logger.error('Error al obtener último reporte', err);
+    res.status(500).json({ message: 'Error al obtener último reporte.' });
+  }
+});
+
 app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
   try {
     const { reportId } = req.params;
@@ -463,7 +509,9 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
       });
     }
 
-    const outputPdf = path.join(reportsOutputFolder, `${reportId}.pdf`);
+    // Usar una carpeta de salida única por petición para evitar colisiones/locks
+    const tempOutputFolder = path.join(reportsOutputFolder, `${reportId}_${Date.now()}`);
+    const outputPdf = path.join(tempOutputFolder, `${reportId}.pdf`);
     const jasperStarterBinary = process.env.JASPER_STARTER_PATH || 'jasperstarter';
     const jasperResourceConfig = process.env.JASPER_REPORT_RESOURCE;
     const jasperResourcePaths = [];
@@ -484,35 +532,261 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
       jasperResourcePaths.push(defaultJarPath);
     }
 
-    const jasperArgs = ['pr', jasperPath, '-o', reportsOutputFolder, '-f', 'pdf'];
+    const jasperArgs = ['pr', jasperPath, '-o', tempOutputFolder, '-f', 'pdf'];
     jasperResourcePaths.forEach(resourcePath => jasperArgs.push('-r', resourcePath));
 
+    // Si hay credenciales SQL en .env, construir URL JDBC y pasarla a JasperStarter
+    try {
+      const { SQL_USER, SQL_PASSWORD, SQL_SERVER, SQL_PORT, SQL_DATABASE, SQL_ENCRYPT, SQL_TRUST_SERVER_CERTIFICATE } = process.env;
+      if (SQL_USER && SQL_PASSWORD && SQL_SERVER && SQL_DATABASE) {
+        // Soportar SQL Server (jdbc:sqlserver://host:port;databaseName=...)
+        const port = SQL_PORT || '1433';
+        const encrypt = (SQL_ENCRYPT || 'false').toLowerCase();
+        const trustCert = (SQL_TRUST_SERVER_CERTIFICATE || 'true').toLowerCase();
+        const jdbcUrl = `jdbc:sqlserver://${SQL_SERVER}:${port};databaseName=${SQL_DATABASE};encrypt=${encrypt};trustServerCertificate=${trustCert}`;
+
+        // Añadir driver JAR si existe en Reports
+        const sqlDriverJar = path.join(reportsFolder, 'sqljdbc4.jar');
+        if (fs.existsSync(sqlDriverJar)) {
+          jasperArgs.push('-r', sqlDriverJar);
+        }
+
+        // Pasar opciones JDBC a JasperStarter usando tipo 'generic' y --jdbc-dir
+        jasperArgs.push('-t', 'generic');
+        jasperArgs.push('--db-driver', 'com.microsoft.sqlserver.jdbc.SQLServerDriver');
+        jasperArgs.push('--db-url', jdbcUrl);
+        // Indicar directorio donde está el JAR JDBC para que JasperStarter lo cargue
+        jasperArgs.push('--jdbc-dir', reportsFolder);
+        // Usar flags compatibles con -t generic para usuario/contraseña
+        jasperArgs.push('-u', SQL_USER);
+        jasperArgs.push('-p', SQL_PASSWORD);
+      }
+    } catch (e) {
+      logger.warn('No se pudieron añadir parámetros JDBC a JasperStarter', e);
+    }
+
+    // Si el reporte es Certificacion, obtener información del empleado en sesión
+    // y pasarla como parámetros al reporte Jasper.
+    if (reportId.toLowerCase() === 'certificacion') {
+      try {
+        const query = `
+          SELECT TOP 1
+            e.EMP_CODIGO AS p_emp_codigo,
+            e.EMP_NOMBRE AS p_emp_nombre,
+            e.EMP_APELLIDO AS p_emp_apellido
+          FROM EMP_EMPLEADO e
+          LEFT JOIN HDV_HOJAVIDA h
+            ON e.hdv_doc = h.hdv_doc
+            AND e.hdv_documento = h.hdv_documento
+          WHERE h.HDV_CORREO = @email
+        `;
+
+        const result = await executeQuery(query, [
+          { name: 'email', type: sql.VarChar, value: req.user.email }
+        ]);
+
+        const emp = result.recordset && result.recordset[0];
+        if (emp) {
+          // Pasar parámetros tanto con prefijo p_ como sin él (algunas plantillas usan distinto nombre)
+          jasperArgs.push('-P', `p_emp_codigo=${emp.p_emp_codigo || ''}`);
+        } else {
+          logger.warn('No se encontró información del empleado para el reporte Certificacion');
+        }
+      } catch (err) {
+        logger.error('Error al obtener datos de empleado para reporte', err);
+      }
+    }
+
+// Si el reporte es ireport_prueba, obtener información del empleado en sesión
+    // y pasarla como parámetros al reporte Jasper.
+    if (reportId.toLowerCase() === 'ireport_prueba') {
+      try {
+        const query = `
+          SELECT TOP 1
+            e.EMP_CODIGO AS p_emp_codigo,
+            e.EMP_NOMBRE AS emp_nombre,
+            e.EMP_APELLIDO AS emp_apellido
+          FROM EMP_EMPLEADO e
+          LEFT JOIN HDV_HOJAVIDA h
+            ON e.hdv_doc = h.hdv_doc
+            AND e.hdv_documento = h.hdv_documento
+          WHERE h.HDV_CORREO = @email
+        `;
+
+        const result = await executeQuery(query, [
+          { name: 'email', type: sql.VarChar, value: req.user.email }
+        ]);
+
+        const emp = result.recordset && result.recordset[0];
+        if (emp) {
+          // Enviar p_emp_codigo sin comillas (JDBC binding espera el valor crudo)
+          const safeCode = String(emp.p_emp_codigo || '').replace(/'/g, "''");
+          jasperArgs.push('-P', `p_emp_codigo=${safeCode}`);
+
+          // No enviar emp_nombre/emp_apellido: son fields retornados por la consulta del .jrxml
+        } else {
+          logger.warn('No se encontró información del empleado para el reporte Certificacion');
+        }
+      } catch (err) {
+        logger.error('Error al obtener datos de empleado para reporte', err);
+      }
+    }
+
+    // Si el reporte es ingresosRetenciones2025E, obtener emp_codigo desde HDV_HOJAVIDA
+    if (reportId.toLowerCase() === 'ingresosretenciones2025e') {
+      try {
+        const query = `
+          SELECT TOP 1
+            e.EMP_CODIGO AS p_emp_codigo,
+            e.hdv_id AS p_hdv_id
+          FROM EMP_EMPLEADO e
+          LEFT JOIN HDV_HOJAVIDA h
+            ON e.hdv_doc = h.hdv_doc
+            AND e.hdv_documento = h.hdv_documento
+          WHERE h.HDV_CORREO = @email
+        `;
+
+        const result = await executeQuery(query, [
+          { name: 'email', type: sql.VarChar, value: req.user.email }
+        ]);
+
+        const emp = result.recordset && result.recordset[0];
+        if (emp) {
+          const safeCode = String(emp.p_emp_codigo || '').replace(/'/g, "''");
+          jasperArgs.push('-P', `p_emp_codigo=${safeCode}`);
+          // comentareo hdv_id para cuando mecesite validar varios contratos de un mismo empleado, se pueda pasar el hdv_id y que el reporte filtre por ese contrato
+         /* if (emp.p_hdv_id || emp.p_hdv_id === 0) {
+            jasperArgs.push('-P', `p_hdv_id=${emp.p_hdv_id}`);
+          }
+          */
+        } else {
+          logger.warn('No se encontró emp_codigo para el usuario; el reporte podría salir vacío');
+        }
+
+        // Pasar rango de fechas para el reporte en formato dd/MM/yyyy
+       /* jasperArgs.push('-P', `p_fecha_ini=01/01/2025`);
+        jasperArgs.push('-P', `p_fecha_fin=31/12/2025`);
+       */
+      } catch (err) {
+        logger.error('Error al obtener emp_codigo para ingresosRetenciones2025E', err);
+      }
+    }
+
+
+
+    // Log del comando JasperStarter que se va a ejecutar (útil para depuración)
+    try {
+      logger.info('JasperStarter command:', {
+        binary: jasperStarterBinary,
+        args: jasperArgs
+      });
+    } catch (logErr) {
+      // no bloquear si el logger falla
+      console.log('JasperStarter command:', jasperStarterBinary, jasperArgs.join(' '));
+    }
+
+    // Asegurar que la carpeta de salida existe y es escribible
+    try {
+      if (!fs.existsSync(reportsOutputFolder)) {
+        fs.mkdirSync(reportsOutputFolder, { recursive: true });
+      }
+      const testPath = path.join(reportsOutputFolder, `.write_test_${Date.now()}`);
+      fs.writeFileSync(testPath, 'ok');
+      fs.unlinkSync(testPath);
+    } catch (permErr) {
+      logger.error('No hay permiso de escritura en la carpeta de salida de reportes', permErr);
+      throw permErr;
+    }
+
+    // Eliminar PDF existente para evitar bloqueos
+    try {
+      if (fs.existsSync(outputPdf)) fs.unlinkSync(outputPdf);
+    } catch (unlinkErr) {
+      logger.warn('No se pudo eliminar PDF previo, continuando:', unlinkErr);
+    }
+
+    // Ejecutar JasperStarter con cwd en la carpeta de Reports para consistencia
     await new Promise((resolve, reject) => {
       execFile(
         jasperStarterBinary,
         jasperArgs,
+        { cwd: reportsFolder },
         (error, stdout, stderr) => {
           if (error) {
             logger.error('Error al ejecutar reporte', { stderr, stdout, error });
             return reject(error);
           }
+          logger.info('JasperStarter stdout:', stdout);
+          if (stderr) logger.warn('JasperStarter stderr:', stderr);
           resolve();
         }
       );
     });
 
-    if (!fs.existsSync(outputPdf)) {
-      return res.status(500).json({
-        message: 'No se pudo generar el PDF del reporte.'
-      });
-    }
-
-    res.sendFile(outputPdf, {
-      headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `inline; filename="${reportId}.pdf"`
+    // Buscar cualquier PDF generado dentro de la carpeta temporal (JasperStarter suele añadir un sufijo/timestamp)
+    let generatedPdfPath = null;
+    try {
+      if (!fs.existsSync(tempOutputFolder)) {
+        return res.status(500).json({ message: 'No se pudo generar el PDF del reporte.' });
       }
-    });
+
+      const outFiles = fs.readdirSync(tempOutputFolder).filter(f => f.toLowerCase().endsWith('.pdf'));
+      if (!outFiles || outFiles.length === 0) {
+        return res.status(500).json({ message: 'No se pudo generar el PDF del reporte.' });
+      }
+
+      // Elegir el más reciente por fecha de modificación por si hay varios
+      outFiles.sort((a, b) => {
+        const aStat = fs.statSync(path.join(tempOutputFolder, a));
+        const bStat = fs.statSync(path.join(tempOutputFolder, b));
+        return bStat.mtimeMs - aStat.mtimeMs;
+      });
+
+      generatedPdfPath = path.join(tempOutputFolder, outFiles[0]);
+
+      // Log información del PDF generado para depuración
+      try {
+        const stat = fs.statSync(generatedPdfPath);
+        logger.info('PDF generado - info', {
+          path: generatedPdfPath,
+          size: stat.size,
+          mtime: stat.mtime
+        });
+        // Guardar una copia en Reports/output raíz para inspección manual
+        try {
+          const copyPath = path.join(reportsOutputFolder, `${reportId}_${Date.now()}.pdf`);
+          fs.copyFileSync(generatedPdfPath, copyPath);
+          logger.info('Copia del PDF guardada para inspección', { copyPath });
+        } catch (copyErr) {
+          logger.warn('No se pudo copiar el PDF a la carpeta de salida principal', copyErr);
+        }
+      } catch (statErr) {
+        logger.warn('No se pudo obtener información del PDF generado', statErr);
+      }
+
+      res.sendFile(generatedPdfPath, {
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': `inline; filename="${reportId}.pdf"`
+        }
+      }, (sendErr) => {
+        // Intentar limpiar la carpeta temporal después de enviar (no bloquear la respuesta)
+        try {
+          if (generatedPdfPath && fs.existsSync(generatedPdfPath)) fs.unlinkSync(generatedPdfPath);
+          // Eliminar la carpeta temporal si está vacía
+          const remaining = fs.existsSync(tempOutputFolder) ? fs.readdirSync(tempOutputFolder) : [];
+          if (remaining.length === 0 && fs.existsSync(tempOutputFolder)) fs.rmdirSync(tempOutputFolder);
+        } catch (cleanupErr) {
+          logger.warn('Error al limpiar carpeta temporal de reportes', cleanupErr);
+        }
+
+        if (sendErr) logger.error('Error al enviar el PDF al cliente', sendErr);
+      });
+      return;
+    } catch (checkErr) {
+      logger.error('Error verificando archivo PDF generado', checkErr);
+      return res.status(500).json({ message: 'No se pudo generar el PDF del reporte.' });
+    }
   } catch (err) {
     logger.error('Error al generar reporte con JasperStarter', err);
     res.status(500).json({

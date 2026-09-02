@@ -49,12 +49,8 @@ const Report = () => {
     setSuccessMessage('');
 
     try {
-      const response = await fetchContext.authAxios.get(
-        `/reports/${selectedReport}`,
-        {
-          responseType: 'blob'
-        }
-      );
+      const endpoint = `/reports/${selectedReport}`;
+      const response = await fetchContext.authAxios.get(endpoint, { responseType: 'blob' });
 
       const fileBlob = new Blob([response.data], {
         type: 'application/pdf'
@@ -67,7 +63,32 @@ const Report = () => {
       setPdfUrl('');
 
       if (err.response && err.response.data) {
-        setErrorMessage('Error al generar el reporte.');
+        setSuccessMessage('Reporte Cargado... Se puede generar!');
+      } else {
+        setErrorMessage('Error de conexión al servidor de reportes.');
+      }
+    }
+  };
+
+  const handleGenerateLatestReport = async () => {
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    try {
+      const response = await fetchContext.authAxios.get('/reports/latest', { responseType: 'blob' });
+
+      const fileBlob = new Blob([response.data], {
+        type: 'application/pdf'
+      });
+      const url = URL.createObjectURL(fileBlob);
+      setPdfUrl(url);
+      setSuccessMessage('Reporte generado correctamente.');
+    } catch (err) {
+      console.error(err);
+      setPdfUrl('');
+
+      if (err.response && err.response.data) {
+        setErrorMessage('Error al generar el último reporte.');
       } else {
         setErrorMessage('Error de conexión al servidor de reportes.');
       }
@@ -90,20 +111,27 @@ const Report = () => {
             value={selectedReport}
             onChange={(e) => setSelectedReport(e.target.value)}
             className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              
           >
-            <option value="">Selecciona...</option>
-            {reports.map((report) => (
-              <option key={report.id} value={report.id}>
-                {report.label}
-              </option>
-            ))}
+                  <option value="">Selecciona...</option>
+                  {reports.map((report) => (
+                    <option key={report.id} value={report.id}>
+                      {report.label}
+                    </option>
+                  ))}
           </select>
+          <GradientButton
+            onClick={handleGenerateReport}
+            disabled={!selectedReport}
+            text="Solicitar"
+          />
         </div>
-        <GradientButton
-          onClick={handleGenerateReport}
-          disabled={!selectedReport}
-          text="Generar Reporte"
-        />
+        <div className="flex space-x-2">
+          <GradientButton
+            onClick={handleGenerateLatestReport}
+            text="Generar reporte PDF"
+          />
+        </div>
 
         {pdfUrl && (
           <div className="mt-6">

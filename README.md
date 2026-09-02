@@ -1,19 +1,3 @@
-# ReactSecurity - Orbit
-
-
-👋 Welcome to Orbit! This is a demo app for learning security for React applications. You can find out more at [ReactSecurity.io](https://reactsecurity.io).
-
-## A Look at the App
-
-Here's the dashboard for the app
-![orbit dashboard](./images/orbit-dashboard.png)
-
-For a more in-depth tour, check out this video:
-
-[![orbit tour](./images/orbit-tour.jpg)](https://www.youtube.com/watch?v=cTAizIOENZw)
-
-There are two parts to the app in this project: **frontend** and **orbit-api**. These are the front end React application and the backend Node API respectively.
-
 ## Install the Dependencies
 
 We need to install dependencies for both **frontend** and **orbit-api**. Change directories into each and install with **npm** or **yarn**.
@@ -68,9 +52,11 @@ The Node API will be running at `http://localhost:3001`.
 
 Navigate to `http://localhost:3000` to see the app running!
 
-## License
+## Conexion MongoDB
+colsinRH\Frontend\configure.js
 
-MIT
+## Conexion SQL
+colsinRH\Backend\db\connection.js
 
 ## inicio backend
 cd .\Backend
