@@ -18,6 +18,8 @@ import AppShell from './AppShell';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import FourOFour from './pages/FourOFour';
 
 
@@ -45,6 +47,12 @@ const UnauthenticatedRoutes = () => (
     </Route>
     <Route path="/signup">
       <Signup />
+    </Route>
+    <Route path="/forgot-password">
+      <ForgotPassword />
+    </Route>
+    <Route path="/reset-password">
+      <ResetPassword />
     </Route>
     <Route exact path="/">
       <Home />

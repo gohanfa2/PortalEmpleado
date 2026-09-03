@@ -121,8 +121,8 @@ const Login = () => {
                     <div className="mt-6 flex justify-start">
                       <div className="text-sm leading-5">
                         <Hyperlink
-                          to="forgot-password"
-                          text="Olvido su contraseña?"
+                          to="/forgot-password"
+                          text="¿Olvidó su contraseña?"
                         />
                       </div>
                     </div>

@@ -17,6 +17,7 @@ const User = require('./data/User');
 const InventoryItem = require('./data/InventoryItem');
 const { executeQuery, sql } = require('./db/connection');
 const { createPayrollRequest } = require('./controllers/payrollRequestController');
+const { forgotPassword, resetPassword } = require('./controllers/authController');
 
 
 const {
@@ -202,6 +203,9 @@ app.post('/api/signup', async (req, res) => {
     });
   }
 });
+
+app.post('/api/auth/forgot-password', forgotPassword);
+app.post('/api/auth/reset-password', resetPassword);
 
 const attachUser = (req, res, next) => {
   // Permitir acceso sin decodificar para rutas que manejan archivos sin validación de token aún
@@ -923,6 +927,32 @@ app.get('/api/curriculum', requireAuth, async (req, res) => {
     return res.status(400).json({
       message: 'Error al obtener el currículum.'
     });
+  }
+});
+
+// Ruta para solicitar el cambio de contraseña (enviar email)
+app.post('/api/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  try {
+    // Lógica para manejar el olvido de contraseña
+    await forgotPassword(email);
+    res.json({ message: 'Instrucciones para restablecer la contraseña enviadas a tu correo.' });
+  } catch (err) {
+    logger.error('Error en forgot-password', err);
+    res.status(500).json({ message: 'Error al procesar la solicitud de contraseña olvidada.' });
+  }
+});
+
+// Ruta para restablecer la contraseña
+app.post('/api/reset-password', async (req, res) => {
+  const { token, newPassword } = req.body;
+  try {
+    // Lógica para restablecer la contraseña
+    await resetPassword(token, newPassword);
+    res.json({ message: 'Contraseña restablecida exitosamente.' });
+  } catch (err) {
+    logger.error('Error en reset-password', err);
+    res.status(500).json({ message: 'Error al restablecer la contraseña.' });
   }
 });
 
