@@ -17,6 +17,7 @@ const User = require('./data/User');
 const InventoryItem = require('./data/InventoryItem');
 const { executeQuery, sql } = require('./db/connection');
 const { createPayrollRequest } = require('./controllers/payrollRequestController');
+const { forgotPassword, resetPassword } = require('./controllers/authController');
 
 
 const {
@@ -203,6 +204,9 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
+app.post('/api/auth/forgot-password', forgotPassword);
+app.post('/api/auth/reset-password', resetPassword);
+
 const attachUser = (req, res, next) => {
   // Permitir acceso sin decodificar para rutas que manejan archivos sin validación de token aún
   if (req.path.startsWith('/api/attachments')) {
@@ -367,11 +371,11 @@ app.delete(
   }
 );
 
-app.get('/api/users', requireAuth, async (req, res) => {
+app.get('/api/users', requireAuth, requireAdmin, async (req, res) => {
   try {
     const users = await User.find()
       .lean()
-      .select('_id firstName lastName avatar bio');
+      .select('_id firstName lastName email role avatar bio');
 
     res.json({
       users
@@ -379,6 +383,129 @@ app.get('/api/users', requireAuth, async (req, res) => {
   } catch (err) {
     return res.status(400).json({
       message: 'There was a problem getting the users'
+    });
+  }
+});
+
+app.patch('/api/users/:id', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { firstName, lastName, email, role, bio, password } = req.body || {};
+    const update = {};
+
+    if (firstName !== undefined) {
+      update.firstName = String(firstName).trim();
+    }
+
+    if (lastName !== undefined) {
+      update.lastName = String(lastName).trim();
+    }
+
+    if (email !== undefined) {
+      const normalizedEmail = String(email).trim().toLowerCase();
+      if (!normalizedEmail) {
+        return res.status(400).json({
+          message: 'El correo es obligatorio'
+        });
+      }
+
+      const existingUser = await User.findOne({
+        email: normalizedEmail,
+        _id: { $ne: id }
+      }).lean();
+
+      if (existingUser) {
+        return res.status(400).json({
+          message: 'Ya existe un usuario con ese correo electrónico'
+        });
+      }
+
+      update.email = normalizedEmail;
+    }
+
+    if (role !== undefined) {
+      const allowedRoles = ['user', 'admin'];
+      if (!allowedRoles.includes(role)) {
+        return res.status(400).json({
+          message: 'Rol no permitido'
+        });
+      }
+      update.role = role;
+    }
+
+    if (bio !== undefined) {
+      update.bio = bio;
+    }
+
+    if (password !== undefined && String(password).trim()) {
+      update.password = await hashPassword(String(password).trim());
+    }
+
+    if (Object.keys(update).length === 0) {
+      return res.status(400).json({
+        message: 'No se enviaron campos para actualizar'
+      });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      update,
+      { new: true }
+    ).lean();
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        message: 'Usuario no encontrado'
+      });
+    }
+
+    const { password: _password, ...userWithoutPassword } = updatedUser;
+
+    res.json({
+      message: 'Usuario actualizado correctamente',
+      user: userWithoutPassword
+    });
+  } catch (err) {
+    logger.error('Error actualizando usuario', err);
+    return res.status(400).json({
+      message: 'Hubo un problema al actualizar el usuario'
+    });
+  }
+});
+
+app.delete('/api/users/:id', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const targetUser = await User.findById(id).lean();
+
+    if (!targetUser) {
+      return res.status(404).json({
+        message: 'Usuario no encontrado'
+      });
+    }
+
+    if (targetUser.role === 'admin' || targetUser._id.toString() === req.user.sub) {
+      return res.status(400).json({
+        message: 'No se puede eliminar un administrador'
+      });
+    }
+
+    const deletedUser = await User.findByIdAndDelete(id).lean();
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        message: 'Usuario no encontrado'
+      });
+    }
+
+    res.json({
+      message: 'Usuario eliminado correctamente',
+      userId: id
+    });
+  } catch (err) {
+    logger.error('Error eliminando usuario', err);
+    return res.status(400).json({
+      message: 'Hubo un problema al eliminar el usuario'
     });
   }
 });
@@ -923,6 +1050,32 @@ app.get('/api/curriculum', requireAuth, async (req, res) => {
     return res.status(400).json({
       message: 'Error al obtener el currículum.'
     });
+  }
+});
+
+// Ruta para solicitar el cambio de contraseña (enviar email)
+app.post('/api/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  try {
+    // Lógica para manejar el olvido de contraseña
+    await forgotPassword(email);
+    res.json({ message: 'Instrucciones para restablecer la contraseña enviadas a tu correo.' });
+  } catch (err) {
+    logger.error('Error en forgot-password', err);
+    res.status(500).json({ message: 'Error al procesar la solicitud de contraseña olvidada.' });
+  }
+});
+
+// Ruta para restablecer la contraseña
+app.post('/api/reset-password', async (req, res) => {
+  const { token, newPassword } = req.body;
+  try {
+    // Lógica para restablecer la contraseña
+    await resetPassword(token, newPassword);
+    res.json({ message: 'Contraseña restablecida exitosamente.' });
+  } catch (err) {
+    logger.error('Error en reset-password', err);
+    res.status(500).json({ message: 'Error al restablecer la contraseña.' });
   }
 });
 

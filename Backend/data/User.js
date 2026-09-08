@@ -7,7 +7,9 @@ const userModel = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, required: true, default: 'user' },
-  bio: { type: String, required: false }
+  bio: { type: String, required: false },
+  resetPasswordToken: { type: String, required: false },
+  resetPasswordExpires: { type: Date, required: false }
 });
 
 module.exports = mongoose.model('user', userModel);

@@ -1,8 +1,41 @@
 import React, { useState, useContext, useEffect } from 'react';
 import PageTitle from '../components/common/PageTitle';
-import DashboardMetric from '../components/DashboardMetric';
 import { FetchContext } from '../context/FetchContext';
 
+const formatDate = (value) => {
+  if (!value) return '—';
+
+  const parsedDate = new Date(value);
+  if (Number.isNaN(parsedDate.getTime())) {
+    return value;
+  }
+
+  return parsedDate.toLocaleDateString('es-ES');
+};
+
+const formatCurrency = (value) => {
+  if (value === null || value === undefined || value === '') return '—';
+
+  const number = Number(value);
+  if (Number.isNaN(number)) return value;
+
+  return number.toLocaleString('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    maximumFractionDigits: 0
+  });
+};
+
+const InfoField = ({ label, value, className = '' }) => (
+  <div className={`rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 ${className}`}>
+    <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-600">
+      {label}
+    </p>
+    <p className="mt-1 text-sm font-normal text-slate-700 break-words leading-relaxed">
+      {value || '—'}
+    </p>
+  </div>
+);
 
 const Employee = () => {
   const fetchContext = useContext(FetchContext);
@@ -26,154 +59,77 @@ const Employee = () => {
   return (
     <>
       <PageTitle title="Empleado" />
+
       {errorMessage ? (
-        <p>{errorMessage}</p>
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          {errorMessage}
+        </div>
       ) : employeeData ? (
-        <>
-           <div className="mb-4 flex flex-col sm:flex-row">
-            <div className="w-full sm:w-1/6 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Número Contrato"
-                value={employeeData.EMP_CODIGO || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Nombres"
-                value={employeeData.EMP_NOMBRE || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Apellidos"
-                value={employeeData.EMP_APELLIDO || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Cargo"
-                value={employeeData.CAR_DESC || '-'}
-              />
-            </div>
-            
-          </div>
+        <div className="space-y-5">
+          <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+           
 
-          <div className="mb-4 flex flex-col sm:flex-row">
-            <div className="w-full sm:w-1/4 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Inicio Contrato"
-                value={new Date(employeeData.EMP_FECINICNT).toLocaleDateString('es-ES')}
-              />
+            <div className="grid gap-3 p-5 sm:grid-cols-2 xl:grid-cols-6">
+              <InfoField label="N° contrato" value={employeeData.EMP_CODIGO} />
+              <InfoField label="Nombres" value={employeeData.EMP_NOMBRE} className="sm:col-span-2" />
+              <InfoField label="Apellidos" value={employeeData.EMP_APELLIDO} className="sm:col-span-2" />
+              <InfoField label="Cargo" value={employeeData.CAR_DESC} />
             </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Fin Contrato"
-                value={new Date(employeeData.EMP_FECFINCNT).toLocaleDateString('es-ES') || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Sueldo"
-                value={employeeData.EMP_SUELDO.toLocaleString('es-CO', { style: 'currency', currency: 'COP' }) || '-'}
-              />
-            </div>
-          </div>
+          </section>
 
-          <div className="mb-4 flex flex-col sm:flex-row">
-            <div className="w-full sm:w-1/4 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Dependencia"
-                value={employeeData.DEP_NOMBRE || '-'}
-              />
+          <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="mb-4">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-600">
+                Contrato y remuneración
+              </h3>
             </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Centro de Costos"
-                value={employeeData.CDC_NOMBRE || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Subcentro de Costos"
-                value={employeeData.SCC_NOMBRE || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Centro de Trabajo"
-                value={employeeData.CDT_NOMBRE || '-'}
-              />
-            </div>
-          </div>
 
-          <div className="mb-4 flex flex-col sm:flex-row">
-            <div className="w-full sm:w-1/4 sm:ml-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Tipo Cotizante"
-                value={employeeData.COT_NOMBRE || '-'}
-              />
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+              <InfoField label="Inicio contrato" value={formatDate(employeeData.EMP_FECINICNT)} />
+              <InfoField label="Fin contrato" value={formatDate(employeeData.EMP_FECFINCNT)} />
+              <InfoField label="Sueldo" value={formatCurrency(employeeData.EMP_SUELDO)} />
+              <InfoField label="Dependencia" value={employeeData.DEP_NOMBRE} className="xl:col-span-2" />
             </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Subtipo Cotizante"
-                value={employeeData.STC_NOMBRE || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Grupo Laboral"
-                value={employeeData.GRP_NOMBRE || '-'}
-              />
-            </div>
-          </div>
+          </section>
 
+          <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="mb-4">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-600">
+                Organización
+              </h3>
+            </div>
 
-          <p><br /></p>
-          Entidades
-          <p><br /></p>
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+              <InfoField label="Centro de costos" value={employeeData.CDC_NOMBRE} />
+              <InfoField label="Subcentro" value={employeeData.SCC_NOMBRE} />
+              <InfoField label="Centro de trabajo" value={employeeData.CDT_NOMBRE} />
+              <InfoField label="Grupo laboral" value={employeeData.GRP_NOMBRE} />
+            </div>
+          </section>
 
-          <div className="mb-4 flex flex-col sm:flex-row">
-            <div className="w-full sm:w-1/4 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="EPS"
-                value={employeeData.EPS_NOMBRE || '-'}
-              />
+          <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="mb-4">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-600">
+                Cotizante y entidades
+              </h3>
             </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="AFP"
-                value={employeeData.AFP_NOMBRE || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="ARL"
-                value={employeeData.ARP_NOMBRE || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Caja Compensación"
-                value={employeeData.CCF_NOMBRE || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Cesantias"
-                value={employeeData.AFP_CESANTIA || '-'}
-              />
-            </div>
-            <div className="w-full sm:w-1/4 sm:ml-2 sm:mr-2 mb-4 sm:mb-0">
-              <DashboardMetric
-                title="Banco"
-                value={employeeData.BAN_NOMBRE || '-'}
-              />
-            </div>
-          </div>
 
-        </>
+            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-6">
+              <InfoField label="Tipo cotizante" value={employeeData.COT_NOMBRE} />
+              <InfoField label="Subtipo" value={employeeData.STC_NOMBRE} />
+              <InfoField label="EPS" value={employeeData.EPS_NOMBRE} />
+              <InfoField label="AFP" value={employeeData.AFP_NOMBRE} />
+              <InfoField label="ARL" value={employeeData.ARP_NOMBRE} />
+              <InfoField label="Banco" value={employeeData.BAN_NOMBRE} />
+              <InfoField label="Caja comp." value={employeeData.CCF_NOMBRE} />
+              <InfoField label="Cesantías" value={employeeData.AFP_CESANTIA} />
+            </div>
+          </section>
+        </div>
       ) : (
-        <p>Loading...</p>
+        <div className="rounded-xl border border-slate-200 bg-white p-5 text-sm text-slate-500 shadow-sm">
+          Cargando información...
+        </div>
       )}
     </>
   );

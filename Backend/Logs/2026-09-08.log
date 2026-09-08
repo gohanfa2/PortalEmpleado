@@ -1,0 +1,152 @@
+[2026-09-08T14:54:53.334Z] [REQUEST] POST /api/authenticate - Status: 200 - 1135ms
+--------------------------------------------------------------------------------
+[2026-09-08T14:55:28.932Z] [REQUEST] GET /api/curriculum - Status: 304 - 1355ms
+--------------------------------------------------------------------------------
+[2026-09-08T14:55:39.628Z] [REQUEST] GET /api/employee - Status: 304 - 2013ms
+--------------------------------------------------------------------------------
+[2026-09-08T14:55:45.849Z] [REQUEST] GET /api/reports - Status: 304 - 5ms
+--------------------------------------------------------------------------------
+[2026-09-08T14:55:49.757Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\Certificacion.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\Certificacion_1788879348941",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-09-08T14:55:54.198Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-09-08T14:55:54.202Z] [WARN] JasperStarter stderr:
+sep 08, 2026 9:55:52 AM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+sep 08, 2026 9:55:52 AM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+sep 08, 2026 9:55:52 AM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+sep 08, 2026 9:55:52 AM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+sep 08, 2026 9:55:52 AM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+
+--------------------------------------------------------------------------------
+[2026-09-08T14:55:54.208Z] [REQUEST] GET /api/reports/Certificacion - Status: 500 - 5277ms
+--------------------------------------------------------------------------------
+[2026-09-08T14:55:55.561Z] [REQUEST] GET /api/reports/latest - Status: 200 - 54ms
+--------------------------------------------------------------------------------
+[2026-09-08T14:56:51.372Z] [REQUEST] GET /api/bio - Status: 304 - 102ms
+--------------------------------------------------------------------------------
+[2026-09-08T14:56:52.677Z] [REQUEST] GET /api/users - Status: 304 - 92ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:01:27.695Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-09-08T21:01:28.671Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-09-08T21:01:28.681Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-09-08T21:04:16.990Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-09-08T21:04:18.244Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-09-08T21:04:18.249Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-09-08T21:06:56.285Z] [REQUEST] POST /api/authenticate - Status: 200 - 519ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:06:59.746Z] [REQUEST] GET /api/users - Status: 200 - 99ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:08:39.343Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-09-08T21:08:40.260Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-09-08T21:08:40.264Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-09-08T21:08:54.391Z] [REQUEST] GET /api/users - Status: 304 - 111ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:10:48.281Z] [REQUEST] GET /api/users - Status: 304 - 173ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:11:57.212Z] [REQUEST] POST /api/authenticate - Status: 200 - 502ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:12:15.870Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-09-08T21:12:17.438Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-09-08T21:12:17.444Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-09-08T21:12:27.331Z] [REQUEST] POST /api/authenticate - Status: 200 - 735ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:15:22.832Z] [REQUEST] GET /api/users - Status: 304 - 166ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:18:35.477Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-09-08T21:18:36.426Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-09-08T21:18:36.435Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-09-08T21:18:54.890Z] [REQUEST] GET /api/users - Status: 304 - 108ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:19:00.678Z] [REQUEST] GET /api/users - Status: 304 - 106ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:21:03.960Z] [REQUEST] PATCH /api/users/69cc0530b8b50f0b24d604bf - Status: 200 - 249ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:21:21.918Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-09-08T21:21:22.837Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-09-08T21:21:22.841Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-09-08T21:21:38.220Z] [REQUEST] GET /api/bio - Status: 304 - 113ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:21:50.463Z] [REQUEST] GET /api/bio - Status: 304 - 92ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:21:53.863Z] [REQUEST] GET /api/bio - Status: 304 - 93ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:22:13.967Z] [REQUEST] GET /api/bio - Status: 304 - 92ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:22:32.711Z] [REQUEST] GET /api/users - Status: 200 - 143ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:32:51.853Z] [REQUEST] PATCH /api/users/69cc0530b8b50f0b24d604bf - Status: 200 - 617ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:33:45.864Z] [REQUEST] POST /api/authenticate - Status: 403 - 401ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:33:55.084Z] [REQUEST] POST /api/authenticate - Status: 403 - 415ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:34:00.535Z] [REQUEST] POST /api/authenticate - Status: 200 - 438ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:34:09.407Z] [REQUEST] POST /api/authenticate - Status: 200 - 401ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:34:11.486Z] [REQUEST] GET /api/users - Status: 304 - 95ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:34:19.522Z] [REQUEST] PATCH /api/users/69cc0530b8b50f0b24d604bf - Status: 200 - 543ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:34:49.333Z] [REQUEST] POST /api/authenticate - Status: 200 - 418ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:34:58.268Z] [REQUEST] POST /api/authenticate - Status: 200 - 432ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:35:02.623Z] [REQUEST] GET /api/users - Status: 304 - 92ms
+--------------------------------------------------------------------------------
+[2026-09-08T21:35:05.339Z] [REQUEST] GET /api/bio - Status: 304 - 95ms
+--------------------------------------------------------------------------------
