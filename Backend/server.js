@@ -18,6 +18,7 @@ const InventoryItem = require('./data/InventoryItem');
 const { executeQuery, sql } = require('./db/connection');
 const { createPayrollRequest } = require('./controllers/payrollRequestController');
 const { forgotPassword, resetPassword } = require('./controllers/authController');
+const PayrollRequest = require('./data/PayrollRequest');
 
 
 const {
@@ -254,11 +255,409 @@ const requireAdmin = (req, res, next) => {
   next();
 };
 
+const getEmployeeByEmail = async email => {
+  const query = `
+    SELECT TOP 1
+      e.EMP_CODIGO AS EMP_CODIGO,
+      e.EMP_NOMBRE AS EMP_NOMBRE,
+      e.EMP_APELLIDO AS EMP_APELLIDO,
+      C.CAR_DESC AS CAR_DESC,
+      D.DEP_NOMBRE AS DEP_NOMBRE,
+      CC.CDC_NOMBRE AS CDC_NOMBRE,
+      S.SCC_NOMBRE AS SCC_NOMBRE,
+      CT.CDT_NOMBRE AS CDT_NOMBRE,
+      COT.COT_NOMBRE AS COT_NOMBRE,
+      STC.STC_NOMBRE AS STC_NOMBRE,
+      GL.GRP_NOMBRE AS GRP_NOMBRE,
+      e.EMP_FECINICNT AS EMP_FECINICNT,
+      e.EMP_FECFINCNT AS EMP_FECFINCNT,
+      e.CTR_CODIGO AS CTR_CODIGO,
+      e.EMP_SUELDO AS EMP_SUELDO,
+      EPS.EPS_NOMBRE AS EPS_NOMBRE,
+      AFP.AFP_NOMBRE AS AFP_NOMBRE,
+      ARP.ARP_NOMBRE AS ARP_NOMBRE,
+      CCF.CCF_NOMBRE AS CCF_NOMBRE,
+      CES.AFP_NOMBRE AS AFP_CESANTIA,
+      BAN.BAN_NOMBRE AS BAN_NOMBRE
+    FROM BAN_ENTIDAD BAN,
+      EPS_ENTIDAD EPS,
+      AFP_ENTIDAD AFP,
+      AFP_ENTIDAD CES,
+      ARP_ENTIDAD ARP,
+      CCF_ENTIDAD CCF,
+      GRP_GRUPOLAB GL,
+      STC_SUBTIPOCOT STC,
+      COT_TIPOCOT COT,
+      CDT_CENTROTRA CT,
+      SCC_SUBCENTRO S,
+      CDC_CENTROCOSTO CC,
+      DEP_DEPENDENCIA D,
+      CAR_CARGO C,
+      EMP_EMPLEADO e
+    LEFT JOIN HDV_HOJAVIDA h
+      ON e.hdv_doc = h.hdv_doc
+     AND e.hdv_documento = h.hdv_documento
+    WHERE h.HDV_CORREO = @email
+      AND C.CAR_CODIGO = e.CAR_CODIGO
+      AND D.DEP_CODIGO = e.DEP_CODIGO
+      AND CC.CDC_CODIGO = e.CDC_CODIGO
+      AND S.SCC_CODIGO = e.SCC_CODIGO
+      AND CT.CDT_CODIGO = e.CDT_CODIGO
+      AND COT.COT_CODIGO = e.COT_CODIGO
+      AND STC.STC_CODIGO = e.STC_CODIGO
+      AND GL.GRP_CODIGO = e.GRP_CODIGO
+      AND EPS.EPS_CODIGO = e.EPS_CODIGO
+      AND AFP.AFP_CODIGO = e.AFP_CODIGO
+      AND ARP.ARP_CODIGO = e.ARP_CODIGO
+      AND CCF.CCF_CODIGO = e.CCF_CODIGO
+      AND BAN.BAN_CODIGO = e.BAN_CODIGO
+      AND CES.AFP_CODIGO = e.EMP_CESANTIA;
+  `;
+
+  const result = await executeQuery(query, [
+    { name: 'email', type: sql.VarChar, value: email }
+  ]);
+
+  return result.recordset && result.recordset[0] ? result.recordset[0] : null;
+};
+
+const getCurriculumByEmail = async email => {
+  const query = `
+    SELECT TOP 1
+      HDV_DOC AS hdv_doc,
+      HDV_DOCUMENTO AS hdv_documento,
+      HDV_NOMBRE AS hdv_nombre,
+      HDV_APELLIDO AS hdv_apellido,
+      HDV_CORREO AS hdv_correo,
+      hdv_ciudadexp as hdv_ciudadexp,
+      hdv_nacionalidad as hdv_nacionalidad,
+      hdv_estado as hdv_estado,
+      hdv_feccrea as hdv_feccrea,
+      hdv_dir as hdv_dir,
+      hdv_telefono as hdv_telefono,
+      hdv_telefono2 as hdv_telefono2,
+      hdv_telefono3 as hdv_telefono3,
+      hdv_sexo as hdv_sexo,
+      hdv_fnac as hdv_fnac,
+      hdv_estciv as hdv_estciv,
+      hdv_coment as hdv_coment
+    FROM HDV_HOJAVIDA
+    WHERE HDV_CORREO = @email;
+  `;
+
+  const result = await executeQuery(query, [
+    { name: 'email', type: sql.VarChar, value: email }
+  ]);
+
+  return result.recordset && result.recordset[0] ? result.recordset[0] : null;
+};
+
 app.get('/api/dashboard-data', requireAuth, (req, res) =>
   res.json(dashboardData)
 );
 
+app.get('/api/admin/user-profile', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const targetEmail = String(req.query.email || '').trim().toLowerCase();
+
+    if (!targetEmail) {
+      return res.status(400).json({ message: 'Debe indicar el correo del usuario.' });
+    }
+
+    const user = await User.findOne({ email: targetEmail }).lean();
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado.' });
+    }
+
+    const [employee, curriculum, inventory] = await Promise.all([
+      getEmployeeByEmail(targetEmail),
+      getCurriculumByEmail(targetEmail),
+      InventoryItem.find({ user: user._id }).lean()
+    ]);
+
+    const reportFiles = fs.existsSync(reportsFolder)
+      ? fs.readdirSync(reportsFolder).filter(file => file.endsWith('.jasper')).map(file => ({
+          id: path.basename(file, '.jasper'),
+          label: path.basename(file, '.jasper')
+        }))
+      : [];
+
+    res.json({
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+        avatar: user.avatar,
+        bio: user.bio
+      },
+      employee,
+      curriculum,
+      inventory,
+      reports: reportFiles,
+      requestTypes: ['vacaciones', 'permisos', 'incapacidades']
+    });
+  } catch (err) {
+    logger.error('Error al consultar perfil administrativo del usuario', err);
+    return res.status(400).json({
+      message: 'No se pudo cargar la información solicitada.'
+    });
+  }
+});
+
+app.get('/api/admin/user-payroll-requests', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const targetEmail = String(req.query.email || '').trim().toLowerCase();
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.min(1000, Math.max(1, parseInt(req.query.limit) || 1000));
+    const requestType = req.query.requestType || null;
+    const skip = (page - 1) * limit;
+
+    if (!targetEmail) {
+      return res.status(400).json({ message: 'Debe indicar el correo del usuario.' });
+    }
+
+    const user = await User.findOne({ email: targetEmail }).lean();
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado.' });
+    }
+
+    const filter = { email: targetEmail };
+    if (requestType) {
+      filter.requestType = requestType;
+    }
+
+    const [payrollRequests, total] = await Promise.all([
+      PayrollRequest.find(filter)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      PayrollRequest.countDocuments(filter)
+    ]);
+
+    // Fallback: extraer firstName y lastName de employeeName si no existen
+    const enrichedRequests = payrollRequests.map(req => {
+      if (!req.firstName && !req.lastName && req.employeeName) {
+        const parts = req.employeeName.trim().split(' ');
+        if (parts.length >= 2) {
+          return {
+            ...req,
+            firstName: parts[0],
+            lastName: parts.slice(1).join(' ')
+          };
+        } else if (parts.length === 1) {
+          return {
+            ...req,
+            firstName: parts[0],
+            lastName: ''
+          };
+        }
+      }
+      return req;
+    });
+
+    res.json({
+      payrollRequests: enrichedRequests,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+        hasNextPage: page < Math.ceil(total / limit),
+        hasPrevPage: page > 1
+      }
+    });
+  } catch (err) {
+    logger.error('Error al consultar solicitudes de nómina del usuario', err);
+    return res.status(400).json({
+      message: 'No se pudo cargar las solicitudes de nómina.'
+    });
+  }
+});
+
+app.get('/api/payroll-requests', requireAuth, async (req, res) => {
+  try {
+    const userEmail = req.user.email;
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit) || 10));
+    const requestType = req.query.requestType || null;
+    const skip = (page - 1) * limit;
+
+    const filter = { email: userEmail };
+    if (requestType) {
+      filter.requestType = requestType;
+    }
+
+    const [payrollRequests, total] = await Promise.all([
+      PayrollRequest.find(filter)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      PayrollRequest.countDocuments(filter)
+    ]);
+
+    // Fallback: extraer firstName y lastName de employeeName si no existen
+    const enrichedRequests = payrollRequests.map(req => {
+      if (!req.firstName && !req.lastName && req.employeeName) {
+        const parts = req.employeeName.trim().split(' ');
+        if (parts.length >= 2) {
+          return {
+            ...req,
+            firstName: parts[0],
+            lastName: parts.slice(1).join(' ')
+          };
+        } else if (parts.length === 1) {
+          return {
+            ...req,
+            firstName: parts[0],
+            lastName: ''
+          };
+        }
+      }
+      return req;
+    });
+
+    res.json({
+      payrollRequests: enrichedRequests,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+        hasNextPage: page < Math.ceil(total / limit),
+        hasPrevPage: page > 1
+      }
+    });
+  } catch (err) {
+    logger.error('Error al consultar solicitudes de nómina del usuario actual', err);
+    return res.status(400).json({
+      message: 'No se pudo cargar las solicitudes de nómina.'
+    });
+  }
+});
+
 app.post('/api/payroll-requests', requireAuth, createPayrollRequest);
+
+app.get('/api/admin/payroll-requests', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit) || 10));
+    const skip = (page - 1) * limit;
+    const search = String(req.query.search || '').trim();
+    const requestType = req.query.requestType || null;
+    const status = req.query.status || null;
+    const startDate = req.query.startDate || null;
+    const endDate = req.query.endDate || null;
+
+    const escapeRegex = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const safeSearch = escapeRegex(search);
+
+    const filter = {};
+    if (requestType) filter.requestType = requestType;
+    if (status) filter.status = status;
+
+    if (startDate || endDate) {
+      filter.startDate = {};
+      if (startDate) filter.startDate.$gte = new Date(startDate);
+      if (endDate) filter.startDate.$lte = new Date(endDate);
+    }
+
+    if (search) {
+      filter.$or = [
+        { employeeName: { $regex: safeSearch, $options: 'i' } },
+        { firstName: { $regex: safeSearch, $options: 'i' } },
+        { lastName: { $regex: safeSearch, $options: 'i' } },
+        { email: { $regex: safeSearch, $options: 'i' } },
+        { requestType: { $regex: safeSearch, $options: 'i' } },
+        { description: { $regex: safeSearch, $options: 'i' } },
+        { status: { $regex: safeSearch, $options: 'i' } }
+      ];
+    }
+
+
+    const [payrollRequests, total] = await Promise.all([
+      PayrollRequest.find(filter)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      PayrollRequest.countDocuments(filter)
+    ]);
+
+    // Fallback: extraer firstName y lastName de employeeName si no existen
+    const enrichedRequests = payrollRequests.map(req => {
+      if (!req.firstName && !req.lastName && req.employeeName) {
+        const parts = req.employeeName.trim().split(' ');
+        if (parts.length >= 2) {
+          return {
+            ...req,
+            firstName: parts[0],
+            lastName: parts.slice(1).join(' ')
+          };
+        } else if (parts.length === 1) {
+          return {
+            ...req,
+            firstName: parts[0],
+            lastName: ''
+          };
+        }
+      }
+      return req;
+    });
+
+    res.json({
+      payrollRequests: enrichedRequests,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+        hasNextPage: page < Math.ceil(total / limit),
+        hasPrevPage: page > 1
+      }
+    });
+  } catch (err) {
+    logger.error('Error al consultar todas las solicitudes de nómina (admin)', err);
+    return res.status(400).json({
+      message: 'No se pudo cargar las solicitudes de nómina.'
+    });
+  }
+});
+
+app.patch('/api/admin/payroll-requests/:id/status', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const allowedStatuses = ['pendiente', 'autorizada', 'rechazada', 'enviada'];
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({ message: 'Estado no válido' });
+    }
+
+    const updatedRequest = await PayrollRequest.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    ).lean();
+
+    if (!updatedRequest) {
+      return res.status(404).json({ message: 'Solicitud no encontrada' });
+    }
+
+    res.json({
+      message: `Solicitud ${status} correctamente`,
+      payrollRequest: updatedRequest
+    });
+  } catch (err) {
+    logger.error('Error al actualizar estado de solicitud', err);
+    return res.status(400).json({
+      message: 'No se pudo actualizar el estado de la solicitud.'
+    });
+  }
+});
 
 app.patch('/api/user-role', async (req, res) => {
   try {
@@ -1076,6 +1475,125 @@ app.post('/api/reset-password', async (req, res) => {
   } catch (err) {
     logger.error('Error en reset-password', err);
     res.status(500).json({ message: 'Error al restablecer la contraseña.' });
+  }
+});
+
+app.get('/api/admin/search-users', requireAuth, requireAdmin, async (req, res) => {
+  try {
+    const searchTerm = String(req.query.q || '').trim();
+
+    if (!searchTerm) {
+      return res.json({ users: [] });
+    }
+
+    const query = `
+      SELECT TOP 50
+        CAST(e.EMP_CODIGO AS NVARCHAR(100)) AS contractNumber,
+        CAST(h.HDV_DOCUMENTO AS NVARCHAR(100)) AS documentNumber,
+        h.HDV_DOC AS documentType,
+        h.HDV_NOMBRE AS firstName,
+        h.HDV_APELLIDO AS lastName,
+        h.HDV_CORREO AS email
+      FROM EMP_EMPLEADO e
+      LEFT JOIN HDV_HOJAVIDA h
+        ON e.hdv_doc = h.hdv_doc
+       AND e.hdv_documento = h.hdv_documento
+      WHERE
+        CAST(e.EMP_CODIGO AS NVARCHAR(100)) LIKE @searchTerm
+        OR CAST(h.HDV_DOCUMENTO AS NVARCHAR(100)) LIKE @searchTerm
+        OR h.HDV_NOMBRE LIKE @searchTerm
+        OR h.HDV_APELLIDO LIKE @searchTerm
+        OR CONCAT(h.HDV_NOMBRE, ' ', h.HDV_APELLIDO) LIKE @searchTerm
+        OR h.HDV_CORREO LIKE @searchTerm
+      ORDER BY e.EMP_CODIGO;
+    `;
+
+    const result = await executeQuery(query, [{
+      name: 'searchTerm',
+      type: sql.VarChar,
+      value: `%${searchTerm}%`
+    }]);
+
+    const employeeMatches = result.recordset || [];
+    const emails = [...new Set(
+      employeeMatches
+        .map(item => String(item.email || '').trim().toLowerCase())
+        .filter(Boolean)
+    )];
+
+    const mongoUsers = emails.length
+      ? await User.find({ email: { $in: emails } })
+          .lean()
+          .select('_id firstName lastName email role avatar bio')
+      : [];
+
+    const mongoUsersByEmail = new Map(
+      mongoUsers.map(user => [String(user.email).trim().toLowerCase(), user])
+    );
+
+    const users = employeeMatches.map(item => {
+      const normalizedEmail = String(item.email || '').trim().toLowerCase();
+      const mongoUser = mongoUsersByEmail.get(normalizedEmail);
+
+      return {
+        _id: mongoUser?._id || null,
+        firstName: mongoUser?.firstName || item.firstName || '',
+        lastName: mongoUser?.lastName || item.lastName || '',
+        email: mongoUser?.email || item.email || '',
+        role: mongoUser?.role || 'user',
+        avatar: mongoUser?.avatar || '',
+        bio: mongoUser?.bio || '',
+        contractNumber: item.contractNumber || null,
+        documentNumber: item.documentNumber || null,
+        documentType: item.documentType || null
+      };
+    });
+
+    const directUserMatches = await User.find({
+      $or: [
+        { firstName: { $regex: searchTerm, $options: 'i' } },
+        { lastName: { $regex: searchTerm, $options: 'i' } },
+        { email: { $regex: searchTerm, $options: 'i' } }
+      ]
+    })
+      .lean()
+      .select('_id firstName lastName email role avatar bio');
+
+    const mergedUsers = new Map();
+
+    users.forEach(user => {
+      if (user.email) {
+        mergedUsers.set(String(user.email).trim().toLowerCase(), user);
+      }
+    });
+
+    directUserMatches.forEach(user => {
+      const key = String(user.email).trim().toLowerCase();
+      const existing = mergedUsers.get(key);
+      if (!existing) {
+        mergedUsers.set(key, {
+          _id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: user.role || 'user',
+          avatar: user.avatar || '',
+          bio: user.bio || '',
+          contractNumber: null,
+          documentNumber: null,
+          documentType: null
+        });
+      }
+    });
+
+    return res.json({
+      users: [...mergedUsers.values()]
+    });
+  } catch (err) {
+    logger.error('Error buscando usuarios por admin', err);
+    return res.status(400).json({
+      message: 'Hubo un problema al buscar usuarios.'
+    });
   }
 });
 

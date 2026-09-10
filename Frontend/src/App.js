@@ -33,6 +33,7 @@ const Curriculum = lazy(() => import('./pages/Curriculum'));
 const Employee = lazy(() => import('./pages/Employee'));
 const Report = lazy(() => import('./pages/Report'));
 const PayrollRequests = lazy(() => import('./pages/PayrollRequests'));
+const AdminPayrollRequests = lazy(() => import('./pages/AdminPayrollRequests'));
 
 const LoadingFallback = () => (
   <AppShell>
@@ -112,6 +113,9 @@ const AppRoutes = () => {
             <AuthenticatedRoute path="/report">
             <Report/>
             </AuthenticatedRoute>
+          <AdminRoute path="/admin/payroll-requests">
+            <AdminPayrollRequests />
+          </AdminRoute>
           <AuthenticatedRoute path="/payroll-requests">
             <PayrollRequests />
           </AuthenticatedRoute>

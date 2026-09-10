@@ -21,3 +21,16 @@ export const submitPayrollRequest = async (authAxios, payload) => {
   const { data } = await authAxios.post('/payroll-requests', payload);
   return data;
 };
+
+export const fetchPayrollRequests = async (authAxios, { page = 1, limit = 10, requestType = null } = {}) => {
+  const params = new URLSearchParams();
+  params.set('page', page.toString());
+  params.set('limit', limit.toString());
+  if (requestType) params.set('requestType', requestType);
+
+  const { data } = await authAxios.get(`/payroll-requests?${params.toString()}`);
+  return {
+    requests: data.payrollRequests || [],
+    pagination: data.pagination || { page: 1, limit: 10, total: 0, totalPages: 1, hasNextPage: false, hasPrevPage: false }
+  };
+};

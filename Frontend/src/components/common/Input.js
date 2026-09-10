@@ -1,8 +1,9 @@
 import React from 'react';
 
-const Input = ({ ariaLabel, name, type, placeholder, field }) => (
+const Input = ({ ariaLabel, name, type, placeholder, field, ...props }) => (
   <input
     {...field}
+    {...props}
     aria-label={ariaLabel}
     name={name}
     type={type}

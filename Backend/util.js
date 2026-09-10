@@ -12,6 +12,8 @@ const createToken = user => {
       sub: user._id,
       email: user.email,
       role: user.role,
+      firstName: user.firstName,
+      lastName: user.lastName,
       iss: 'api.orbit',
       aud: 'api.orbit'
     },

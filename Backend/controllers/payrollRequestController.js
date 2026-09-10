@@ -1,5 +1,6 @@
 const { sendPayrollRequestEmail } = require('../services/emailService');
 const { emailConfig } = require('../config/emailConfig');
+const PayrollRequest = require('../data/PayrollRequest');
 
 const calculateDaysRange = (startDate, endDate) => {
   if (!startDate || !endDate) {
@@ -50,9 +51,9 @@ const validatePayrollRequest = ({ requestType, startDate, endDate, description }
 const createPayrollRequest = async (req, res) => {
   try {
     const { requestType, startDate, endDate, description, recipients } = req.body;
-    const employeeName = [req.user?.firstName, req.user?.lastName]
-      .filter(Boolean)
-      .join(' ') || req.user?.email || 'Empleado';
+    const firstName = req.user?.firstName || '';
+    const lastName = req.user?.lastName || '';
+    const employeeName = [firstName, lastName].filter(Boolean).join(' ') || req.user?.email || 'Empleado';
 
     const validationErrors = validatePayrollRequest({
       requestType,
@@ -96,6 +97,23 @@ const createPayrollRequest = async (req, res) => {
     }
 
     const statusCode = emailResult && emailResult.mocked ? 200 : 200;
+
+    // Guardar la solicitud en la base de datos
+    const payrollRequest = new PayrollRequest({
+      user: req.user.sub,
+      email: req.user.email,
+      employeeName,
+      firstName,
+      lastName,
+      requestType,
+      startDate,
+      endDate,
+      days,
+      description: description.trim(),
+      recipients: destinationRecipients,
+      emailResult
+    });
+    await payrollRequest.save();
 
     return res.status(statusCode).json({
       message: emailResult.mocked

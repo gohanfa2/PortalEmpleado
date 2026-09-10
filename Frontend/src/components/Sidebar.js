@@ -8,7 +8,8 @@ import {
   faChartPie,
   faCogs,
   faDoorOpen,
-  faCalendarCheck
+  faCalendarCheck,
+  faClipboardCheck
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import logo from './../images/logo.png';
@@ -17,61 +18,67 @@ import { AuthContext } from './../context/AuthContext';
 const navItems = [
   {
     label: 'Articulos',
-    path: 'article',
+    path: '/article',
     icon: faTags,
     allowedRoles: ['user', 'admin']
   },
    {
     label: 'Articulos (Admin)',
-    path: 'dashboard',
+    path: '/dashboard',
     icon: faChartLine,
     allowedRoles: ['admin']
   },
   {
     label: 'Hoja de Vida',
-    path: 'curriculum',
+    path: '/curriculum',
     icon: faAddressCard,
     allowedRoles: ['user', 'admin']
   },
   {
     label: 'Empleado',
-    path: 'employee',
+    path: '/employee',
     icon: faAddressCard,
     allowedRoles: ['user', 'admin']
   },
   {
     label: 'Reportes',
-    path: 'report',
+    path: '/report',
     icon: faChartLine,
     allowedRoles: ['user', 'admin']
   },
   {
     label: 'Solicitudes de Nómina',
-    path: 'payroll-requests',
+    path: '/payroll-requests',
     icon: faCalendarCheck,
     allowedRoles: ['user', 'admin']
   },
   {
+    label: 'Panel Admin Solicitudes',
+    path: '/admin/payroll-requests',
+    icon: faClipboardCheck,
+    allowedRoles: ['admin']
+  },
+  {
     label: 'Adjuntos',
-    path: 'inventory',
+    path: '/inventory',
     icon: faChartPie,
     allowedRoles: ['user', 'admin']
   },
   {
     label: 'Cuentas',
-    path: 'account',
+    path: '/account',
     icon: faAddressCard,
     allowedRoles: ['admin']
   },
   {
     label: 'Ajustes',
-    path: 'settings',
+    path: '/settings',
     icon: faCogs,
     allowedRoles: ['admin']
   },
   {
     label: 'Usuarios',
-    path: 'users',
+    path: '/users',
     icon: faDoorOpen,
     allowedRoles: ['admin']
   }
@@ -80,7 +87,7 @@ const navItems = [
 const NavItem = ({ navItem }) => {
   const location = useLocation();
   const isCurrentRoute =
-    location.pathname === `/${navItem.path}`;
+    location.pathname === navItem.path;
   const classes = classNames({
     'px-2 sm:px-6 justify-center sm:justify-start py-3 rounded-full flex': true,
     'text-gray-600 hover:text-blue-500 transform hover:translate-x-1 transition ease-in-out duration-100': !isCurrentRoute,
