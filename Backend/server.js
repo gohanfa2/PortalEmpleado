@@ -321,6 +321,95 @@ const getEmployeeByEmail = async email => {
   return result.recordset && result.recordset[0] ? result.recordset[0] : null;
 };
 
+/**
+ * Resuelve el emp_codigo del usuario en sesión. Es la llave con la que planilla
+ * identifica al empleado (planilla.empleado).
+ */
+const getEmpCodigoByEmail = async email => {
+  const result = await executeQuery(
+    `SELECT TOP 1 e.EMP_CODIGO
+     FROM EMP_EMPLEADO e
+     LEFT JOIN HDV_HOJAVIDA h
+       ON e.hdv_doc = h.hdv_doc
+      AND e.hdv_documento = h.hdv_documento
+     WHERE h.HDV_CORREO = @email`,
+    [{ name: 'email', type: sql.VarChar, value: email }]
+  );
+
+  return result.recordset && result.recordset[0] ? result.recordset[0].EMP_CODIGO : null;
+};
+
+/**
+ * Resuelve el juego de parámetros de un reporte desde la tabla rep_parametros.
+ *
+ * Se combinan dos fuentes: los parámetros globales (rep_id = 0) y los del
+ * reporte (rep_id del archivo .jasper, último consecutivo registrado). Los
+ * globales aportan lo que no es específico de un reporte, por ejemplo JNDI,
+ * p_nit y p_nombre_empresa; los del reporte pisan esos valores.
+ *
+ * Los parámetros tipo 'S' se ignoran porque su valor es dinámico (ej.
+ * p_emp_codigo, cuyo valor real es el nombre del parámetro) y se inyectan
+ * por sesión.
+ */
+const getReportParams = async repId => {
+  const query = `
+    SELECT rp.rep_id, rp.rpa_parametro, rp.rpa_tipo, rp.rpa_descripcion
+    FROM rep_parametros rp
+    WHERE rp.rep_id = 0 OR rp.rep_id = @repId
+  `;
+
+  const result = await executeQuery(query, [
+    { name: 'repId', type: sql.Decimal(18, 0), value: repId }
+  ]);
+
+  const params = {};
+  (result.recordset || []).forEach(row => {
+    const name = (row.rpa_parametro || '').trim();
+    if (!name) return;
+    if ((row.rpa_tipo || '').trim().toUpperCase() === 'S') return;
+    const value = row.rpa_descripcion == null ? '' : String(row.rpa_descripcion);
+    if (value === '') return;
+    params[name] = value;
+  });
+
+  return params;
+};
+
+/**
+ * Obtiene el rep_id vigente de un reporte a partir de rep_reporte, usando el
+ * nombre del archivo .jasper. Si no hay coincidencia exacta se recurre al
+ * último rep_id registrado.
+ */
+const getReportId = async reportFileName => {
+  const baseName = path.basename(String(reportFileName || '')).toLowerCase();
+
+  const byName = await executeQuery(
+    `SELECT TOP 1 rep_id FROM rep_reporte WHERE LOWER(rep_nombre) = @name`,
+    [{ name: 'name', type: sql.VarChar, value: baseName }]
+  );
+  if (byName.recordset && byName.recordset[0]) {
+    return byName.recordset[0].rep_id;
+  }
+
+  const latest = await executeQuery(`SELECT MAX(rep_id) AS rep_id FROM rep_reporte`);
+  return latest.recordset && latest.recordset[0] ? latest.recordset[0].rep_id : null;
+};
+
+/**
+ * Normaliza un parámetro recibido por query string antes de enviarlo a
+ * JasperStarter.
+ *
+ * JasperStarter reinterpreta el texto que sigue a -P: separa por espacios y
+ * respeta comillas dobles. Un valor con comillas dobles rompería ese
+ * parseo y, con él, todos los parámetros del reporte, así que se eliminan.
+ * También se recorta y se colapsan los espacios para evitar que el valor
+ * injecte pares extra (por ejemplo "1 p_emp_codigo=99").
+ */
+const sanitizeReportParam = value => {
+  if (value === null || value === undefined) return '';
+  return String(value).replace(/["`]/g, '').replace(/\s+/g, ' ').trim();
+};
+
 const getCurriculumByEmail = async email => {
   const query = `
     SELECT TOP 1
@@ -957,21 +1046,154 @@ app.patch('/api/bio', requireAuth, async (req, res) => {
 
 const reportsFolder = path.join(__dirname, 'Reports');
 const reportsOutputFolder = path.join(reportsFolder, 'output');
+// Carpeta con GnosisJndi.jar (el InitialContextFactory para JasperStarter).
+const jndiFolder = path.join(__dirname, 'jndi');
+const jndiFactoryJar = path.join(jndiFolder, 'GnosisJndi.jar');
 if (!fs.existsSync(reportsOutputFolder)) {
   fs.mkdirSync(reportsOutputFolder, { recursive: true });
 }
 
+/**
+ * Marca de rep_reporte.rep_adicional que declara que el reporte necesita los
+ * filtros de planilla. El valor admite varios indicadores separados por coma,
+ * por ejemplo "inc_esquema_periodo,inc_hdv_id".
+ */
+const FLAG_PLANILLA_FILTROS = 'inc_esquema_periodo';
+
+/**
+ * Traduce rep_adicional a la lista de filtros que el portal debe mostrar. El
+ * frontend decide qué selects pintar a partir de esta lista, así que agregar un
+ * filtro nuevo es agregar el $P en el .jasper, el parámetro desde la consulta de
+ * reportId y el indicador acá.
+ */
+const parseReportFilters = repAdicional => {
+  const flags = String(repAdicional == null ? '' : repAdicional)
+    .toLowerCase()
+    .split(',')
+    .map(flag => flag.trim());
+
+  return flags.indexOf(FLAG_PLANILLA_FILTROS) !== -1 ? ['esquema', 'periodo'] : [];
+};
+
+/**
+ * Reportes que el portal ofrece, tomados de rep_reporte y filtrados por los
+ * .jasper que existen realmente en Reports/.
+ *
+ * Antes se listaba el contenido de la carpeta, pero ahí también viven los
+ * subreportes (volantepago_deducidos, volantepago_devengados,
+ * Infoadicional_subreport) que solo existen para que otro reporte los incruste.
+ * rep_reporte es el catálogo del sistema, así que un reporte no aparece a menos
+ * que esté registrado ahí.
+ *
+ * Si el nombre del catálogo no coincide con un archivo de Reports/ se omite y se
+ * avisa al log: casi siempre significa que el .jasper se renombró o que la fila
+ * quedó con el nombre de otro reporte.
+ *
+ * Cuando hay varias filas para el mismo archivo (por ejemplo el mismo .jasper
+ * registrado dos veces con distinta descripción) gana la de rep_id más alto,
+ * que es la última versión registrada.
+ */
+const listAvailableReports = async () => {
+  const reportFiles = fs.readdirSync(reportsFolder).filter(file => file.endsWith('.jasper'));
+
+  const result = await executeQuery(`
+    SELECT rep_id, rep_nombre, rep_descripcion, rep_adicional
+    FROM rep_reporte
+    WHERE rep_id > 0
+    ORDER BY rep_id
+  `);
+
+  const byFileName = new Map();
+  const sinArchivo = [];
+
+  (result.recordset || []).forEach(row => {
+    const fileName = path.basename(String(row.rep_nombre || '').trim());
+    const id = path.basename(fileName, '.jasper');
+
+    if (!id) return;
+
+    if (!reportFiles.includes(fileName)) {
+      sinArchivo.push(`${row.rep_id}:${fileName}`);
+      return;
+    }
+
+    byFileName.set(fileName.toLowerCase(), {
+      id,
+      file: fileName,
+      label: row.rep_descripcion && row.rep_descripcion.trim() ? row.rep_descripcion.trim() : id,
+      filters: parseReportFilters(row.rep_adicional)
+    });
+  });
+
+  // El catálogo tiene reportes históricos que no están en Reports/, así que el
+  // aviso se agrupa para no escribir una línea por registro en cada petición.
+  if (sinArchivo.length > 0) {
+    const detalle = sinArchivo.slice(0, 10).join(', ');
+    logger.warn(
+      `${sinArchivo.length} registro(s) de rep_reporte no tienen su .jasper en Reports y se omiten: ${detalle}${sinArchivo.length > 10 ? ', ...' : ''}`
+    );
+  }
+
+  return Array.from(byFileName.values());
+};
+
+/**
+ * Filtros declarados para un reporte, o lista vacía si no está en rep_reporte.
+ */
+const getReportFilters = async reportId => {
+  const id = String(reportId || '').toLowerCase();
+
+  try {
+    const result = await executeQuery(
+      `SELECT TOP 1 rep_adicional
+       FROM rep_reporte
+       WHERE LOWER(rep_nombre) = @nombre`,
+      [{ name: 'nombre', type: sql.VarChar, value: `${id}.jasper` }]
+    );
+
+    const row = result.recordset && result.recordset[0];
+    return row ? parseReportFilters(row.rep_adicional) : [];
+  } catch (err) {
+    logger.error(`No se pudieron leer los filtros de ${reportId} desde rep_reporte`, err);
+    return [];
+  }
+};
+
+/**
+ * Escribe jndi.properties con la configuracion JDBC y devuelve la carpeta que
+ * lo contiene. Esa carpeta se agrega al classpath de JasperStarter para que
+ * JNDI registre GnosisJndiFactory y los scripts que hacen lookup obtengan un
+ * DataSource real en vez de fallar con NoInitialContextException.
+ *
+ * El archivo se regenera en cada generación porque las credenciales provienen
+ * de .env y así nunca quedan desactualizadas.
+ */
+const ensureJndiProperties = (jdbcUrl, user, password) => {
+  try {
+    if (!fs.existsSync(jndiFolder)) {
+      fs.mkdirSync(jndiFolder, { recursive: true });
+    }
+    const driver = 'com.microsoft.sqlserver.jdbc.SQLServerDriver';
+    const lines = [
+      '# Generado automáticamente por server.js. No editar a mano.',
+      'java.naming.factory.initial=com.colsin.gnosis.jndi.GnosisJndiFactory',
+      `colsin.jdbc.url=${jdbcUrl}`,
+      `colsin.jdbc.user=${user}`,
+      `colsin.jdbc.password=${password}`,
+      `colsin.jdbc.driver=${driver}`
+    ];
+    fs.writeFileSync(path.join(jndiFolder, 'jndi.properties'), lines.join('\n') + '\n', 'utf8');
+    return jndiFolder;
+  } catch (err) {
+    logger.warn('No se pudo generar jndi.properties para el factory JNDI de Gnosis', err);
+    return null;
+  }
+};
+
 app.get('/api/reports', requireAuth, async (req, res) => {
   try {
-    const reportFiles = fs.readdirSync(reportsFolder).filter(file => file.endsWith('.jasper'));
-    const reports = reportFiles.map(file => ({
-      id: path.basename(file, '.jasper'),
-      file,
-      label: path.basename(file, '.jasper')
-    }));
-
     res.json({
-      reports
+      reports: await listAvailableReports()
     });
   } catch (err) {
     logger.error('Error al listar los reportes disponibles', err);
@@ -1024,6 +1246,81 @@ app.get('/api/reports/latest', requireAuth, async (req, res) => {
   }
 });
 
+/**
+ * Devuelve los esquemas y periodos del empleado en sesión para alimentar los
+ * filtros de planilla de los reportes que los declaran en reports.config.json
+ * (Volante_pago: p_esquema / p_periodo).
+ *
+ * Las consultas están acotadas por planilla.empleado a propósito: la tabla
+ * tiene ~173.000 filas de 499 columnas con el PK clustered en (empleado,
+ * esquema, periodo), así que un DISTINCT sobre la tabla completa obliga a
+ * escanear todas las filas y revienta el timeout de 15 s de mssql (se midió
+ * más de 120 s). Filtrando por empleado el seek del PK clustered resuelve en
+ * milisegundos, y además es lo correcto: el reporte se genera para el empleado
+ * de la sesión.
+ *
+ * Sin esquema devuelve los esquemas del empleado; con esquema, los periodos de
+ * ese esquema ordenados del más reciente al más antiguo.
+ */
+app.get('/api/reports/filtros/planilla', requireAuth, async (req, res) => {
+  const esquema = req.query.esquema == null ? '' : String(req.query.esquema).trim();
+
+  try {
+    const empCodigo = await getEmpCodigoByEmail(req.user.email);
+
+    if (!empCodigo) {
+      logger.warn('No se encontró emp_codigo para el usuario; no hay filtros de planilla', {
+        email: req.user.email
+      });
+      return res.json({ esquemas: [], periodos: [] });
+    }
+
+    let periodosResult = { recordset: [] };
+    if (esquema) {
+      periodosResult = await executeQuery(
+        `SELECT DISTINCT periodo
+         FROM planilla
+         WHERE empleado = @empleado AND esquema = @esquema
+         ORDER BY periodo DESC`,
+        [
+          { name: 'empleado', type: sql.VarChar(20), value: empCodigo },
+          { name: 'esquema', type: sql.VarChar, value: esquema }
+        ]
+      );
+    }
+
+    // Los esquemas solo hacen falta cuando aún no se eligió uno; después el
+    // frontend ya los tiene y solo necesita la lista de periodos. Por la misma
+    // razón los periodos solo se consultan con esquema: sin él serían cientos
+    // de filas de todos los esquemas y el selector aún no los puede usar.
+    let esquemas = [];
+    if (!esquema) {
+      const esquemasResult = await executeQuery(
+        `SELECT DISTINCT CAST(esquema AS VARCHAR(2)) AS esquema
+         FROM planilla
+         WHERE empleado = @empleado
+         ORDER BY esquema`,
+        [{ name: 'empleado', type: sql.VarChar(20), value: empCodigo }]
+      );
+      esquemas = (esquemasResult.recordset || [])
+        .map(row => row.esquema)
+        .filter(value => value != null && value !== '');
+    }
+
+    res.json({
+      esquemas,
+      periodos: (periodosResult.recordset || [])
+        .map(row => row.periodo)
+        .filter(value => value != null && value !== '')
+    });
+  } catch (err) {
+    logger.error('Error al obtener los filtros de planilla', err);
+    res.status(500).json({
+      message: 'Error al obtener los filtros de planilla.'
+    });
+  }
+});
+
 app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
   try {
     const { reportId } = req.params;
@@ -1061,6 +1358,16 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
     const jasperArgs = ['pr', jasperPath, '-o', tempOutputFolder, '-f', 'pdf'];
     jasperResourcePaths.forEach(resourcePath => jasperArgs.push('-r', resourcePath));
 
+    // Acumular los parámetros del reporte para emitirlos juntos en un único
+    // grupo -P (ver emisión más abajo).
+    const reportParams = {};
+    const setReportParam = (name, value) => {
+      if (name === null || name === undefined) return;
+      const strValue = String(value);
+      if (strValue === '') return;
+      reportParams[name] = strValue.replace(/'/g, "''");
+    };
+
     // Si hay credenciales SQL en .env, construir URL JDBC y pasarla a JasperStarter
     try {
       const { SQL_USER, SQL_PASSWORD, SQL_SERVER, SQL_PORT, SQL_DATABASE, SQL_ENCRYPT, SQL_TRUST_SERVER_CERTIFICATE } = process.env;
@@ -1086,6 +1393,35 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
         // Usar flags compatibles con -t generic para usuario/contraseña
         jasperArgs.push('-u', SQL_USER);
         jasperArgs.push('-p', SQL_PASSWORD);
+
+        const jndiConfigDir = ensureJndiProperties(jdbcUrl, SQL_USER, SQL_PASSWORD);
+
+        // Los scripts de Gnosis (NumerosALetrasScriptlet.f_acumulado,
+        // f_retorna_empresa) resuelven su conexion con
+        // new InitialContext().lookup(<nombre JNDI>). JasperStarter corre
+        // fuera de un contenedor Java EE, asi que sin un InitialContextFactory
+        // registrado ese lookup falla con NoInitialContextException y el script
+        // devuelve 0 silenciosamente.
+        //
+        // GnosisJndiFactory resuelve esa situacion: se registra como
+        // java.naming.factory.initial y entrega un DataSource JDBC usando las
+        // mismas credenciales de este bloque.
+        if (fs.existsSync(jndiFactoryJar)) {
+          // JasperStarter solo carga jars del --jdbc-dir (y solohonra el ultimo
+          // valor), asi que el factory debe convivir con el driver en Reports.
+          fs.copyFileSync(jndiFactoryJar, path.join(reportsFolder, 'GnosisJndi.jar'));
+        } else {
+          logger.warn(
+            `No se encontro GnosisJndi.jar en ${jndiFolder}; los scripts que usan JNDI devolveran 0`,
+            { jndiFolder }
+          );
+        }
+
+        if (jndiConfigDir) {
+          // La carpeta debe estar en el classpath para que JNDI encuentre
+          // jndi.properties.
+          jasperArgs.push('-r', jndiConfigDir);
+        }
       }
     } catch (e) {
       logger.warn('No se pudieron añadir parámetros JDBC a JasperStarter', e);
@@ -1114,7 +1450,7 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
         const emp = result.recordset && result.recordset[0];
         if (emp) {
           // Pasar parámetros tanto con prefijo p_ como sin él (algunas plantillas usan distinto nombre)
-          jasperArgs.push('-P', `p_emp_codigo=${emp.p_emp_codigo || ''}`);
+          setReportParam('p_emp_codigo', emp.p_emp_codigo);
         } else {
           logger.warn('No se encontró información del empleado para el reporte Certificacion');
         }
@@ -1146,8 +1482,7 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
         const emp = result.recordset && result.recordset[0];
         if (emp) {
           // Enviar p_emp_codigo sin comillas (JDBC binding espera el valor crudo)
-          const safeCode = String(emp.p_emp_codigo || '').replace(/'/g, "''");
-          jasperArgs.push('-P', `p_emp_codigo=${safeCode}`);
+          setReportParam('p_emp_codigo', emp.p_emp_codigo);
 
           // No enviar emp_nombre/emp_apellido: son fields retornados por la consulta del .jrxml
         } else {
@@ -1161,6 +1496,17 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
     // Si el reporte es ingresosRetenciones2025E, obtener emp_codigo desde HDV_HOJAVIDA
     if (reportId.toLowerCase() === 'ingresosretenciones2025e') {
       try {
+        // Cargar los parámetros estáticos (JNDI, p_fecha_ini, p_fecha_fin, etc.)
+        // desde rep_parametros usando el último rep_id vigente.
+        const repId = await getReportId(`${reportId}.jasper`);
+        if (repId !== null && repId !== undefined) {
+          const dbParams = await getReportParams(repId);
+          Object.keys(dbParams).forEach(name => setReportParam(name, dbParams[name]));
+      
+        } else {
+          logger.warn('No se encontró rep_id en rep_reporte; se usarán los valores por defecto del .jasper');
+        }
+
         const query = `
           SELECT TOP 1
             e.EMP_CODIGO AS p_emp_codigo,
@@ -1178,21 +1524,15 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
 
         const emp = result.recordset && result.recordset[0];
         if (emp) {
-          const safeCode = String(emp.p_emp_codigo || '').replace(/'/g, "''");
-          jasperArgs.push('-P', `p_emp_codigo=${safeCode}`);
+          setReportParam('p_emp_codigo', emp.p_emp_codigo);
           // comentareo hdv_id para cuando mecesite validar varios contratos de un mismo empleado, se pueda pasar el hdv_id y que el reporte filtre por ese contrato
          /* if (emp.p_hdv_id || emp.p_hdv_id === 0) {
-            jasperArgs.push('-P', `p_hdv_id=${emp.p_hdv_id}`);
+            setReportParam('p_hdv_id', emp.p_hdv_id);
           }
           */
         } else {
           logger.warn('No se encontró emp_codigo para el usuario; el reporte podría salir vacío');
         }
-
-        // Pasar rango de fechas para el reporte en formato dd/MM/yyyy
-       /* jasperArgs.push('-P', `p_fecha_ini=01/01/2025`);
-        jasperArgs.push('-P', `p_fecha_fin=31/12/2025`);
-       */
       } catch (err) {
         logger.error('Error al obtener emp_codigo para ingresosRetenciones2025E', err);
       }
@@ -1200,16 +1540,94 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
 
 
 
-    // Log del comando JasperStarter que se va a ejecutar (útil para depuración)
-    try {
-      logger.info('JasperStarter command:', {
-        binary: jasperStarterBinary,
-        args: jasperArgs
-      });
-    } catch (logErr) {
-      // no bloquear si el logger falla
-      console.log('JasperStarter command:', jasperStarterBinary, jasperArgs.join(' '));
+    // Reportes que declaran filtros de planilla en rep_reporte.rep_adicional
+    // (inc_esquema_periodo, por ejemplo Volante_pago). El esquema y el periodo
+    // llegan como query params, seleccionados por el usuario, y se inyectan
+    // como p_esquema / p_periodo, que son los $P del .jasper.
+    const reportFilters = await getReportFilters(reportId);
+
+    if (reportFilters.indexOf('esquema') !== -1) {
+      try {
+        // Cargar los parámetros estáticos (JNDI, p_nombre_empresa, etc.) desde
+        // rep_parametros para no perderlos al pasar los filtros.
+        const repId = await getReportId(`${reportId}.jasper`);
+        if (repId !== null && repId !== undefined) {
+          const dbParams = await getReportParams(repId);
+          Object.keys(dbParams).forEach(name => setReportParam(name, dbParams[name]));
+        } else {
+          logger.warn(`No se encontró rep_id en rep_reporte para ${reportId}; se usarán los valores por defecto del .jasper`);
+        }
+
+        const esquema = sanitizeReportParam(req.query.esquema);
+        const periodo = sanitizeReportParam(req.query.periodo);
+
+        if (!esquema || !periodo) {
+          return res.status(400).json({
+            message: 'Debe seleccionar esquema y periodo para generar el reporte.'
+          });
+        }
+
+        // Se asignan después de rep_parametros para que la selección del usuario
+        // tenga prioridad sobre cualquier valor guardado en la base.
+        setReportParam('p_esquema', esquema);
+        setReportParam('p_periodo', periodo);
+
+        // Obtener el emp_codigo del empleado en sesión para que el reporte
+        // muestre únicamente su propio volante de pago.
+        const query = `
+          SELECT TOP 1
+            e.EMP_CODIGO AS p_emp_codigo,
+            e.hdv_id AS p_hdv_id
+          FROM EMP_EMPLEADO e
+          LEFT JOIN HDV_HOJAVIDA h
+            ON e.hdv_doc = h.hdv_doc
+            AND e.hdv_documento = h.hdv_documento
+          WHERE h.HDV_CORREO = @email
+        `;
+
+        const result = await executeQuery(query, [
+          { name: 'email', type: sql.VarChar, value: req.user.email }
+        ]);
+
+        const emp = result.recordset && result.recordset[0];
+        if (emp) {
+          setReportParam('p_emp_codigo', emp.p_emp_codigo);
+          // comentareo hdv_id para cuando necesites validar varios contratos de
+          // un mismo empleado y el reporte pueda filtrar por ese contrato
+         /* if (emp.p_hdv_id || emp.p_hdv_id === 0) {
+            setReportParam('p_hdv_id', emp.p_hdv_id);
+          }
+          */
+        } else {
+          logger.warn('No se encontró emp_codigo para el usuario; el volante de pago podría salir vacío');
+        }
+      } catch (err) {
+        logger.error('Error al preparar los parámetros de Volante_pago', err);
+        return res.status(500).json({
+          message: 'Error al preparar los parámetros del reporte.'
+        });
+      }
     }
+
+    // Emitir todos los parámetros del reporte en una sola bandera -P.
+    //
+    // JasperStarter reparte por espacios el texto que sigue a -P, así que cada
+    // par debe viajar como un argumento propio. Si se unen todos con
+    // espacios en un solo argv, se interpreta como un único parámetro llamado
+    // "p_fecha_fin" cuyo valor es "31/12/2025 p_fecha_ini=... p_emp_codigo=...":
+    // las fechas nunca se asignan y el reporte se genera vacío (PDF de 961 B).
+    //
+    // Los valores que contienen espacios (p_nombre_empresa) deben ir entre
+    // comillas internas para que JasperStarter no los desarme en varios
+    // parámetros; sin ellas el proceso falla y no se genera PDF.
+    const paramPairs = Object.keys(reportParams).map(name => {
+      const value = reportParams[name];
+      return /\s/.test(value) ? `${name}="${value}"` : `${name}=${value}`;
+    });
+    if (paramPairs.length > 0) {
+      jasperArgs.push('-P', ...paramPairs);
+    }
+
 
     // Asegurar que la carpeta de salida existe y es escribible
     try {
@@ -1222,6 +1640,17 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
     } catch (permErr) {
       logger.error('No hay permiso de escritura en la carpeta de salida de reportes', permErr);
       throw permErr;
+    }
+
+    // JasperStarter no crea la carpeta de destino: si no existe, escribe el PDF
+    // en el directorio padre y la búsqueda posterior falla con 500.
+    try {
+      if (!fs.existsSync(tempOutputFolder)) {
+        fs.mkdirSync(tempOutputFolder, { recursive: true });
+      }
+    } catch (mkdirErr) {
+      logger.error('No se pudo crear la carpeta de salida del reporte', mkdirErr);
+      throw mkdirErr;
     }
 
     // Eliminar PDF existente para evitar bloqueos
@@ -1242,8 +1671,6 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
             logger.error('Error al ejecutar reporte', { stderr, stdout, error });
             return reject(error);
           }
-          logger.info('JasperStarter stdout:', stdout);
-          if (stderr) logger.warn('JasperStarter stderr:', stderr);
           resolve();
         }
       );
@@ -1282,7 +1709,7 @@ app.get('/api/reports/:reportId', requireAuth, async (req, res) => {
         try {
           const copyPath = path.join(reportsOutputFolder, `${reportId}_${Date.now()}.pdf`);
           fs.copyFileSync(generatedPdfPath, copyPath);
-          logger.info('Copia del PDF guardada para inspección', { copyPath });
+          
         } catch (copyErr) {
           logger.warn('No se pudo copiar el PDF a la carpeta de salida principal', copyErr);
         }

@@ -1,0 +1,220 @@
+[2026-09-16T21:56:48.089Z] [REQUEST] POST /api/authenticate - Status: 200 - 711ms
+--------------------------------------------------------------------------------
+[2026-09-16T21:56:54.112Z] [REQUEST] GET /api/employee - Status: 200 - 3485ms
+--------------------------------------------------------------------------------
+[2026-09-16T21:59:35.509Z] [REQUEST] GET /api/reports - Status: 304 - 11ms
+--------------------------------------------------------------------------------
+[2026-09-16T21:59:39.466Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ingresosRetenciones2025E.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1789595979310",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-09-16T21:59:42.741Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-09-16T21:59:42.742Z] [WARN] JasperStarter stderr:
+sep 16, 2026 4:59:41 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+sep 16, 2026 4:59:41 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+sep 16, 2026 4:59:41 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+sep 16, 2026 4:59:41 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+sep 16, 2026 4:59:41 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+ startDate es anterior a endDate.
+ Fecha1 NO es anterior a fecha2.
+
+--------------------------------------------------------------------------------
+[2026-09-16T21:59:42.745Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 500 - 3440ms
+--------------------------------------------------------------------------------
+[2026-09-16T21:59:45.404Z] [REQUEST] GET /api/reports/latest - Status: 200 - 50ms
+--------------------------------------------------------------------------------
+[2026-09-16T22:00:23.843Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\Certificacion.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\Certificacion_1789596023806",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-09-16T22:00:26.647Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-09-16T22:00:26.648Z] [WARN] JasperStarter stderr:
+sep 16, 2026 5:00:25 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+sep 16, 2026 5:00:25 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+sep 16, 2026 5:00:25 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+sep 16, 2026 5:00:25 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+sep 16, 2026 5:00:25 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+
+--------------------------------------------------------------------------------
+[2026-09-16T22:00:26.649Z] [REQUEST] GET /api/reports/Certificacion - Status: 500 - 2844ms
+--------------------------------------------------------------------------------
+[2026-09-16T22:00:28.749Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ingresosRetenciones2025E.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1789596028740",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-09-16T22:00:30.493Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-09-16T22:00:30.493Z] [WARN] JasperStarter stderr:
+sep 16, 2026 5:00:29 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+sep 16, 2026 5:00:29 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+sep 16, 2026 5:00:29 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+sep 16, 2026 5:00:29 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+sep 16, 2026 5:00:29 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+ startDate es anterior a endDate.
+ Fecha1 NO es anterior a fecha2.
+
+--------------------------------------------------------------------------------
+[2026-09-16T22:00:30.494Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 500 - 1755ms
+--------------------------------------------------------------------------------
+[2026-09-16T22:00:39.438Z] [REQUEST] GET /api/reports/latest - Status: 200 - 29ms
+--------------------------------------------------------------------------------
+[2026-09-16T22:06:00.364Z] [REQUEST] GET /api/reports - Status: 304 - 14ms
+--------------------------------------------------------------------------------
+[2026-09-16T22:06:04.225Z] [INFO] JasperStarter command:
+{
+  "binary": "C:\\Program Files (x86)\\JasperStarter\\bin\\jasperstarter.exe",
+  "args": [
+    "pr",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\ingresosRetenciones2025E.jasper",
+    "-o",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1789596364072",
+    "-f",
+    "pdf",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\GnosisObject-1.0-SNAPSHOT.jar",
+    "-r",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\sqljdbc4.jar",
+    "-t",
+    "generic",
+    "--db-driver",
+    "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+    "--db-url",
+    "jdbc:sqlserver://localhost:1433;databaseName=NOM_ALPLA;encrypt=false;trustServerCertificate=true",
+    "--jdbc-dir",
+    "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports",
+    "-u",
+    "sa",
+    "-p",
+    "Colsin123",
+    "-P",
+    "p_emp_codigo=1016035453"
+  ]
+}
+--------------------------------------------------------------------------------
+[2026-09-16T22:06:09.429Z] [INFO] JasperStarter stdout:
+--------------------------------------------------------------------------------
+[2026-09-16T22:06:09.429Z] [WARN] JasperStarter stderr:
+sep 16, 2026 5:06:08 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartThemesBeans.xml]
+sep 16, 2026 5:06:08 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/chartConstantsBean.xml]
+sep 16, 2026 5:06:08 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/defaultChartPropertiesBean.xml]
+sep 16, 2026 5:06:08 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/eyeCandySixtiesChartPropertiesBean.xml]
+sep 16, 2026 5:06:08 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFORMACI�N: Loading XML bean definitions from URL [jar:file:/C:/Program%20Files%20(x86)/JasperStarter/lib/jasperreports-chart-themes-6.18.1.jar!/net/sf/jasperreports/chartthemes/spring/beans/aegeanChartPropertiesBean.xml]
+ startDate es anterior a endDate.
+ Fecha1 NO es anterior a fecha2.
+
+--------------------------------------------------------------------------------
+[2026-09-16T22:06:09.432Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 500 - 5364ms
+--------------------------------------------------------------------------------
+[2026-09-16T22:06:10.709Z] [REQUEST] GET /api/reports/latest - Status: 200 - 52ms
+--------------------------------------------------------------------------------

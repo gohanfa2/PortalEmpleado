@@ -69,3 +69,4 @@ npm start
 
 ## Definicion de roles por pagina
 Se debe modificar Sidebar.js
+
