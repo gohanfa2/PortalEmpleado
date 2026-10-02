@@ -394739,3 +394739,102 @@
 --------------------------------------------------------------------------------
 [2026-10-01T21:44:47.015Z] [REQUEST] GET /api/reports/Volante_pago - Status: 200 - 61576ms
 --------------------------------------------------------------------------------
+[2026-10-01T21:49:19.510Z] [REQUEST] GET /api/inventory - Status: 200 - 856ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:49:36.482Z] [REQUEST] GET /api/bio - Status: 200 - 1534ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:49:40.187Z] [REQUEST] GET /api/users - Status: 304 - 148ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:50:00.211Z] [REQUEST] GET /api/admin/user-payroll-requests - Status: 304 - 273ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:50:02.538Z] [REQUEST] GET /api/admin/user-profile - Status: 304 - 2600ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:26.628Z] [INFO] PDF generado - info
+{
+  "path": "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\Infoadicional_subreport_1790891483523\\Infoadicional_subreport.pdf",
+  "size": 960,
+  "mtime": "2026-10-01T21:51:26.553Z"
+}
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:26.642Z] [REQUEST] GET /api/reports/Infoadicional_subreport - Status: 200 - 3119ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:26.809Z] [INFO] PDF generado - info
+{
+  "path": "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\Certificacion_1790891481491\\Certificacion.pdf",
+  "size": 775296,
+  "mtime": "2026-10-01T21:51:26.766Z"
+}
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:26.823Z] [REQUEST] GET /api/reports/Certificacion - Status: 200 - 5334ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:29.559Z] [INFO] PDF generado - info
+{
+  "path": "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\volantepago_deducidos_1790891486178\\volantepago_deducidos.pdf",
+  "size": 960,
+  "mtime": "2026-10-01T21:51:29.512Z"
+}
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:29.570Z] [REQUEST] GET /api/reports/volantepago_deducidos - Status: 200 - 3393ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:34.904Z] [INFO] PDF generado - info
+{
+  "path": "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\volantepago_devengados_1790891492337\\volantepago_devengados.pdf",
+  "size": 960,
+  "mtime": "2026-10-01T21:51:34.864Z"
+}
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:34.910Z] [REQUEST] GET /api/reports/volantepago_devengados - Status: 200 - 2574ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:35.747Z] [INFO] PDF generado - info
+{
+  "path": "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1790891485157\\ingresosRetenciones2025E.pdf",
+  "size": 138488,
+  "mtime": "2026-10-01T21:51:35.580Z"
+}
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:35.814Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 200 - 10658ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:38.390Z] [INFO] PDF generado - info
+{
+  "path": "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\volantepago_deducidos_1790891494744\\volantepago_deducidos.pdf",
+  "size": 960,
+  "mtime": "2026-10-01T21:51:38.348Z"
+}
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:38.403Z] [REQUEST] GET /api/reports/volantepago_deducidos - Status: 200 - 3659ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:38.526Z] [INFO] PDF generado - info
+{
+  "path": "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\volantepago_devengados_1790891494914\\volantepago_devengados.pdf",
+  "size": 960,
+  "mtime": "2026-10-01T21:51:38.494Z"
+}
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:38.537Z] [REQUEST] GET /api/reports/volantepago_devengados - Status: 200 - 3624ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:51:38.839Z] [REQUEST] GET /api/reports/Volante_pago - Status: 400 - 51ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:53:17.471Z] [REQUEST] GET /api/users - Status: 304 - 175ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:53:28.703Z] [REQUEST] GET /api/admin/user-payroll-requests - Status: 304 - 230ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:53:29.627Z] [REQUEST] GET /api/admin/user-profile - Status: 304 - 1162ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:54:37.286Z] [REQUEST] GET /api/users - Status: 304 - 162ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:54:45.584Z] [REQUEST] GET /api/admin/user-payroll-requests - Status: 304 - 217ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:54:45.688Z] [REQUEST] GET /api/admin/user-profile - Status: 304 - 322ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:56:19.903Z] [REQUEST] GET /api/users - Status: 304 - 243ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:56:31.904Z] [REQUEST] GET /api/users - Status: 304 - 100ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:56:34.359Z] [REQUEST] GET /api/admin/user-payroll-requests - Status: 304 - 214ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:56:34.511Z] [REQUEST] GET /api/admin/user-profile - Status: 304 - 368ms
+--------------------------------------------------------------------------------
+[2026-10-01T21:56:41.010Z] [REQUEST] GET /favicon.ico - Status: 401 - 1ms
+--------------------------------------------------------------------------------
+[2026-10-01T22:06:45.980Z] [REQUEST] GET /api/inventory - Status: 304 - 217ms
+--------------------------------------------------------------------------------

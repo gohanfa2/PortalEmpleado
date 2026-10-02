@@ -406,6 +406,9 @@ const Users = () => {
             )}
           </div>
 
+{/*} Desde aqui de pueden agregar los reportes que se pueden generar para el usuario, si es necesario.
+    Se coemntraria si algun dia son necesarios, pero por ahora no se usan. 01/10/2026
+
           <div className="rounded border border-slate-200 p-4">
             <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.12em] text-slate-600">Reportes</h4>
             {reports.length ? (
@@ -425,8 +428,9 @@ const Users = () => {
               <p className="text-sm text-slate-500">No hay reportes disponibles.</p>
             )}
           </div>
-        </div>
+*/}
 
+        </div>
         <div className="mt-6 rounded border border-slate-200 p-4">
           <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.12em] text-slate-600">Solicitudes de nómina</h4>
           {payrollRequests.length ? (

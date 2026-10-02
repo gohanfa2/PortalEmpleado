@@ -1,0 +1,52 @@
+[2026-10-02T19:44:15.645Z] [REQUEST] POST /api/authenticate - Status: 200 - 3782ms
+--------------------------------------------------------------------------------
+[2026-10-02T19:44:27.350Z] [WARN] 43 registro(s) de rep_reporte no tienen su .jasper en Reports y se omiten: 1:CalificacionEvaluado.jasper, 4:Certificacion_Andino.jasper, 5:planDesarrollo.jasper, 6:Evaluados.jasper, 7:ingresosRetenciones.jasper, 8:Certificacion_Andino_RFI.jasper, 9:Certificacion_Promedio_Sueldo.jasper, 10:ingresosRetenciones2013.jasper, 11:Autorizadorgerencial.jasper, 12:AutorizadorTotalizado.jasper, ...
+--------------------------------------------------------------------------------
+[2026-10-02T19:44:27.357Z] [REQUEST] GET /api/reports - Status: 304 - 390ms
+--------------------------------------------------------------------------------
+[2026-10-02T19:51:38.145Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-10-02T19:51:39.156Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-10-02T19:51:39.162Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-10-02T19:52:56.030Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-10-02T19:52:57.032Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-10-02T19:52:57.040Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-10-02T19:53:09.855Z] [REQUEST] GET /api/payroll-requests - Status: 304 - 112ms
+--------------------------------------------------------------------------------
+[2026-10-02T19:53:10.350Z] [REQUEST] GET /api/payroll-requests - Status: 304 - 605ms
+--------------------------------------------------------------------------------
+[2026-10-02T19:53:10.369Z] [REQUEST] GET /api/payroll-requests - Status: 304 - 623ms
+--------------------------------------------------------------------------------
+[2026-10-02T19:53:14.145Z] [REQUEST] GET /api/reports - Status: 304 - 437ms
+--------------------------------------------------------------------------------
+[2026-10-02T19:53:30.993Z] [INFO] PDF generado - info
+{
+  "path": "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\Certificacion_1790970802012\\Certificacion.pdf",
+  "size": 775296,
+  "mtime": "2026-10-02T19:53:30.861Z"
+}
+--------------------------------------------------------------------------------
+[2026-10-02T19:53:31.020Z] [REQUEST] GET /api/reports/Certificacion - Status: 200 - 9009ms
+--------------------------------------------------------------------------------
+[2026-10-02T19:53:54.971Z] [INFO] Servidor iniciado
+--------------------------------------------------------------------------------
+[2026-10-02T19:53:55.838Z] [INFO] Conexión a MongoDB exitosa
+--------------------------------------------------------------------------------
+[2026-10-02T19:53:55.844Z] [INFO] API escuchando en localhost:3002
+--------------------------------------------------------------------------------
+[2026-10-02T19:54:08.820Z] [REQUEST] GET /api/reports - Status: 304 - 132ms
+--------------------------------------------------------------------------------
+[2026-10-02T19:54:44.690Z] [INFO] PDF generado - info
+{
+  "path": "C:\\Users\\Johan Ariza\\Documents\\Proyecto_React\\Portal ColsinRH\\colsinRH\\Backend\\Reports\\output\\ingresosRetenciones2025E_1790970871905\\ingresosRetenciones2025E.pdf",
+  "size": 138489,
+  "mtime": "2026-10-02T19:54:44.590Z"
+}
+--------------------------------------------------------------------------------
+[2026-10-02T19:54:44.723Z] [REQUEST] GET /api/reports/ingresosRetenciones2025E - Status: 200 - 12838ms
+--------------------------------------------------------------------------------

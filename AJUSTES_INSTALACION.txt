@@ -1,0 +1,466 @@
+================================================================================
+ AJUSTES PARA UNA INSTALACION LIMPIA (otra maquina / otro servidor)
+ Portal ColsinRH - Frontend (React) + Backend (Node/Express)
+================================================================================
+
+ QUE ES ESTE ARCHIVO
+ Este archivo lista, linea por linea, TODO lo que esta atado a la
+ instalacion actual y debe cambiarse para que el proyecto funcione en un
+ entorno nuevo: credenciales, rutas absolutas, puertos, herramientas externas
+ y datos que hay que copiar (o NO copiar).
+
+ Cada bloque indica:
+   ARCHIVO  -> ruta del archivo a modificar
+   LINEA    -> numero de linea aproximado (cambia si editas el archivo antes)
+   ACTUAL   -> como esta la linea hoy
+   CAMBIAR  -> como debe quedar
+   POR QUE  -> explicacion en forma de comentario
+
+ IMPORTANTE
+   - Nunca copies los valores reales de esta maquina: aca van <PLACEHOLDER>.
+   - Varias credenciales de este repositorio quedaron expuestas en archivos
+     versionados (ver BLOQUE 8). Al migrar, rotar: Atlas, JWT, SQL y SMTP.
+
+--------------------------------------------------------------------------------
+ 0. COMO SE LEVANZA LOS PROCESOS (3 procesos, no 1)
+--------------------------------------------------------------------------------
+   # Proceso 1 - API principal
+   cd Backend && npm run dev        # nodemon server.js
+   # Puerto: la variable PORT de Backend/.env, o 3002 si no existe.
+   # dotenv@8 lee .env del DIRECTORIO DE TRABAJO, no del script: por eso el
+   # "cd Backend" es obligatorio. Si arrancas desde la raiz con
+   # "node Backend/server.js", el .env NO se carga y el proyecto usa los
+   # valores hardcodeados de connection.js (ver BLOQUE 1).
+
+   # Proceso 2 - API del blog (proceso aparte, sin ningun npm script)
+   cd Backend && node blogServer.js
+   # Puerto 3100 escrito a mano en el codigo (ver BLOQUE 4).
+
+   # Proceso 3 - Frontend React
+   cd Frontend && npm start         # create-react-app, puerto 3000
+
+   # El frontend depende de que Backend/configure.js exista: el backend hace
+   # require('../frontend/configure'). Si en la instalacion nueva se despliega
+   # solo la carpeta Backend, el proceso NO arranca (MODULE_NOT_FOUND).
+   #   ARCHIVO  -> Backend/server.js  (lineas 13 y 14) y Backend/util.js (linea 3)
+   #   ACTUAL   -> const { API_CONEXION } = require ('../frontend/configure');
+   #               const { JWT_JSON } = require('../frontend/configure');
+   #   POR QUE  -> MongoDB y la llave JWT viven en un archivo del arbol FRONTEND.
+   #   OPCION A -> mantener Frontend y Backend como carpetas hermanas (lo simple).
+   #   OPCION B -> mover la configuracion a Backend/configure.js y corregir los
+   #               tres require para que apunten a './configure'.
+
+================================================================================
+ BLOQUE 1. BASE DE DATOS SQL SERVER (mssql)
+================================================================================
+ 1.1 Backend/.env
+     Las variables se leen en Backend/db/connection.js (lineas 5-18) y tambien
+     en Backend/server.js (linea 1373) para armar la conexion JDBC que usa
+     JasperStarter. Las dos rutas deben apuntar al mismo servidor.
+
+     # Conexion principal del backend (mssql)
+     SQL_USER=<USUARIO_SQL>                # hoy: sa  -> no usar "sa" en produccion
+     SQL_PASSWORD=<CONTRASENA_SQL>
+     SQL_SERVER=<SERVIDOR_O_IP>            # hoy: localhost
+     SQL_DATABASE=<BASE_DE_DATOS>          # hoy: NOM_ALPLA
+     SQL_PORT=1433                          # puerto de la instancia
+
+     # Cifrado del canal SQL Server
+     # OJO: solo el valor exacto "true" activa estas opciones.
+     # "True", "TRUE", "1" o "si" cuentan como FALSE y la conexion falla o
+     # queda insegura.
+     SQL_ENCRYPT=false
+     SQL_TRUST_SERVER_CERTIFICATE=true
+
+     # OBLIGATORIO agregar en la instalacion nueva (hoy no existe en el .env):
+     # Puerto de la API principal. Si no se define, server.js usa 3002.
+     PORT=3002
+
+ 1.2 Backend/db/connection.js  (lineas 5-9)
+     Los valores por defecto estan escritos en el codigo como red de seguridad,
+     pero son los de esta maquina. En una instalacion limpia hay que cambiarlos
+     o, mejor, eliminarlos.
+
+     // ACTUAL
+     user: process.env.SQL_USER || 'sa',
+     password: process.env.SQL_PASSWORD || '<CONTRASENA_QUEDADA_EN_EL_CODIGO>',
+     server: process.env.SQL_SERVER || 'localhost',
+     database: process.env.SQL_DATABASE || 'NOM_ALPLA',
+     port: parseInt(process.env.SQL_PORT, 10) || 1433,
+
+     // CAMBIAR (recomendado): fallar ruidosamente si falta la configuracion,
+     // en lugar de conectarse en silencio con la instalacion anterior.
+     user: process.env.SQL_USER,
+     password: process.env.SQL_PASSWORD,
+     server: process.env.SQL_SERVER,
+     database: process.env.SQL_DATABASE,
+     port: parseInt(process.env.SQL_PORT, 10),
+
+     // POR QUE: si una variable falta, el fallback viejo esconde el problema y
+     // el reporte sale vacio o el login falla sin mensaje util.
+
+ 1.3 Backend/server.js  (lineas 1376-1380)
+     Segunda conexion, independiente de la anterior: es la URL JDBC que se le
+     pasa a JasperStarter para que el .jasper consulte la base desde Java.
+
+     // ACTUAL
+     const port = SQL_PORT || '1433';
+     const jdbcUrl = `jdbc:sqlserver://${SQL_SERVER}:${port};databaseName=${SQL_DATABASE};encrypt=${encrypt};trustServerCertificate=${trustCert}`;
+
+     // POR QUE: si falta SQL_USER, SQL_PASSWORD, SQL_SERVER o SQL_DATABASE, el
+     // bloque JDBC completo se salta (linea 1374) y los reportes salen vacios
+     // sin error visible. Verificar las 4 variables antes de generar reportes.
+     // Si el servidor tiene instancia nombrada (SQL\COLSIN), la URL debe
+     // llevarla: jdbc:sqlserver://SERVIDOR\INSTANCIA;...
+
+ 1.4 Backend/jndi/jndi.properties  (lineas 3-5)
+     Este archivo lo REGENERA el backend en cada generación de reporte
+     (server.js, función ensureJndiProperties, linea 1172), con las credenciales
+     del .env.
+
+     # NO COPIAR el jndi.properties de esta maquina.
+     # Sirve de referencia para el formato:
+     # java.naming.factory.initial=com.colsin.gnosis.jndi.GnosisJndiFactory
+     # colsin.jdbc.url=jdbc:sqlserver://<SERVIDOR>:1433;databaseName=<BASE>;encrypt=false;trustServerCertificate=true
+     # colsin.jdbc.user=<USUARIO_SQL>
+     # colsin.jdbc.password=<CONTRASENA_SQL>
+     # colsin.jdbc.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+     # El archivo que queda en disco contiene la contraseña en texto plano.
+
+================================================================================
+ BLOQUE 2. MONGODB Y FIRMA JWT
+================================================================================
+ 2.1 Frontend/configure.js  (lineas 1-6)  << ARCHIVO OBLIGATORIO
+     Es la unica fuente de datos de MongoDB y de la llave JWT. NO lee variables
+     de entorno: esta escrito en el codigo y ademas esta versionado, por lo que
+     las credenciales reales quedaron expuestas.
+
+     // ACTUAL
+     const API_CONEXION = "mongodb+srv://<USUARIO_ATLAS>:<CONTRASENA>@cluster0.o3utiub.mongodb.net/test"
+     //const API_CONEXION = "mongodb+srv://<...>:<...>@cluster0.o3utiub.mongodb.net/test"   (linea 2, alternativa comentada)
+     const JWT_JSON = "NO_USADO"
+
+     // CAMBIAR
+     const API_CONEXION = "mongodb+srv://<USUARIO>:<CONTRASENA>@<CLUSTER>.mongodb.net/<BASE>"
+
+     // CAMBIAR: llave larga y aleatoria. Se usa para firmar (util.js) y para
+     // verificar (server.js). Si queda "NO_USADO", cualquiera puede fabricar un
+     // token de administrador.
+     const JWT_JSON = "<LLAVE_LARGA_Y_ALEATORIA>"
+
+     // POR QUE:
+     //   - API_CONEXION -> server.js:2033 (mongoose.connect). Sin esto no hay
+     //     login ni usuarios; el servidor igual escucha y responde con errores.
+     //   - JWT_JSON     -> server.js:14 y util.js:3.
+     //   - La linea 2 comentada es el mismo cluster con otro usuario: eliminarla.
+     //   - Al migrar, ROTAR la contraseña de Atlas: la actual esta publicada en
+     //     el historial de git.
+
+ 2.2 Backend/.env  (lineas 1-2)
+     # ACTUAL
+     ATLAS_URL=...
+     JWT_SECRET=...
+
+     # ESTAS DOS VARIABLES NO LAS LEE NINGUN CODIGO. Son restos de un tutorial:
+     # la conexion real sale de configure.js (ver 2.1). Editarlas no cambia nada.
+     # Recomendacion: eliminarlas del .env para no confiar en un valor que no
+     # se usa.
+
+================================================================================
+ BLOQUE 3. JASPERSTARTER, JAVA Y RUTAS DE REPORTES
+================================================================================
+ 3.1 Backend/.env  (linea 15)
+     # Ruta al ejecutable de JasperStarter. Es la unica ruta ABSOLUTa escrita
+     # en el proyecto y hoy apunta a una instalacion de 32 bits en Program Files.
+     JASPER_STARTER_PATH=C:\Program Files (x86)\JasperStarter\bin\jasperstarter.exe
+
+     # CAMBIAR a la ruta de la maquina nueva, por ejemplo:
+     JASPER_STARTER_PATH=C:\Program Files\JasperStarter\bin\jasperstarter.exe
+
+     # POR QUE: si la variable no existe, server.js:1339 usa el nombre suelto
+     # 'jasperstarter' y lo busca en el PATH del sistema. Alternativa valida:
+     # borrar la variable y agregar ...\JasperStarter\bin al PATH de Windows.
+     # Es un .exe de Windows: en Linux/macOS esto no funciona tal cual.
+
+ 3.2 Backend/.env  (linea 21)
+     # Ruta a los recursos de Jasper (scriptlets de Gnosis). Se resuelve
+     # RELATIVA a la carpeta Backend (server.js:1344), no a la raiz del proyecto.
+     JASPER_REPORT_RESOURCE=Reports
+
+     # Si el jar esta dentro de Backend\Reports:
+     JASPER_REPORT_RESOURCE=Reports
+     # O apuntando directo al jar:
+     JASPER_REPORT_RESOURCE=Reports/GnosisObject-1.0-SNAPSHOT.jar
+
+     # POR QUE: si la ruta no existe, el servidor solo escribe un aviso en el log
+     # y sigue. Los reportes compilan pero los scriptlets de Gnosis
+     # (NumerosALetrasScriptlet, f_retorna_empresa) no se encuentran y los
+     # numeros salen en cero o vacios, sin error visible.
+
+ 3.3 Backend/jndi/  (carpeta)
+     # Contiene el codigo Java y el jar del InitialContextFactory que permite
+     # que los scripts de Gnosis hagan lookup JNDI. Sin el, JasperStarter lanza
+     # NoInitialContextException y el scriptlet devuelve 0 en silencio.
+     #   - GnosisJndiFactory.java  -> codigo fuente
+     #   - build.bat                -> compilador (solo Windows, requiere JDK en PATH)
+     #   - GnosisJndi.jar           -> debe existir; server.js:1051 lo busca y
+     #                                 server.js:1412 lo copia a Reports\
+     # En una maquina nueva: copiar el .jar tal cual, o recompilar con build.bat.
+
+ 3.4 Backend/logger.js  (linea 4)
+     // ACTUAL
+     const logsDir = path.join(__dirname, 'logs');
+
+     // OJO: en disco la carpeta se llama "Logs" (mayuscula). En Windows no hay
+     // diferencia, pero en Linux/macOS se crearía una segunda carpeta "logs".
+     // Elegir una sola mayuscula y dejar el directorio igual.
+     // La carpeta de logs NO debe versionarse: ver BLOQUE 8.
+
+ 3.5 Backend/blogServer.js  (lineas 13-14)
+     // ACTUAL
+     const BLOGS_PATH = path.join(__dirname, '../Archivos/blogs.json');
+     const UPLOADS_PATH = path.join(__dirname, '../Archivos/uploads');
+
+     // Depende de que exista la carpeta Archivos/ en la raiz del repositorio,
+     # junto a Backend y Frontend. Si no se copia, el blog responde 500.
+
+================================================================================
+ BLOQUE 4. PUERTOS Y URLs
+================================================================================
+ 4.1 Backend/.env  (linea 3)
+     # URL del frontend, usada para armar el enlace de recuperacion de clave.
+     FRONTEND_URL=http://localhost:3000
+
+     # Debe coincidir con el puerto real del frontend. Si el puerto 3000 esta
+     # ocupado, create-react-app propone otro y hay que actualizar esta variable
+     # (y 4.3).
+
+ 4.2 Backend/server.js  (linea 2028)
+     // ACTUAL
+     const PORT = process.env.PORT || 3002;
+
+     # La variable PORT de .env manda. Si no existe, el puerto es 3002.
+     # OJO: el README menciona 3001; ese valor quedo en un bloque comentado
+     # (server.js lineas 2054-2055) y ya no aplica.
+
+ 4.3 Frontend/.env.local  (linea 1)
+     # Archivo con la direccion del backend que usa el frontend.
+     REACT_APP_API_URL=http://localhost:3002/api
+
+     # CAMBIAR si el backend no esta en localhost:3002, por ejemplo al
+     # desplegar: REACT_APP_API_URL=http://servidor-dominio:3002/api
+     #
+     # create-react-app INCRUSTA esta variable al compilar: hay que ejecutar
+     # "npm run build" de nuevo cada vez que cambie, no basta con reiniciar.
+     # Este archivo esta en .gitignore, asi que hay que crearlo a mano en cada
+     # instalacion (no hay .env.example en el repositorio).
+
+ 4.4 Backend/blogServer.js  (linea 8)
+     // ACTUAL
+     const PORT = 3100;
+
+     # Puerto del servidor del blog, escrito a mano: no lee ninguna variable de
+     # entorno. Si se cambia, hay que cambiarlo tambien en los dos archivos del
+     # frontend (punto 4.5) o el blog dejara de cargar.
+
+ 4.5 Frontend/src/pages/Dashboard.js  (lineas 6-7)  y
+     Frontend/src/pages/Article.js  (lineas 5-6)
+     // ACTUAL
+     const API = 'http://localhost:3100/api/blogs';
+     const UPLOADS = 'http://localhost:3100/uploads/';
+
+     # URL del blog escritas a mano en el codigo (NO usan REACT_APP_API_URL).
+     # CAMBIAR si el servidor del blog no queda en localhost:3100.
+     # Si el blog no se usa en la instalacion nueva, el portal funciona igual
+     # aunque la seccion de blog falle.
+
+ 4.6 Frontend/public/index.html  (linea 38)
+     # Carga la tipografia desde Google Fonts:
+     <link href="https://fonts.googleapis.com/..." rel="stylesheet">
+
+     # Requiere salida a internet. En una instalacion sin internet (intranet
+     # aislada) la pagina sigue funcionando, pero sin esa tipografia. Para
+     # dejarla 100% offline hay que bajar la fuente al proyecto y referenciarla
+     # desde la carpeta public/.
+
+ 4.7 Frontend/src/pages/Home.js  (linea 44)
+     // Imagen de portada desde un CDN externo (unsplash).
+     const imagen = "https://images.unsplash.com/...";
+
+     # Mismo caso que 4.6: en una red sin internet sale una imagen rota.
+     # Recomendacion: copiar la imagen a Frontend/public/ y referenciarla local.
+
+================================================================================
+ BLOQUE 5. CORREO (ausentismo / recuperacion de clave)
+================================================================================
+ 5.1 Backend/.env  (lineas 34-36)
+     MAIL_RECIPIENTS=<destinatarios, separados por coma>
+     MAIL_USER=<cuenta de correo>
+     MAIL_PASS=<contrasena de aplicacion>
+
+     # Gmail exige "Contrasena de aplicacion" (16 caracteres), no la contrasena
+     # normal. Las instrucciones estan comentadas en el propio .env.
+     # OJO: con alias corporativos (por ejemplo nombre@colsin.com) SMTP rechaza
+     # el envio: hay que usar la cuenta tal como aparece en el servidor.
+
+ 5.2 Backend/config/emailConfig.js  (lineas 2, 11-14, 16-17, 19)
+     // Igual que en SQL, hay credenciales y destinatarios de esta maquina
+     // escritos como valor por defecto en el codigo.
+     const rawRecipients = process.env.MAIL_RECIPIENTS || 'correo1, correo2';   // linea 2
+     user: process.env.MAIL_USER || 'correo@ejemplo.com',                        // linea 16
+     pass: process.env.MAIL_PASS || '<CONTRASENA_QUEDADA_EN_EL_CODIGO>',          // linea 17
+     from: process.env.MAIL_FROM || process.env.MAIL_USER || 'correo@ejemplo.com' // linea 19
+
+     // RECOMENDACION: definir MAIL_* en el .env y dejar estas lineas sin valor
+     // por defecto, para que la contrasena SMTP no quede en el codigo.
+     // MAIL_FROM permite usar un remitente distinto del usuario emisor.
+
+================================================================================
+ BLOQUE 6. CATALOGO DE REPORTES (base de datos)
+================================================================================
+     La lista de reportes que ve el usuario sale de la tabla rep_reporte, no de
+     la carpeta Reports. server.js (listAvailableReports, linea 1064) cruza esa
+     tabla con los archivos .jasper existentes.
+
+ 6.1 Tabla rep_reporte
+     # Un reporte aparece en el portal solo si cumple las dos condiciones:
+     #   1) existe una fila en rep_reporte
+     #   2) el nombre del archivo existe en Backend/Reports
+     #
+     # Para registrar un reporte:
+     #   INSERT INTO rep_reporte (rep_id, rep_nombre, rep_descripcion, rep_tipo, rep_adicional)
+     #   VALUES (47, 'MiReporte.jasper', 'Texto que ve el usuario', 1, NULL);
+     #
+     # reg_nombre debe coincidir EXACTAMENTE con el nombre del archivo
+     # (incluida la extension .jasper, sin subcarpetas).
+
+ 6.2 Columna rep_adicional (filtros que pide cada reporte)
+     # Si el reporte necesita que el usuario elija esquema y periodo:
+     UPDATE rep_reporte SET rep_adicional = 'inc_esquema_periodo' WHERE rep_nombre = 'Volante_pago.jasper';
+
+     # server.js:1061 (FLAG_PLANILLA_FILTROS) interpreta esa marca y activa los
+     # selects de Esquema y Periodo, y exige p_esquema / p_periodo para generar
+     # el reporte. Ese mismo par de parametros ($P) debe existir en el .jasper.
+     # Varias marcas se pueden separar por coma: 'inc_esquema_periodo,inc_hdv_id'
+
+ 6.3 Tabla rep_parametros (parametros fijos de cada reporte)
+     # Valores estaticos del reporte (p_nit, p_nombre_empresa, p_url_logo,
+     # p_fecha_ini, etc.). Se leen al generar el reporte (getReportParams).
+     # Los registros con rep_id = 0 son parametros globales.
+     # Los de tipo rpa_tipo = 'S' se ignoran a proposito: su valor es dinamico
+     # (p_emp_codigo lo inyecta el backend segun el usuario de sesion).
+     # Es una tabla de Gnosis compartida con otros sistemas: no inventar filas
+     # nuevas sin coordinarlo con el area de nomina.
+
+ 6.4 Tablas de recursos humanos (esquema SQL obligatorio)
+     # La base SQL debe tener, con los mismos nombres de columna:
+     EMP_EMPLEADO, HDV_HOJAVIDA, planilla, rep_reporte, rep_parametros,
+     BAN_ENTIDAD, EPS_ENTIDAD, AFP_ENTIDAD, ARP_ENTIDAD, CCF_ENTIDAD,
+     GRP_GRUPOLAB, STC_SUBTIPOCOT, COT_TIPOCOT, CDT_CENTROTRA, SCC_SUBCENTRO,
+     CDC_CENTROCOSTO, DEP_DEPENDENCIA, CAR_CARGO.
+     # La union usuario<->empleado es HDV_HOJAVIDA.HDV_CORREO = correo del login.
+     # planilla se consulta por planilla.empleado = EMP_CODIGO, y por
+     # planilla.esquema (char(2)) y planilla.periodo (numeric) para el volante.
+
+================================================================================
+ BLOQUE 7. ARCHIVOS QUE HAY QUE COPIAR (o reconstruir) EN LA NUEVA MAQUINA
+================================================================================
+ 7.1 Reportes compilados, en Backend/Reports/
+     Certificacion.jasper
+     ingresosRetenciones2025E.jasper
+     Volante_pago.jasper
+     volantepago_deducidos.jasper        (subreporte, no se muestra en el portal)
+     volantepago_devengados.jasper       (subreporte, no se muestra en el portal)
+     Infoadicional_subreport.jasper      (subreporte, no se muestra en el portal)
+
+ 7.2 Librerias .jar, en Backend/Reports/
+     sqljdbc4.jar                  driver JDBC de SQL Server. Sin el, los
+                                   reportes no consultan la base.
+     GnosisObject-1.0-SNAPSHOT.jar  scriptlets de Gnosis (NumerosALetras, etc.)
+     GnosisCommon.jar              cargada implicitamente porque se pasa toda la
+                                   carpeta Reports como --jdbc-dir
+     ObjectColsin.jar              idem
+     GnosisJndi.jar                el backend lo COPIA desde Backend/jndi/ en
+                                   cada generación (server.js:1412). No hace
+                                   falta dejarlo en Reports/, pero si la carpeta
+                                   Backend/jndi/ no existe, avisa en el log.
+
+ 7.3 GnosisJndi.jar
+     # Vive en Backend/jndi/. Si se copia el .jar, el portal funciona sin JDK.
+     # Si se quiere recompilar en la maquina nueva: requiere Windows y un JDK
+     # en el PATH, ejecutando Backend/jndi/build.bat.
+
+ 7.4 Carpetas que el proyecto crea solo (no hay que copiarlas)
+     Backend/attachments/           archivos subidos por los usuarios
+     Backend/Reports/output/        PDFs generados
+     Backend/jndi/jndi.properties   se regenera con las credenciales del .env
+     Archivos/uploads/              imagenes del blog
+
+================================================================================
+ BLOQUE 8. QUE NO COPIAR (informacion sensible)
+================================================================================
+     Estas carpetas y archivos tienen datos de esta instalacion y NO deben
+     viajar a la maquina nueva:
+
+     Backend/Logs/            Logs diarios. Ademas de ser ruido, contienen la
+                              contrasena de SQL en texto plano (el backend la
+                              pasa como argumento al proceso JasperStarter y se
+                              queda escrita en el log) y rutas absolutas de
+                              esta maquina. Ademas NO estan en .gitignore.
+                              ACCION: borrar antes de migrar y agregar la
+                              carpeta a .gitignore.
+
+     Backend/attachments/     Archivos subidos por usuarios reales (currriculums,
+                              fotos, audios), en carpetas nombradas con correos
+                              reales. NO esta en .gitignore.
+                              ACCION: borrar antes de migrar y agregar a .gitignore.
+
+     Backend/Reports/output/  PDFs generados con datos de planilla reales de
+                              empleados. ACCION: borrar y dejar en .gitignore.
+
+     Archivos/uploads/        Binarios subidos por usuarios al blog.
+                              ACCION: borrar antes de migrar.
+
+     Backend/jndi/jndi.properties   Credenciales SQL en texto plano.
+                              ACCION: borrar (se regenera solo).
+
+     Backend/data/dashboard.js      Datos de ejemplo del tutorial (2019).
+                              ACCION: reemplazar por consultas reales o dejar la
+                              seccion deshabilitada.
+
+     Archivos/blogs.json            Entradas de prueba ("Prueba 1"). Revisar si
+                              interesa conservar el contenido real del blog.
+
+     Ademas: rotar las credenciales expuestas (Atlas, JWT, SQL, SMTP) antes de
+     poner el proyecto en la maquina nueva.
+
+================================================================================
+ BLOQUE 9. HERRAMIENTAS QUE DEBEN ESTAR INSTALADAS
+================================================================================
+     Node.js compatible con create-react-app 3.4.1 (Node 14/16; con Node 17+
+     puede fallar OpenSSL)
+     npm
+     SQL Server (la instancia con la base de nomina)
+     Java: JasperStarter 6.18.1 (para Windows, el .exe) y su JRE
+     JDK 8 o superior, solo si se va a recompilar GnosisJndi.jar (build.bat)
+     MongoDB ( Atlas o local). La cadena de conexion va en configure.js
+
+================================================================================
+ BLOQUE 10. VERIFICACION EN LA INSTALACION NUEVA
+================================================================================
+     [ ] Backend/.env completo y con los valores de la maquina nueva
+     [ ] Frontend/configure.js con API_CONEXION y JWT_JSON nuevos
+     [ ] Frontend/.env.local con REACT_APP_API_URL apuntando al backend real
+     [ ] Las 3 variables SQL_* de .env coinciden con las de connection.js
+     [ ] JASPER_STARTER_PATH apunta a un ejecutable que existe
+     [ ] JASPER_REPORT_RESOURCE resuelve dentro de Backend/
+     [ ] Backend/Reports/ tiene los .jasper y los .jar
+     [ ] rep_reporte tiene una fila por cada reporte a ofrecer, con el nombre
+         exacto del archivo
+     [ ] El servidor arranca sin warnings en el log (revisar que no aparezca
+         "no se encontro GnosisJndi.jar" ni "No se pudo anadir parametros JDBC")
+     [ ] Login funciona (sistema Mongo + JWT)
+     [ ] Se genera un reporte SIN filtros (Certificacion)
+     [ ] Se ve el PDF en el visor de la pagina
+     [ ] En un reporte con filtros (Volante de pago) los selects Esquema y
+         Periodo se llenan y el PDF sale con los datos del periodo elegido

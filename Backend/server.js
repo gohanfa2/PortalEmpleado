@@ -1129,9 +1129,10 @@ const listAvailableReports = async () => {
   // aviso se agrupa para no escribir una línea por registro en cada petición.
   if (sinArchivo.length > 0) {
     const detalle = sinArchivo.slice(0, 10).join(', ');
-    logger.warn(
+    /*logger.warn(
       `${sinArchivo.length} registro(s) de rep_reporte no tienen su .jasper en Reports y se omiten: ${detalle}${sinArchivo.length > 10 ? ', ...' : ''}`
-    );
+    )
+    */;
   }
 
   return Array.from(byFileName.values());
